@@ -1,6 +1,6 @@
 class mysql (
   $ensure = present,
-  $mysqlpassword = 'lksDJFLSKDFJsldfkSDFdsafsdfsf',
+  $mysqlpassword,
   $mysqld_key_buffer = '8M',
   $mysqld_max_allowed_packet = '16M',
   $mysqld_thread_cache_size = '1',
