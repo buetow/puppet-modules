@@ -1,0 +1,28 @@
+ScriptAlias /cgi-bin/mailman/ /usr/lib/cgi-bin/mailman/
+Alias /pipermail/ /var/lib/mailman/archives/public/
+Alias /images/mailman/ /usr/share/images/mailman/
+
+<Directory /usr/lib/cgi-bin/mailman/>
+    AllowOverride None
+    Options ExecCGI FollowSymlinks
+    AddHandler cgi-script .cgi
+    Order allow,deny
+    Allow from all
+</Directory>
+<Directory /var/lib/mailman/archives/public/>
+    Options FollowSymlinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+<Directory /usr/share/images/mailman/>
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+
+# Add these lines in /etc/mailman/mm_cfg.py:
+#DEFAULT_EMAIL_HOST = 'lists.example.net'
+#DEFAULT_URL_HOST = 'lists.example.net'
+#DEFAULT_URL_PATTERN = 'http://%s/'
+
