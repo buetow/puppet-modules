@@ -1,0 +1,74 @@
+rsync
+=====
+
+Class rsync::client
+-------------------
+
+This makes sure that the `rsync` package is installed.
+
+Usage:
+
+    include rsync::client
+
+
+Class rsync::server
+-------------------
+
+This makes sure that the rsync package is installed and that the rsync
+daemon is started.
+
+It will also prepare everything to use `rsync::module`. You do not need to
+specifically include the rsync::client, this is handled for you.
+
+Usage:
+
+    include rsync::server
+
+Define rsync::module
+--------------------
+
+
+For an explanation of the parameters please consult rsyncd.conf(5).
+
+Required Parameters:
+
+    path -- The path under with the module will operate
+    comment -- A human readable comment
+
+Optional Parameters:
+
+ * readonly (true) --         Whether the module is `read only`
+ * writeonly (false) --       Whether the module is `write only`
+ * list (true) --             Whether the module is seen from
+                              an `rsync -l targethost::` call
+ * uid (nobody) --            The uid to run as for this module only
+ * gid (nogroup) --           The gid to run as for this module only
+ * incoming_chmod (0644) --   The permissions that will be applied
+                              to the incoming files
+ * outgoing_chmod (0644) --   The permissions that will be applied
+                              to the outgoing files
+ * refuse_options (delete) -- Options that will be refused to comply with
+ * ensure (present) --        Whether the module is present in the config
+                              or not
+ * pre_xfer_exec (/usr/local/bin/create_rsync_parent_directories.sh) --
+                              Script called before tranferring
+
+Usage:
+
+    # Creates an rsync module named `sample_one`
+    rsync::module{"sample_one":
+        path => "/sample_one",
+        comment => "Sample Module Two",
+        uid => "root",
+        gid => "root",
+        readonly => "false",
+    }
+
+    # Ensures that there is no rsync module `sample_two`
+    rsync::module{"sample_two":
+        ensure => absent,
+        path => "/sample_two",
+        comment => "Sample Module One",
+        readonly => "true",
+    }
+

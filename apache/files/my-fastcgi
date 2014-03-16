@@ -1,0 +1,4 @@
+<IfModule mod_fastcgi.c>
+  AddHandler fastcgi-script .fcgi .fpl .frb
+  FastCgiWrapper /usr/lib/apache2/suexec
+</IfModule>

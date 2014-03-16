@@ -1,0 +1,20 @@
+# INSTALLED VIA PUPPET
+
+auto lo
+iface lo inet loopback
+
+# device: eth0
+auto  eth0
+iface eth0 inet static
+  address   <%= ipv4_address %>
+  broadcast <%= ipv4_broadcast %>
+  netmask   <%= ipv4_netmask %>
+  gateway   <%= ipv4_gateway %>
+
+# default route to access subnet
+<%= ipv4_gateway_route %>
+
+iface eth0 inet6 static
+  address <%= ipv6_address %>
+  netmask <%= ipv6_netmask %>
+  gateway <%= ipv6_gateway %>

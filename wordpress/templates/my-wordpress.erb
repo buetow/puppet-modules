@@ -1,0 +1,42 @@
+
+<Directory />
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_URI} ^/comp/rss.xml
+  RewriteRule ^.*$ http://comp.buetow.org/wp/?feed=rss2 [L]
+
+  RewriteCond %{REQUEST_URI} ^/blog/rss.xml
+  RewriteRule ^.*$ http://blog.buetow.org/wp/?feed=rss2 [L]
+
+  RewriteCond %{REQUEST_URI} ^/comp/atom.xml
+  RewriteRule ^.*$ http://comp.buetow.org/wp/?feed=atom [L]
+
+  RewriteCond %{REQUEST_URI} ^/blog/atom.xml
+  RewriteRule ^.*$ http://blog.buetow.org/wp/?feed=atom [L]
+
+  RewriteCond %{HTTP_HOST} ^comp\.buetow\.org
+  RewriteCond %{REQUEST_URI} !^/wp
+  RewriteRule ^.*$ http://comp.buetow.org/wp/ [L]
+
+  RewriteCond %{HTTP_HOST} ^blog\.buetow\.org
+  RewriteCond %{REQUEST_URI} !^/wp
+  RewriteRule ^.*$ http://blog.buetow.org/wp/ [L]
+</Directory>
+
+Alias /blogs/ /var/lib/wordpress/wp-content/uploads/from-mt/
+Alias /blog/ /var/lib/wordpress/wp-content/uploads/from-mt/blog/
+Alias /comp/ /var/lib/wordpress/wp-content/uploads/from-mt/comp/
+Alias /wp/wp-content /var/lib/wordpress/wp-content
+Alias /wp /usr/share/wordpress
+<Directory /usr/share/wordpress>
+  Options FollowSymLinks
+  AllowOverride Limit Options FileInfo
+  DirectoryIndex index.php
+  Order allow,deny
+  Allow from all
+</Directory>
+<Directory /var/lib/wordpress/wp-content>
+  Options FollowSymLinks
+  Order allow,deny
+  Allow from all
+</Directory>

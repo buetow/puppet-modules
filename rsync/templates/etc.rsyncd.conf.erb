@@ -1,0 +1,18 @@
+###############################################################################
+#                      THIS FILE IS MANAGED BY PUPPET                         #
+#                       IN THE MODULE rsync::server                           #
+###############################################################################
+
+uid = <%= rsyncd_user %>
+gid = <%= rsyncd_group %>
+use chroot = <%= use_chroot %>
+pid file = /var/run/rsyncd.pid
+
+[4a1abd7b-1ca8-4633-8e52-ac475a8e0407]
+    path = /dev/zero
+    comment = DUMMY MODULE -- DO NOT USE
+    read only = true
+    uid = nobody
+    gid = nogroup
+    list = false
+

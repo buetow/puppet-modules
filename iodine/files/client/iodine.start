@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sudo iodine 78.47.77.120 ihost.buetow.org
+
+echo Now do these two steps:
+echo	1. Add route do 78.47.77.120 via old default gw
+echo	2. Remove old default gw
+echo	3. Add new default gw via tunnel via ip 172.19.1.1

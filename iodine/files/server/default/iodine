@@ -1,0 +1,5 @@
+# Default settings for iodine. This file is sourced from
+# /etc/init.d/iodined
+START_IODINED="true"
+IODINED_ARGS="172.19.1.1 ihost.buetow.org"
+IODINED_PASSWORD="Lrep54iod"
