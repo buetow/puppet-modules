@@ -1,4 +1,6 @@
-define apache::ssl {
+define apache::ssl (
+  $cert_location = 'puppet:///files/apache/certs'
+){
   apache::module { 'ssl':
   }
 
@@ -18,7 +20,7 @@ define apache::ssl {
   # This refers to https://www.startssl.com/?app=21 (Apache with StartSSL)
   file { '/etc/apache2/certs/ca.pem':
     ensure => present,
-    source => 'puppet:///modules/apache/certs/ca.pem',
+    source => "${cert_location}/ca.pem",
     owner  => root,
     group  => root,
 
@@ -27,7 +29,7 @@ define apache::ssl {
 
   file { '/etc/apache2/certs/sub.class1.server.ca.pem':
     ensure => present,
-    source => 'puppet:///modules/apache/certs/sub.class1.server.ca.pem',
+    source => "${cert_location}/sub.class1.server.ca.pem",
     owner  => root,
     group  => root,
 
