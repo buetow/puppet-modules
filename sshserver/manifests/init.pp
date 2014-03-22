@@ -1,7 +1,7 @@
 class sshserver (
   $ssh_port = '2',
   $ensure = present,
-  $allow_users = 'admin pb git deb',
+  $allow_users = 'admin pb git deb ircbouncer',
 ) {
   package { 'openssh-server':
     ensure => $ensure,
