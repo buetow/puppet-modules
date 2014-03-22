@@ -1,5 +1,5 @@
 class ejabberd::files (
-  $ensure = present
+  $ensure = present,
   $cert_name = 'jabber.buetow.org.pem',
   $cert_location = 'puppet:///files/ejabberd/certs/jabber.buetow.org.pem',
 ){
@@ -11,7 +11,7 @@ class ejabberd::files (
     mode   => '0600',
   }
 
-  file { "/etc/ejabberd/${cert_name}",
+  file { "/etc/ejabberd/${cert_name}":
     ensure => $ensure,
     source => $cert_location,
     owner  => 'root',
