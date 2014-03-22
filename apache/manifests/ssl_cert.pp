@@ -1,5 +1,5 @@
 define apache::ssl_cert (
-  cert_location = 'puppet:///files/apache/certs'
+  $cert_location = 'puppet:///files/apache/certs'
 ) {
   file { "/etc/apache2/certs/${name}.crt":
     ensure => present,
