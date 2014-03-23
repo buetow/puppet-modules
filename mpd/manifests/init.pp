@@ -19,7 +19,7 @@ class mpd (
   $http_stream_quality = '5',
 ) {
 
-  package { [ 'mpd', 'mpc']:
+  package { ['mpd', 'mpc']:
     ensure => $ensure,
   }
 
