@@ -3,17 +3,19 @@
 class mpd (
   $ensure = present,
   $music_directory,
+  $config_template = 'mpd.conf.erb',
   $playlist_directory = '/var/lib/mpd/playlists',
   $db_file = '/var/lib/mpd/tag_cache',
   $log_file = '/var/log/mpd/mpd.log',
   $pid_file = '/var/run/mpd/pid',
   $state_file = '/var/lib/mpd/state',
-  $sticker_file = '/varlib/mpd/sticker.sql',
+  $sticker_file = '/var/lib/mpd/sticker.sql',
   $user = 'mpd',
-  $bind_to_address = 'any',
-  $port = '6600',
+  $bind_to_address = $::ipaddress,
+  $mpd_port = '6600',
   $log_level = 'default',
-  $config_template = 'mpd.conf.erb',
+  $http_stream_port = '8000',
+  $http_stream_bitrate = '128',
 ) {
 
   package { [ 'mpd', 'mpc']:
@@ -40,8 +42,8 @@ class mpd (
       enable    => true,
       hasstatus => true,
 
-      require   => File['${name}_config'],
-      subscribe => File['${name}_config'],
+      require   => File["${name}_config"],
+      subscribe => File["${name}_config"],
     }
   }
 }
