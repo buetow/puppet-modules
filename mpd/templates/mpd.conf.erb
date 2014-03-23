@@ -439,8 +439,8 @@ audio_output {
   name            "My HTTP Stream"
   encoder         "vorbis"                # optional, vorbis or lame
   port            "<%= http_stream_port %>"
-  # quality         "5.0"                       # do not define if bitrate is defined
-  bitrate         "<%= http_stream_bitrate %>"  # do not define if quality is defined
+  quality         "<%= http_stream_quality %>"  # do not define if bitrate is defined
+  #bitrate        "<%= http_stream_bitrate %>"  # do not define if quality is defined
   format          "44100:16:1"
 }
 

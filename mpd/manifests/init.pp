@@ -15,7 +15,8 @@ class mpd (
   $mpd_port = '6600',
   $log_level = 'default',
   $http_stream_port = '8000',
-  $http_stream_bitrate = '128',
+  $http_stream_bitrate = '128', # Not used in the template ATM
+  $http_stream_quality = '5',
 ) {
 
   package { [ 'mpd', 'mpc']:
