@@ -8,8 +8,8 @@ class ejabberd {
   }
 
   service { 'ejabberd':
-    ensure    => running,
-    hasstatus => false,
+    nsure    => running,
+    #hasstatus => false,
 
     subscribe => [Class['ejabberd::files'],Package['ejabberd']],
     require   => Class['ejabberd::files'],
