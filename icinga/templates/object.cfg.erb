@@ -1,5 +1,5 @@
 # MANAGED BY PUPPET
-define <%= icinga_type %> {<% keys.keys.sort.each do |key| %>
-      <%= key.gsub(/\(\d+\)\./, '') %> <%= keys[key] -%>
+define <%= @icinga_type %> {<% @keys.keys.sort.each do |key| %>
+      <%= key.gsub(/\(\d+\)\./, '') %> <%= @keys[key] -%>
 <% end %>
 }
