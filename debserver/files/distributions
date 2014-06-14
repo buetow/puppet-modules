@@ -5,7 +5,7 @@ Codename: squeeze
 Version: 3.1
 Architectures: amd64 source 
 Components: main 
-Description: The buetow.org oldstable squeeze deb repository
+Description: The buetow.org Squeeze deb repository
 SignWith: 245B3B78
 
 Origin: Paul Buetow
@@ -14,7 +14,16 @@ Suite: stable
 Codename: wheezy
 Architectures: amd64 source
 Components: main 
-Description: The buetow.org stable deb repository
+Description: The buetow.org Wheezy deb repository
+SignWith: 245B3B78
+
+Origin: Paul Buetow
+Label: buetow.org
+Suite: stable
+Codename: jessie
+Architectures: amd64 source
+Components: main 
+Description: The buetow.org Jessie deb repository
 SignWith: 245B3B78
 
 Origin: Paul Buetow
