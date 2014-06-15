@@ -1,7 +1,9 @@
 class nfs::server_packages (
   $ensure = installed
 ){
-  package { 'nfs-kernel-server':
-    ensure => $ensure
+  if $operatingsystem != 'FreeBSD' {
+    package { 'nfs-kernel-server':
+      ensure => $ensure
+    }
   }
 }
