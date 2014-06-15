@@ -4,6 +4,12 @@ class sshserver (
   $allow_users = 'admin',
 ) {
 
+  if $operatingsystem == 'FreeBSD' {
+    $initname = 'sshd'
+  } else {
+    $initname = 'ssh'
+  }
+
   class { 'sshserver::packages':
     ensure => $ensure
   }
@@ -13,7 +19,7 @@ class sshserver (
     content => template('sshserver/sshd_config.erb'),
     path    => '/etc/ssh/sshd_config',
     owner   => root,
-    group   => $::inter::rootgroup,
+    group   => $root_group,
     mode    => '0644',
 
     require => Class['sshserver::packages'],
@@ -21,7 +27,7 @@ class sshserver (
 
   service { "${name}_ssh":
     ensure    => running,
-    name      => 'ssh',
+    name      => $initname,
     enable    => true,
     hasstatus => true,
 

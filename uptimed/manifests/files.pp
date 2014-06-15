@@ -3,11 +3,11 @@ class uptimed::files (
 ) {
   File { 
     owner => root, 
-    group => $::inter::rootgroup,
+    group => $root_group,
     mode => '0644',
   }
 
-  file { "${::inter::defaultprefix}/etc/uptimed.conf":
+  file { "${default_prefix}/etc/uptimed.conf":
     ensure  => $ensure,
     content => template('uptimed/uptimed.conf.erb'),
   }
