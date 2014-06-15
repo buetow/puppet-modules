@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/usr/bin/env bash
 
 declare -r day=$(date +"%d")
 declare -r month=$(date +"%m")

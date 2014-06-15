@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 sudo iodine 78.47.77.120 ihost.buetow.org
 
