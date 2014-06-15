@@ -4,7 +4,7 @@ Facter.add(:default_www) do
     if os == 'FreeBSD'
       'www'
     else
-      'www-run'
+      'www-data'
     end
   end
 end
