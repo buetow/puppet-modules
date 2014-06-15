@@ -2,9 +2,9 @@ Facter.add(:root_group) do
   setcode do
     os = Facter.value('operatingsystem') 
     if os == 'FreeBSD'
-      return 'wheel'
+      'wheel'
     else
-      return 'root'
+      'root'
     end
   end
 end
