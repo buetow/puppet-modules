@@ -1,36 +1,36 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          <%= provides %>
-# Required-Start:    <%= required_start %>
-# Required-Stop:     <%= required_stop %>
-# Should-Start:      <%= should_start %>
-# Default-Start:     <%= default_start %>
-# Default-Stop:      <%= default_stop %>
-# Short-Description: <%= short_description %>
-# Description:       <%= description %>
+# Provides:          <%= @provides %>
+# Required-Start:    <%= @required_start %>
+# Required-Stop:     <%= @required_stop %>
+# Should-Start:      <%= @should_start %>
+# Default-Start:     <%= @default_start %>
+# Default-Stop:      <%= @default_stop %>
+# Short-Description: <%= @short_description %>
+# Description:       <%= @description %>
 ### END INIT INFO
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 . /lib/init/vars.sh
 
 do_start () {
-  <%= do_start %>
+  <%= @do_start %>
 }
 
 do_restart () {
-  <%= do_restart %>
+  <%= @do_restart %>
 }
 
 do_reload () {
-  <%= do_reload %>
+  <%= @do_reload %>
   }
 
 do_stop () {
-  <%= do_stop %>
+  <%= @do_stop %>
 }
 
 do_status () {
-  <%= do_status %>
+  <%= @do_status %>
 }
 
 case "$1" in

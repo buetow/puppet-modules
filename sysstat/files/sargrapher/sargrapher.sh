@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/usr/bin/env bash 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # sar_graph.sh - Makes pretty web pages from sar
 # Written by Damian Zaremba - Released under GPLv3

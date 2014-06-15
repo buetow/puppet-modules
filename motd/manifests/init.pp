@@ -4,6 +4,6 @@ class motd {
     content => template('motd/motd.erb'),
     mode    => '0444',
     owner   => root,
-    group   => root,
+    group   => $root_group,
   }
 }

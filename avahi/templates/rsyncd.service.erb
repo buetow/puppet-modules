@@ -1,11 +1,11 @@
 <?xml version="1.0" standalone='no'?>
 <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
 <service-group>
-  <name><%= description %></name>
+  <name><%= @description %></name>
   <service>
     <type>_rsync._tcp</type>
     <port>873</port>
-    <txt-record>module=<%= name %></txt-record>
+    <txt-record>module=<%= @name %></txt-record>
   </service>
 </service-group>
 

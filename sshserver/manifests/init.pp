@@ -1,10 +1,17 @@
 class sshserver (
-  $ssh_port = '2',
+  $ssh_port = '22',
   $ensure = present,
-  $allow_users = 'admin pb git deb ircbouncer',
+  $allow_users = 'admin',
 ) {
-  package { 'openssh-server':
-    ensure => $ensure,
+
+  if $operatingsystem == 'FreeBSD' {
+    $initname = 'sshd'
+  } else {
+    $initname = 'ssh'
+  }
+
+  class { 'sshserver::packages':
+    ensure => $ensure
   }
 
   file { "${name}_sshd_config":
@@ -12,19 +19,19 @@ class sshserver (
     content => template('sshserver/sshd_config.erb'),
     path    => '/etc/ssh/sshd_config',
     owner   => root,
-    group   => root,
+    group   => $root_group,
     mode    => '0644',
 
-    require => Package['openssh-server'],
+    require => Class['sshserver::packages'],
   }
 
   service { "${name}_ssh":
     ensure    => running,
-    name      => 'ssh',
+    name      => $initname,
     enable    => true,
     hasstatus => true,
 
-    require   => [File["${name}_sshd_config"],Package['openssh-server']],
+    require   => [File["${name}_sshd_config"],Class['sshserver::packages']],
     subscribe => File["${name}_sshd_config"],
   }
 }

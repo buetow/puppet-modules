@@ -1,4 +1,4 @@
-Port <%= ssh_port %> 
+Port <%= @ssh_port %> 
 #ListenAddress ::
 #ListenAddress 0.0.0.0
 
@@ -60,4 +60,4 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 
 UsePAM no
 
-AllowUsers <%= allow_users %>
+AllowUsers <%= @allow_users %>

@@ -9,5 +9,14 @@ class uptimed (
 
   class { 'uptimed::files':
     ensure => $ensure,
+
+    require => Class['uptimed::packages'],
+  }
+
+  service { 'uptimed':
+    ensure => running,
+    enable => true,
+
+    require => Class['uptimed::files'],
   }
 }
