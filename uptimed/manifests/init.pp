@@ -1,7 +1,7 @@
 class uptimed (
   $ensure = present,
+  $records_file = '/var/spool/uptimed/records',
 ) {
-  $records_file = '/var/spool/uptimed/records'
 
   class { 'uptimed::packages':
     ensure => $ensure,
