@@ -1,4 +1,15 @@
 # Global parameters
 [global]
-workgroup = BUETOWDOTORG
+workgroup = <%= @workgroup %>
+server string = %h server
+dns proxy = no
+security = share
+guest only = yes
+load printers = no
+usershare allow guests = yes
+
+<% @volumes.each_pair do |name, hash| %>
+[<%= name %>]<% hash.each_pair do |k,v| %>
+<%= k %> = <%= v %><% end %> 
+<% end %>
 

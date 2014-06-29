@@ -8,6 +8,8 @@ class samba_freebsd (
   $manage_winbindd = true,
   $manage_smbd = true,
   $manage_nmdb = true,
+  $workgroup = 'BUETOWDOTORG',
+  $volumes = [],
 ) {
   File {
     owner => root,
