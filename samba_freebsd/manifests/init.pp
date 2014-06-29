@@ -9,7 +9,7 @@ class samba_freebsd (
   $manage_smbd = true,
   $manage_nmdb = true,
   $workgroup = 'BUETOWDOTORG',
-  $volumes = [],
+  $volumes = {},
 ) {
   File {
     owner => root,
