@@ -1,0 +1,39 @@
+# Managed by puppet
+
+# Set this if you want to stop rsync daemon with rc.d scripts
+pid file = /var/run/rsyncd.pid
+
+# Edit this file before running rsync daemon!!
+
+uid = <%= @uid %>
+gif = <%= @gid %>
+use chroot = <%= @use_chroot %>
+max connections = <%= @max_connections %>
+syslog facility = local5
+
+<% @volumes.each_pair do |name, hash| %>
+[<%= name %>]<% hash.each_pair do |k,v| %>
+<%= k %> = <%= v %><% end %> 
+<% end %>
+
+#[ftp]
+#	path = /var/ftp/pub
+#	comment = whole ftp area (approx 6.1 GB)
+
+#[sambaftp]
+#	path = /var/ftp/pub/samba
+#	comment = Samba ftp area (approx 300 MB)
+
+#[rsyncftp]
+#	path = /var/ftp/pub/rsync
+#	comment = rsync ftp area (approx 6 MB)
+
+#[sambawww]
+#	path = /public_html/samba
+#	comment = Samba WWW pages (approx 240 MB)
+
+#[cvs]
+#	path = /data/cvs
+#	comment = CVS repository (requires authentication)
+#	auth users = tridge, susan
+#	secrets file = /usr/local/etc/rsync/rsyncd.secrets
