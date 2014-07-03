@@ -10,6 +10,7 @@ gif = <%= @gid %>
 use chroot = <%= @use_chroot %>
 max connections = <%= @max_connections %>
 syslog facility = local5
+read only = false
 
 <% @volumes.each_pair do |name, hash| %>
 [<%= name %>]<% hash.each_pair do |k,v| %>
