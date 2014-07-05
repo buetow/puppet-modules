@@ -1,4 +1,4 @@
-define jail::create::debian_kfreebsd (
+define jail::debian_kfreebsd::create (
   $ensure = present,
   $use_zfs = true,
   $mirror = 'http://http.debian.net/debian',
@@ -18,9 +18,7 @@ define jail::create::debian_kfreebsd (
     mountpoint => $mountpoint,
   }
 
-
   if $ensure == present {
-
     exec { "${name}_debootstrap":
       path    => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin',
       command => "debootstrap ${debootstrap_args} ${dist} ${mountpoint} ${mirror}",
@@ -53,11 +51,19 @@ define jail::create::debian_kfreebsd (
     options => 'rw',
   }
 
-  #mount { "${name}_tmpfs":
-  #  name    => "${mountpoint}/lib/init/rw",
-  #  ensure  => $ensure_mount,
-  #  device  => 'tmpfs',
-  #  fstype  => 'tmpfs',
-  #  options => 'rw,mode=777',
-  #}
+  mount { "${name}_tmpfs":
+    name    => "${mountpoint}/run",
+    ensure  => $ensure_mount,
+    device  => 'tmpfs',
+    fstype  => 'tmpfs',
+    options => 'rw',
   }
+
+  mount { "${name}_devfs":
+    name    => "${mountpoint}/dev",
+    ensure  => $ensure_mount,
+    device  => 'devfs',
+    fstype  => 'devfs',
+    options => 'ro',
+  }
+}

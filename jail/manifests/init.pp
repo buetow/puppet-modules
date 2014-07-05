@@ -10,9 +10,8 @@ class jail (
     default: { fail("No such ensure: ${ensure}") }
   }
 
-  # Utils for Debian GNU/kFreeBSD Jais
-  package { 'debootstrap':
-    ensure => $ensure,
+  freebsd::rc_enable { 'jail':
+    ensure => $ensure
   }
 
   file { $mountpoint:
