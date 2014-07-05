@@ -3,11 +3,24 @@ define jail::create (
   $use_zfs = true,
   $zfs_tank = 'zroot',
   $mountpoint = "/jails/${name}",
+  $config_add = {},
 ) {
   case $ensure {
     present: { $ensure_directory = directory }
     absent: { $ensure_directory = absent }
     default: { fail("No such ensure: ${ensure}") }
+  }
+
+  $config_default = {
+    'rootdir'      => $mountpoint,
+    'hostname'     => $name,
+    'devfs_enable' => 'NO',
+  }
+  $jail_config = merge($config_default, $config_add)
+
+  file { "/etc/rc.conf.d/jail_${name}":
+    ensure   => $ensure,
+    content  => template('jail/jail_config.erb'),
   }
 
   file { $mountpoint:

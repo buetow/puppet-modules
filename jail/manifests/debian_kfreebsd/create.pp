@@ -5,6 +5,7 @@ define jail::debian_kfreebsd::create (
   $mountpoint = "/jails/${name}",
   $debootstrap_args = '--exclude=devd,dmidecode,isc-dhcp-client,isc-dhcp-common,kldutils,pf,vidcontrol',
   $dist = 'wheezy',
+  $config_add = {}
 ) {
   case $ensure {
     present: { $ensure_mount = mounted }
@@ -16,6 +17,7 @@ define jail::debian_kfreebsd::create (
     ensure     => $ensure,
     use_zfs    => $use_zfs,
     mountpoint => $mountpoint,
+    config_add => $config_add,
   }
 
   if $ensure == present {

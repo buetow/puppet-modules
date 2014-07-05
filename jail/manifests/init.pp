@@ -3,6 +3,7 @@ class jail (
   $use_zfs = true,
   $mountpoint = '/jails',
   $zfs_tank = 'zroot',
+  $jail_list = '',
 ) {
   case $ensure {
     present: { $ensure_directory = directory }
@@ -11,7 +12,12 @@ class jail (
   }
 
   freebsd::rc_enable { 'jail':
-    ensure => $ensure
+    ensure => $ensure,
+  }
+
+  freebsd::rc_config { 'jail_list':
+    ensure => $ensure,
+    value => $jail_list,
   }
 
   file { $mountpoint:
