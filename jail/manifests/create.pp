@@ -18,7 +18,9 @@ define jail::create (
   }
   $jail_config = merge($config_default, $config_add)
 
-  file { "/etc/rc.conf.d/jail_${name}":
+  $jail_name = regsubst($name, '\.', '', 'G')
+
+  file { "/etc/jail.d/jail_${jail_name}":
     ensure   => $ensure,
     content  => template('jail/jail_config.erb'),
   }

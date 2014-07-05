@@ -4,6 +4,7 @@ class jail (
   $mountpoint = '/jails',
   $zfs_tank = 'zroot',
   $jail_list = '',
+  $config_add = {},
 ) {
   case $ensure {
     present: { $ensure_directory = directory }
@@ -11,13 +12,22 @@ class jail (
     default: { fail("No such ensure: ${ensure}") }
   }
 
-  freebsd::rc_enable { 'jail':
-    ensure => $ensure,
+  file { '/etc/jail.d/':
+    ensure => $ensure_directory,
+    force  => $force,
   }
 
-  freebsd::rc_config { 'jail_list':
+  $config_default = {
+    'jail_enable'        => 'YES',
+    'jail_list'          => regsubst($jail_list, '\.', '', 'G'),
+    '. /etc/jail.d/* # ' => 'Include jails',
+  }
+
+  $config = merge($config_default, $config_add)
+
+  freebsd::rc_hash { 'jail':
     ensure => $ensure,
-    value => $jail_list,
+    hash   => $config,
   }
 
   file { $mountpoint:
