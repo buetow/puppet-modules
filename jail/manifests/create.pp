@@ -27,7 +27,7 @@ define jail::create (
 
   file { $mountpoint:
     ensure => $ensure_directory,
-    force  => $force,
+    force  => true,
   }
 
   if $use_zfs {

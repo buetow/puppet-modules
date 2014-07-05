@@ -14,7 +14,7 @@ class jail (
 
   file { '/etc/rc.conf.d/jail.d/':
     ensure => $ensure_directory,
-    force  => $force,
+    force  => true,
   }
 
   $config_default = {
@@ -32,7 +32,7 @@ class jail (
 
   file { $mountpoint:
     ensure => $ensure_directory,
-    force  => $force,
+    force  => true,
   }
 
   if $use_zfs {
