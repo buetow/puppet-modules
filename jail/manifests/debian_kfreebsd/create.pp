@@ -13,11 +13,16 @@ define jail::debian_kfreebsd::create (
     default: { fail("No such ensure: ${ensure}") }
   }
 
+  $config_default = {
+  }
+
+  $config = merge($config_default, $config_add)
+
   jail::create { $name:
     ensure     => $ensure,
     use_zfs    => $use_zfs,
     mountpoint => $mountpoint,
-    config_add => $config_add,
+    config_add => $config,
   }
 
   if $ensure == present {
@@ -42,7 +47,7 @@ define jail::debian_kfreebsd::create (
     ensure  => $ensure_mount,
     device  => 'linproc',
     fstype  => 'linprocfs',
-    options => 'rw',
+    options => 'rw,noauto',
   }
 
   mount { "${name}_linsysfs":
@@ -50,7 +55,7 @@ define jail::debian_kfreebsd::create (
     ensure  => $ensure_mount,
     device  => 'linsys',
     fstype  => 'linsysfs',
-    options => 'rw',
+    options => 'rw,noauto',
   }
 
   mount { "${name}_tmpfs":
@@ -58,7 +63,7 @@ define jail::debian_kfreebsd::create (
     ensure  => $ensure_mount,
     device  => 'tmpfs',
     fstype  => 'tmpfs',
-    options => 'rw',
+    options => 'rw,noauto',
   }
 
   mount { "${name}_devfs":
@@ -66,6 +71,6 @@ define jail::debian_kfreebsd::create (
     ensure  => $ensure_mount,
     device  => 'devfs',
     fstype  => 'devfs',
-    options => 'ro',
+    options => 'ro,noauto',
   }
 }

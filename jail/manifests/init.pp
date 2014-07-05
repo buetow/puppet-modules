@@ -12,7 +12,7 @@ class jail (
     default: { fail("No such ensure: ${ensure}") }
   }
 
-  file { '/etc/jail.d/':
+  file { '/etc/rc.conf.d/jail.d/':
     ensure => $ensure_directory,
     force  => $force,
   }
@@ -20,7 +20,7 @@ class jail (
   $config_default = {
     'jail_enable'        => 'YES',
     'jail_list'          => regsubst($jail_list, '\.', '', 'G'),
-    '. /etc/jail.d/* # ' => 'Include jails',
+    '. /etc/rc.conf.d/jail.d/* # ' => 'Include jails',
   }
 
   $config = merge($config_default, $config_add)

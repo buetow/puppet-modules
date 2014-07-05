@@ -20,7 +20,7 @@ define jail::create (
 
   $jail_name = regsubst($name, '\.', '', 'G')
 
-  file { "/etc/jail.d/jail_${jail_name}":
+  file { "/etc/rc.conf.d/jail.d/jail_${jail_name}":
     ensure   => $ensure,
     content  => template('jail/jail_config.erb'),
   }
