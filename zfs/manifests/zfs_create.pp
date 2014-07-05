@@ -19,7 +19,7 @@ define zfs::zfs_create (
       }
     }
     absent: {
-      exec { "zfs destroy ${name}":
+      exec { "zfs destroy -r ${name}":
         onlyif => "zfs list ${name}"
       }
     }
