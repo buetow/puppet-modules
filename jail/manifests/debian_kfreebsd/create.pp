@@ -44,7 +44,7 @@ define jail::debian_kfreebsd::create (
       require => Exec["${name}_debootstrap"],
     }
 
-    file { "${mountpoint}/etc/init.d/rc.jail.start":
+    file { "${mountpoint}/etc/rc.jail.start":
       ensure  => present,
       mode    => '0755',
       content => "#!/bin/sh\n/etc/init.d/rc S && /etc/init.d/rc 2\n",
@@ -52,7 +52,7 @@ define jail::debian_kfreebsd::create (
       require => Exec["${name}_debootstrap"],
     }
 
-    file { "${mountpoint}/etc/init.d/rc.jail.stop":
+    file { "${mountpoint}/etc/rc.jail.stop":
       ensure  => present,
       mode    => '0755',
       content => "#!/bin/sh\n/etc/init.d/rc 0\n",
