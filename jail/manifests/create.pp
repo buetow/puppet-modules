@@ -39,7 +39,6 @@ define jail::create (
 
   file { $mountpoint:
     ensure => $ensure_directory,
-    force  => true,
   }
 
   zfs::zfs_create { "${zfs_tank}${mountpoint}":

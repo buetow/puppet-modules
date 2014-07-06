@@ -1,7 +1,9 @@
 class jail::debian_kfreebsd (
   $ensure = present,
 ) {
-  # Utils for Debian GNU/kFreeBSD Jais
+  $exec_start = '/etc/init.d/rc.jail.start'
+  $exec_stop = '/etc/init.d/rc.jail.stop'
+
   package { 'debootstrap':
     ensure => $ensure,
   }

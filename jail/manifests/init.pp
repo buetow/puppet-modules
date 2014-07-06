@@ -1,7 +1,7 @@
 class jail (
   $ensure = present,
   $use_zfs = true,
-  $mountpoint = '/jails',
+  $mountpoint = '/jail',
   $zfs_tank = 'zroot',
   $jails_base_config = {},
   $jails_config = {},
@@ -17,9 +17,8 @@ class jail (
   # Keys with leading _ are not added to jail.conf
   # (..). is for line order in resulting jail.conf
   $jails_base_config_default = {
-    'exec.start'      => '"/bin/sh /etc/rc"',
-    'exec.stop'       => '"/bin/sh /etc/rc.shutdown"',
-    'exec.clean; //'  => '',
+    'exec.start'      => "'/etc/rc'",
+    'exec.stop'       => "'/etc/rc.shutdown'",
     'mount.devfs; //' => '',
     'path'            => "\"${jail_default_path}\"",
   }
@@ -28,7 +27,6 @@ class jail (
 
   file { $mountpoint:
     ensure => $ensure_directory,
-    force  => true,
   }
 
   zfs::zfs_create { "${zfs_tank}${mountpoint}":
