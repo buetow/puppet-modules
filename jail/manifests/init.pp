@@ -3,8 +3,8 @@ class jail (
   $use_zfs = true,
   $mountpoint = '/jails',
   $zfs_tank = 'zroot',
-  $jail_base_config = {},
-  $jails_config = [],
+  $jails_base_config = {},
+  $jails_config = {},
 ) {
   case $ensure {
     present: { $ensure_directory = directory }
@@ -12,29 +12,31 @@ class jail (
     default: { fail("No such ensure: ${ensure}") }
   }
 
-  # (..) is for line order in resulting jail.conf
-  $jail_base_config_default = {
-    '(01)exec.start'      => '"/bin/sh /etc/rc"',
-    '(02)exec.start'      => '"/bin/sh /etc/rc.shutdown"',
-    '(03)exec.clean; //'  => '',
-    '(04)mount.devfs; //' => '',
-    '(05)path'            => '"/var/jail/$name"',
+  $jail_default_path = "${mountpoint}/\$name"
+
+  # Keys with leading _ are not added to jail.conf
+  # (..). is for line order in resulting jail.conf
+  $jails_base_config_default = {
+    'exec.start'      => '"/bin/sh /etc/rc"',
+    'exec.stop'       => '"/bin/sh /etc/rc.shutdown"',
+    'exec.clean; //'  => '',
+    'mount.devfs; //' => '',
+    'path'            => "\"${jail_default_path}\"",
   }
 
-  $base_config = merge($jail_base_config_default, $jail_base_config)
+  $base_config = merge($jails_base_config_default, $jails_base_config)
 
   file { $mountpoint:
     ensure => $ensure_directory,
     force  => true,
   }
 
-  if $use_zfs {
-    zfs::zfs_create { "${zfs_tank}${mountpoint}":
-      ensure     => $ensure,
-      filesystem => $mountpoint,
+  zfs::zfs_create { "${zfs_tank}${mountpoint}":
+    ensure     => $ensure,
+    filesystem => $mountpoint,
+    noop       => !$use_zfs,
 
-      require    => File[$mountpoint],
-    }
+    require    => File[$mountpoint],
   }
 
   freebsd::rc_enable { 'jail':
@@ -44,6 +46,14 @@ class jail (
   file { '/etc/jail.conf':
     ensure  => $ensure,
     content => template('jail/jail.conf.erb')
+  }
+
+  $jail_names = keys($jails_config)
+  jail::create { $jail_names:
+    use_zfs         => $use_zfs,
+    base_mountpoint => $mountpoint,
+    zfs_tank        => $zfs_tank,
+    jails_config    => $jails_config,
   }
 }
 

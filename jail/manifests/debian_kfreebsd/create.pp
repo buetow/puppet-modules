@@ -1,9 +1,11 @@
 define jail::debian_kfreebsd::create (
-  $ensure = present,
-  $use_zfs = true,
-  $mountpoint = "/jails/${name}",
+  $ensure,
+  $use_zfs,
+  $mountpoint,
   $jail_config = {}
 ) {
+  include jail::debian_kfreebsd
+
   case $ensure {
     present: { $ensure_mount = mounted }
     absent: { $ensure_mount = absent }
@@ -19,13 +21,6 @@ define jail::debian_kfreebsd::create (
 
   $config = merge($jail_config_default, $jail_config)
 
-  jail::create { $name:
-    ensure      => $ensure,
-    use_zfs     => $use_zfs,
-    mountpoint  => $mountpoint,
-    jail_config => $config,
-  }
-
   if $ensure == present {
     $debootstrap_args = $config['_debootstrap_args']
     $dist = $config['_dist']
@@ -36,53 +31,52 @@ define jail::debian_kfreebsd::create (
       command => "debootstrap ${debootstrap_args} ${dist} ${mountpoint} ${mirror}",
 
       unless  => "/bin/test -f ${mountpoint}/etc/debian_version",
-      require => Jail::Create[$name],
     }
-
-    file { "${mountpoint}/etc/hostname":
-      ensure  => file,
-      content => $name,
-
-      require => Exec["${name}_debootstrap"],
-    }
+    #
+    #   file { "${mountpoint}/etc/hostname":
+    #     ensure  => file,
+    #     content => $name,
+    #
+    #     require => Exec["${name}_debootstrap"],
+    #   }
   }
-
-  # ZFS mounts after fstab
-  if $use_zfs {
-    $add_options = ',noauto'
-  } else {
-    $add_options = ''
-  }
-
-  mount { "${name}_linprocfs":
-    name    => "${mountpoint}/proc",
-    ensure  => $ensure_mount,
-    device  => 'linproc',
-    fstype  => 'linprocfs',
-    options => "rw${add_options}",
-  }
-
-  mount { "${name}_linsysfs":
-    name    => "${mountpoint}/sys",
-    ensure  => $ensure_mount,
-    device  => 'linsys',
-    fstype  => 'linsysfs',
-    options => "rw${add_options}",
-  }
-
-  mount { "${name}_tmpfs":
-    name    => "${mountpoint}/run",
-    ensure  => $ensure_mount,
-    device  => 'tmpfs',
-    fstype  => 'tmpfs',
-    options => "rw${add_options}",
-  }
-
-  mount { "${name}_devfs":
-    name    => "${mountpoint}/dev",
-    ensure  => $ensure_mount,
-    device  => 'devfs',
-    fstype  => 'devfs',
-    options => "ro${add_options}",
-  }
+  #
+  # # ZFS mounts after fstab
+  # if $use_zfs {
+  #   $add_options = ',noauto'
+  # } else {
+  #   $add_options = ''
+  # }
+  #
+  # mount { "${name}_linprocfs":
+  #   name    => "${mountpoint}/proc",
+  #   ensure  => $ensure_mount,
+  #   device  => 'linproc',
+  #   fstype  => 'linprocfs',
+  #   options => "rw${add_options}",
+  # }
+  #
+  # mount { "${name}_linsysfs":
+  #   name    => "${mountpoint}/sys",
+  #   ensure  => $ensure_mount,
+  #   device  => 'linsys',
+  #   fstype  => 'linsysfs',
+  #   options => "rw${add_options}",
+  # }
+  #
+  # mount { "${name}_tmpfs":
+  #   name    => "${mountpoint}/run",
+  #   ensure  => $ensure_mount,
+  #   device  => 'tmpfs',
+  #   fstype  => 'tmpfs',
+  #   options => "rw${add_options}",
+  # }
+  #
+  # # mount { "${name}_devfs":
+  # #   name    => "${mountpoint}/dev",
+  # #   ensure  => $ensure_mount,
+  # #   device  => 'devfs',
+  # #   fstype  => 'devfs',
+  # #   options => "ro${add_options}",
+  # # }
 }
