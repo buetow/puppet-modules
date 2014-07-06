@@ -51,12 +51,15 @@ define jail::create (
 
   case $type {
     noop: {
-      notify { "${name}: type=noop, so don't do any jail post processing/installing": }
+      file { "/etc/fstab.jail.${name}":
+        ensure  => $ensure,
+        content => "\n",
+      }
+      notify { "${name}: type=noop, so don't do any further jail post processing/installing": }
     }
     debian_kfreebsd: {
       jail::debian_kfreebsd::create { $name:
         ensure      => $ensure,
-        use_zfs     => $use_zfs,
         mountpoint  => $mountpoint,
         jail_config => $jail_config,
 

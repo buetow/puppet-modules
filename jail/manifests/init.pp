@@ -20,6 +20,7 @@ class jail (
     'exec.start'      => "'/etc/rc'",
     'exec.stop'       => "'/etc/rc.shutdown'",
     'mount.devfs; //' => '',
+    'mount.fstab'     => "\"/etc/fstab.jail.\$name\"",
     'path'            => "\"${jail_default_path}\"",
   }
 

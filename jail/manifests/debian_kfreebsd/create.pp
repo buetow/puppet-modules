@@ -1,6 +1,5 @@
 define jail::debian_kfreebsd::create (
   $ensure,
-  $use_zfs,
   $mountpoint,
   $jail_config = {}
 ) {
@@ -61,35 +60,9 @@ define jail::debian_kfreebsd::create (
       require => Exec["${name}_debootstrap"],
     }
   }
- 
- # ZFS mounts after fstab
- if $use_zfs {
-   $add_options = ',noauto'
- } else {
-   $add_options = ''
- }
- 
- mount { "${name}_linprocfs":
-   name    => "${mountpoint}/proc",
-   ensure  => absent,
-   device  => 'linproc',
-   fstype  => 'linprocfs',
-   options => "rw${add_options}",
- }
- 
- mount { "${name}_linsysfs":
-   name    => "${mountpoint}/sys",
-   ensure  => absent,
-   device  => 'linsys',
-   fstype  => 'linsysfs',
-   options => "rw${add_options}",
- }
- 
- mount { "${name}_tmpfs":
-   name    => "${mountpoint}/run",
-   ensure  => absent,
-   device  => 'tmpfs',
-   fstype  => 'tmpfs',
-   options => "rw${add_options}",
- }
+
+  file { "/etc/fstab.jail.${name}":
+    ensure  => $ensure,
+    content => template('jail/fstab.debian_kfreebsd.erb'),
+  }
 }
