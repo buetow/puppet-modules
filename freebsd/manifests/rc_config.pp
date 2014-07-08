@@ -2,8 +2,9 @@ define freebsd::rc_config (
   $value,
   $ensure = present,
 ){
-  file { "/etc/rc.conf.d/${name}":
+  file_line { $name:
     ensure  => $ensure,
-    content => "${name}=${value}\n",
+    line    => "${name}=${value}",
+    path    => '/etc/rc.conf',
   }
 }
