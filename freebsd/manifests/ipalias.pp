@@ -1,7 +1,8 @@
 define freebsd::ipalias (
   $ensure = present,
+  $proto = 'inet',
   $ip = $name,
-  $netmask = '255.255.255.0',
+  $preflen = '/24',
   $alias = 'alias0',
   $interface,
 ) {
@@ -13,23 +14,25 @@ define freebsd::ipalias (
     default: { fail("No such ensure: ${ensure}") }
   }
 
-  $up_args = "${ip} netmask ${netmask} alias"
-  $dn_args = "${ip} netmask ${netmask} -alias"
+  $up_args = "${proto} ${ip}/${preflen} alias"
+  $dn_args = "${proto} ${ip} -alias"
 
   freebsd::rc_config { "ifconfig_${interface}_${alias}":
     ensure => $ensure_file,
-    value  => "'${up_args}'",
+    value  => "'${proto} ${ip}/${preflen}'",
   }
+
+  $grepstr = "${proto} ${ip}"
 
   if $ensure == up {
     exec { "/sbin/ifconfig ${interface} ${up_args}":
-      unless => "/sbin/ifconfig ${interface} | /usr/bin/grep '${ipaddress} netmask'",
+      unless => "/sbin/ifconfig ${interface} | /usr/bin/grep '${grepstr}'",
     }
   }
 
   if $ensure == absent {
     exec { "/sbin/ifconfig ${interface} ${dn_args}":
-      onlyif => "/sbin/ifconfig ${interface} | /usr/bin/grep '${ipaddress} netmask'",
+      onlyif => "/sbin/ifconfig ${interface} | /usr/bin/grep '${grepstr}'",
     }
   }
 }
