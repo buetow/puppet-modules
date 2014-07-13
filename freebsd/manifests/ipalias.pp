@@ -3,7 +3,7 @@ define freebsd::ipalias (
   $proto = 'inet',
   $ip = $name,
   $preflen = '/24',
-  $alias = 'alias0',
+  $aliasnum = '0',
   $interface,
 ) {
 
@@ -14,6 +14,7 @@ define freebsd::ipalias (
     default: { fail("No such ensure: ${ensure}") }
   }
 
+  $alias = "alias${aliasnum}"
   $up_args = "${proto} ${ip}/${preflen} alias"
   $dn_args = "${proto} ${ip} -alias"
 
