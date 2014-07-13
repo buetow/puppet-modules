@@ -22,5 +22,12 @@ class xerl::application (
 
     require => Exec['checkout_xerl']
   }
+
+  file { "${xerlroot}/xerl-${::hostname}.conf":
+    ensure => link,
+    target => "${xerlroot}/xerl-${::fqdn}.conf",
+
+    require => File["${xerlroot}/xerl-${::fqdn}.conf"],
+  }
 }
 
