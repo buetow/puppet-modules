@@ -24,6 +24,20 @@ class sudo::params {
       $config_dir = '/etc/sudoers.d/'
       $config_file_group = 'root'
     }
+    'GNU/kFreeBSD': {
+      case $::lsbdistcodename {
+        'wheezy': {
+          $source = "${source_base}sudoers.wheezy"
+        }
+        default: {
+          $source = "${source_base}sudoers.deb"
+        }
+      }
+      $package = 'sudo'
+      $config_file = '/etc/sudoers'
+      $config_dir = '/etc/sudoers.d/'
+      $config_file_group = 'root'
+    }
     redhat: {
       $package = 'sudo'
       $config_file = '/etc/sudoers'
