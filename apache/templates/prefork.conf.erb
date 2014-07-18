@@ -5,9 +5,9 @@
 # MaxClients: maximum number of server processes allowed to start
 # MaxRequestsPerChild: maximum number of requests a server process serves
 <IfModule mpm_prefork_module>
-  StartServers          <%= start_servers %>
-  MinSpareServers       <%= min_spare_servers %>
-  MaxSpareServers       <%= max_spare_servers %>
-  MaxClients            <%= max_clients %>
-  MaxRequestsPerChild   <%= max_requests_per_child %>
+  StartServers          <%= @start_servers %>
+  MinSpareServers       <%= @min_spare_servers %>
+  MaxSpareServers       <%= @max_spare_servers %>
+  MaxClients            <%= @max_clients %>
+  MaxRequestsPerChild   <%= @max_requests_per_child %>
 </IfModule>

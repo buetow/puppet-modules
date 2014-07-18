@@ -1,112 +1,112 @@
-<% if ext == "ssl"  %>
-<VirtualHost <%= ip4address %>:443>
+<% if @ext == "ssl"  %>
+<VirtualHost <%= @ip4address %>:443>
 <% else %>
-<VirtualHost <%= ip4address %>:80>
+<VirtualHost <%= @ip4address %>:80>
 <% end %>
-  <% if suexec_user != "" %>
-    SuexecUserGroup <%= suexec_user %> <%= suexec_group %>
+  <% if @suexec_user != "" %>
+    SuexecUserGroup <%= @suexec_user %> <%= @suexec_group %>
   <% end %>
 
-  DocumentRoot <%= document_root %>
+  DocumentRoot <%= @document_root %>
 
-  <% if vhost != "" && vhost != "_default_" %>
-    ServerName <%= vhost %>
+  <% if @vhost != "" && @vhost != "_default_" %>
+    ServerName <%= @vhost %>
   <% end %>
 
-  <% includes.each do |val| -%>
+  <% @includes.each do |val| -%>
     include /etc/apache2/<%= val %>
   <% end %>
 
   LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedvhost
   
-  <% if ext == "ssl"  %>
+  <% if @ext == "ssl"  %>
     SSLEngine On
     SSLCipherSuite HIGH:MEDIUM
-    SSLCertificateFile    /etc/apache2/certs/<%= vhost %>.crt
-    SSLCertificateKeyFile /etc/apache2/certs/<%= vhost %>.key
+    SSLCertificateFile    /etc/apache2/certs/<%= @vhost %>.crt
+    SSLCertificateKeyFile /etc/apache2/certs/<%= @vhost %>.key
     # This refers to https://www.startssl.com/?app=21 (Apache with StartSSL)
     SSLCertificateChainFile /etc/apache2/certs/sub.class1.server.ca.pem
     SSLCACertificateFile /etc/apache2/certs/ca.pem
-    CustomLog ${APACHE_LOG_DIR}/access_ssl.log-<%= vhost %> combinedvhost
-    ErrorLog ${APACHE_LOG_DIR}/error_ssl.log-<%= vhost %>
+    CustomLog ${APACHE_LOG_DIR}/access_ssl.log-<%= @vhost %> combinedvhost
+    ErrorLog ${APACHE_LOG_DIR}/error_ssl.log-<%= @vhost %>
   <% else %>
-    CustomLog ${APACHE_LOG_DIR}/access.log-<%= vhost %> combinedvhost
-    ErrorLog ${APACHE_LOG_DIR}/error.log-<%= vhost %>
+    CustomLog ${APACHE_LOG_DIR}/access.log-<%= @vhost %> combinedvhost
+    ErrorLog ${APACHE_LOG_DIR}/error.log-<%= @vhost %>
   <% end %>
 
-  <% if use_rewrite == "yes" || redirect_plain == "yes" || ext == "ssl" %>
+  <% if @use_rewrite == "yes" || @redirect_plain == "yes" || @ext == "ssl" %>
     RewriteEngine On  
   <% end %>
 
-  <% if redirect_plain == "yes" %>
+  <% if @redirect_plain == "yes" %>
     RewriteCond %{SERVER_PORT} !443
-    RewriteRule (.*) https://<%= vhost %>/$1 [L,R=301]
+    RewriteRule (.*) https://<%= @vhost %>/$1 [L,R=301]
   <% end %>
  
-  <% if use_rewrite == "yes" %>
-    <% rewrites.each do |val| %>
+  <% if @use_rewrite == "yes" %>
+    <% @rewrites.each do |val| %>
       RewriteRule <%= val %>
     <% end %>
   <% end %>
 
-  <% if ext == "ssl" %>
+  <% if @ext == "ssl" %>
     RewriteRule /websvn/ http://temp.buetow.org [L,R=301]
   <% end %>
 
 </VirtualHost>
 
-<% if ext == "ssl"  %>
-<VirtualHost [<%= ip6address %>]:443>
+<% if @ext == "ssl"  %>
+<VirtualHost [<%= @ip6address %>]:443>
 <% else %>
-<VirtualHost [<%= ip6address %>]:80>
+<VirtualHost [<%= @ip6address %>]:80>
 <% end %>
-  <% if suexec_user != "" %>
-    SuexecUserGroup <%= suexec_user %> <%= suexec_group %>
+  <% if @suexec_user != "" %>
+    SuexecUserGroup <%= @suexec_user %> <%= @suexec_group %>
   <% end %>
 
-  DocumentRoot <%= document_root %>
+  DocumentRoot <%= @document_root %>
 
-  <% if vhost != "" && vhost != "_default_" %>
-    ServerName <%= vhost %>
+  <% if @vhost != "" && @vhost != "_default_" %>
+    ServerName <%= @vhost %>
   <% end %>
 
-  <% includes.each do |val| -%>
+  <% @includes.each do |val| -%>
     include /etc/apache2/<%= val %>
   <% end %>
 
   LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedvhost
   
-  <% if ext == "ssl"  %>
+  <% if @ext == "ssl"  %>
     SSLEngine On
     SSLCipherSuite HIGH:MEDIUM
-    SSLCertificateFile    /etc/apache2/certs/<%= vhost %>.crt
-    SSLCertificateKeyFile /etc/apache2/certs/<%= vhost %>.key
+    SSLCertificateFile    /etc/apache2/certs/<%= @vhost %>.crt
+    SSLCertificateKeyFile /etc/apache2/certs/<%= @vhost %>.key
     # This refers to https://www.startssl.com/?app=21 (Apache with StartSSL)
     SSLCertificateChainFile /etc/apache2/certs/sub.class1.server.ca.pem
     SSLCACertificateFile /etc/apache2/certs/ca.pem
-    CustomLog ${APACHE_LOG_DIR}/access_ssl.log-<%= vhost %> combinedvhost
-    ErrorLog ${APACHE_LOG_DIR}/error_ssl.log-<%= vhost %>
+    CustomLog ${APACHE_LOG_DIR}/access_ssl.log-<%= @vhost %> combinedvhost
+    ErrorLog ${APACHE_LOG_DIR}/error_ssl.log-<%= @vhost %>
   <% else %>
-    CustomLog ${APACHE_LOG_DIR}/access.log-<%= vhost %> combinedvhost
-    ErrorLog ${APACHE_LOG_DIR}/error.log-<%= vhost %>
+    CustomLog ${APACHE_LOG_DIR}/access.log-<%= @vhost %> combinedvhost
+    ErrorLog ${APACHE_LOG_DIR}/error.log-<%= @vhost %>
   <% end %>
 
-  <% if use_rewrite == "yes" || redirect_plain == "yes" || ext == "ssl" %>
+  <% if @use_rewrite == "yes" || @redirect_plain == "yes" || @ext == "ssl" %>
     RewriteEngine On  
   <% end %>
 
-  <% if redirect_plain == "yes" %>
+  <% if @redirect_plain == "yes" %>
     RewriteCond %{SERVER_PORT} !443
-    RewriteRule (.*) https://<%= vhost %>/$1 [L,R=301]
+    RewriteRule (.*) https://<%= @vhost %>/$1 [L,R=301]
   <% end %>
  
-  <% if use_rewrite == "yes" %>
-    <% rewrites.each do |val| %>
+  <% if @use_rewrite == "yes" %>
+    <% @rewrites.each do |val| %>
       RewriteRule <%= val %>
     <% end %>
   <% end %>
 
-  <% if ext == "ssl" %>
+  <% if @ext == "ssl" %>
     RewriteRule /websvn/ http://temp.buetow.org [L,R=301]
   <% end %>
 </VirtualHost>
