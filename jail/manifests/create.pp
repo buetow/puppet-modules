@@ -57,6 +57,15 @@ define jail::create (
       }
       notify { "${name}: type=noop, so don't do any further jail post processing/installing": }
     }
+    freebsd {
+      jail::freebsd::create { $name:
+        ensure      => $ensure,
+        mountpoint  => $mountpoint,
+        jail_config => $jail_config,
+
+        require => Zfs::Zfs_create["${zfs_tank}${mountpoint}"],
+      }
+    }
     debian_kfreebsd: {
       jail::debian_kfreebsd::create { $name:
         ensure      => $ensure,
