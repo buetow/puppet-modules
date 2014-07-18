@@ -1,4 +1,4 @@
-class jail::debian_kfreebsd (
+class jail::freebsd (
   $ensure = present,
 ) {
   $exec_start = '/etc/rc'

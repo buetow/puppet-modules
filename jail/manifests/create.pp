@@ -57,7 +57,7 @@ define jail::create (
       }
       notify { "${name}: type=noop, so don't do any further jail post processing/installing": }
     }
-    freebsd {
+    freebsd: {
       jail::freebsd::create { $name:
         ensure      => $ensure,
         mountpoint  => $mountpoint,
