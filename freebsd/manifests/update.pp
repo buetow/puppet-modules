@@ -1,5 +1,5 @@
 class freebsd::update (
-  $cron_mailto = 'root',
+  $mailto = 'root',
   $cron_update_fetch_ensure = present,
   $cron_update_fetch_hour = '0',
   $cron_update_fetch_minute = '7',
@@ -13,7 +13,7 @@ class freebsd::update (
   $cron_pkg_audit_minute = '7',
   $cron_pkg_audit_reboot_ensure = present,
 ){
-  $environment = "MAILTO=${cron_mailto}"
+  $environment = "MAILTO=${mailto}"
 
   ## freebsd-update
   cron { 'freebsd_fetch':
