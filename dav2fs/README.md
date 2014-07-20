@@ -28,7 +28,7 @@ Example:
           'atboot'    => false,
           'ensure'    => absent,
           'options'   => 'noauto,user',
-          'device'    => 'https://sd2dav.1und1.de',
+          'device'    => 'https://mediacenter.gmx.net',
         },
       },
       secrets  => {
