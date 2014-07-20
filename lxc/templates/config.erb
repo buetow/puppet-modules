@@ -1,0 +1,6 @@
+# Configuration for Linux Container <%= @name %>
+# Managed with Puppet (don't change manually)
+
+<% lxc_config.keys.sort.each do |key| %>
+<%= key.gsub(/\(\d+\)\./, '') %> = <%= lxc_config[key] -%>
+<% end %>
