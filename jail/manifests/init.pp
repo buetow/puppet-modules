@@ -30,7 +30,7 @@ class jail (
     ensure => $ensure_directory,
   }
 
-  zfs::zfs_create { "${zfs_tank}${mountpoint}":
+  zfs::create { "${zfs_tank}${mountpoint}":
     ensure     => $ensure,
     filesystem => $mountpoint,
     noop       => !$use_zfs,
