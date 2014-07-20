@@ -63,7 +63,7 @@ define jail::create (
         mountpoint  => $mountpoint,
         jail_config => $jail_config,
 
-        require => Zfs::Zfs_create["${zfs_tank}${mountpoint}"],
+        require => Zfs::Create["${zfs_tank}${mountpoint}"],
       }
     }
     debian_kfreebsd: {
@@ -72,7 +72,7 @@ define jail::create (
         mountpoint  => $mountpoint,
         jail_config => $jail_config,
 
-        require => Zfs::Zfs_create["${zfs_tank}${mountpoint}"],
+        require => Zfs::Create["${zfs_tank}${mountpoint}"],
       }
     }
     default: {
