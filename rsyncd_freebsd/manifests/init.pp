@@ -6,6 +6,7 @@ class rsyncd_freebsd (
   $config_template = 'rsyncd_freebsd/rsyncd.conf.erb',
   $ensure = present,
   $volumes = {},
+  $manage_package = false,
 ) {
   File {
     owner => root,
@@ -45,15 +46,22 @@ class rsyncd_freebsd (
     }
   }
 
-  package { $package:
-    ensure => $ensure_package
-  }
+  if $manage_package {
+    package { $package:
+      ensure => $ensure_package
+    }
 
-  file { $config:
-    ensure  => $ensure_file,
-    content => template($config_template),
+    file { $config:
+      ensure  => $ensure_file,
+      content => template($config_template),
 
-    require => Package[$package],
+      require => Package[$package],
+    }
+  } else {
+    file { $config:
+      ensure  => $ensure_file,
+      content => template($config_template),
+    }
   }
 
   service { $service:
