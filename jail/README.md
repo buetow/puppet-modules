@@ -9,7 +9,7 @@ This module may depends on other puppet modules of this git repository (such as 
 
 Depending on the jail's type there is additional stuff done with a newly created jail, such as bootstrapping etc.  Everything is done via the 'new style' jail configuration file jail.conf.
 
-Currently there are only the jail type 'debian_kfreebsd' implemented. Other types might be implemented after I (or you) need them. But it's possible just to prepare jails (creating the configs and the correct mountpoints) by specifying no type (internal type noop).
+Currently there are only the jail types 'debian_kfreebsd' and 'freebsd' implemented. Other types might be implemented after I (or you) need them. But it's possible just to prepare jails (creating the configs and the correct mountpoints) by specifying no type (internal type noop).
 
 =======
 
@@ -60,12 +60,17 @@ Example:
       }
     }
 
-This ensures that a jail 'kfreebsd' is present (inlcuding zfs mountpoint (every jail owns its own zfs mountpoint) and debootstrap) and that a jail 'foo' is absent (zfs mountpoint destroyed, all configs removed).
+This ensures that a jail 'kfreebsd' and 'makemake' is present (inlcuding zfs mountpoint (every jail owns its own zfs mountpoint) and debootstrap) and that a jail 'foo' is absent (zfs mountpoint destroyed, all configs removed).
 
 Afterwards all you have to do is:
 
     service jail start kfreebsd
-    jexec kfreebsd /bin/bash
+    jexec kfreebsd bash
+
+or for the other (FreeBSD) jail:
+
+    service jail start makemake
+    jexec makemake tcsh
 
 :-)
 
