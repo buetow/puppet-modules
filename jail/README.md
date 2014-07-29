@@ -3,7 +3,7 @@ jail
 
 ## Description
 
-An humble puppet module to manage FreeBSD jails. Currently for Debian GNU/kFreeBSD only.
+An humble puppet module to manage FreeBSD jails. Currently for FreeBSD and Debian GNU/kFreeBSD guests.
 
 This module may depends on other puppet modules of this git repository (such as zfs and freebsd).
 
@@ -33,6 +33,22 @@ Example:
           'exec.start'    => "'${jail::debian_kfreebsd::exec_start}'",
           'exec.stop'     => "'${jail::debian_kfreebsd::exec_stop}'",
           'ip4.addr'      => '192.168.178.200',
+        },
+        makemake          => {
+          '_ensure'       => present,
+          '_type'         => 'freebsd',
+          '_mirror'       => 'ftp://ftp.de.freebsd.org',
+          '_remote_path'  => 'FreeBSD/releases/amd64/10.0-RELEASE',
+          '_dists'        => [
+            'base.txz',
+            'doc.txz',
+            'games.txz',
+          ],
+          'exec.start'    => "'${jail::freebsd::exec_start}'",
+          'exec.stop'     => "'${jail::freebsd::exec_stop}'",
+          'host.hostname' => "'makemake.buetow.org'",
+          'ip4.addr'      => '192.168.0.4',
+          'ip6.addr'      => '2a01:4f8:a0:234e:f::4',
         },
         foo          => {
           '_ensure'       => absent,
