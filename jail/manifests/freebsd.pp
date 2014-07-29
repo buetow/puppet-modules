@@ -4,8 +4,10 @@ class jail::freebsd (
   $exec_start = '/etc/rc'
   $exec_stop = '/etc/rc.shutdown'
 
-  file { '/tmp/jailbootstrap':
-    ensure => directory,
+  if $ensure == present {
+    file { '/tmp/jailbootstrap':
+      ensure => directory,
+    }
   }
 }
 

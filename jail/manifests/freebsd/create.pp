@@ -1,7 +1,8 @@
 define jail::freebsd::create (
   $ensure,
   $mountpoint,
-  $jail_config = {}
+  $jail_config = {},
+  $tmpdir = "/tmp/jailbootstrap/${name}",
 ) {
   case $ensure {
     present: { $ensure_mount = mounted }
@@ -13,13 +14,12 @@ define jail::freebsd::create (
   $jail_config_default = {
     '_mirror'      => 'ftp://ftp.de.freebsd.org',
     '_remote_path' => 'FreeBSD/releases/amd64/10.0-RELEASE',
-    '_dists'       => [ 
-      'base.txz', 
-      'docs.txz', 
-      'games.txz', 
+    '_dists'       => [
+      'base.txz',
+      'doc.txz',
+      'games.txz',
       'kernel.txz',
     ],
-    '_fetch_dir'   => '/tmp',
   }
 
   $config = merge($jail_config_default, $jail_config)
@@ -28,7 +28,18 @@ define jail::freebsd::create (
     $dists = $config['_dists']
     $mirror = $config['_mirror']
     $remote_path = $config['_remote_path']
-    $fetch_dir = $config['_fetch_dir']
+
+    file { $tmpdir:
+      ensure => directory,
+    }
+
+    file { "${tmpdir}/bootstrap.sh":
+      ensure  => present,
+      mode    => '0755',
+      content => template('jail/bootstrap.freebsd.sh.erb'),
+
+      require => File[$tmpdir],
+    }
 
     #   exec { "${name}_debootstrap":
     #     path    => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin',
@@ -51,10 +62,16 @@ define jail::freebsd::create (
     #   require => Exec["${name}_debootstrap"],
     # }
 
-  }
+    } else {
+      file { $tmpdir:
+        ensure => absent,
+        purge  => true,
+        force  => true,
+      }
+    }
 
-  file { "/etc/fstab.jail.${name}":
-    ensure  => $ensure,
-    content => template('jail/fstab.freebsd.erb'),
-  }
+    file { "/etc/fstab.jail.${name}":
+      ensure  => $ensure,
+      content => template('jail/fstab.freebsd.erb'),
+    }
 }

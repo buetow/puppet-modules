@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Created by Puppet
+
+declare -r TMPDIR=<%= @tmpdir %>
+declare -r MIRROR=<%= @mirror %>
+declare -r REMOTE_PATH=<%= @remote_path %>
+declare -r MOUNTPOINT=<%= @mountpoint %>
+
+function checksum_dist {
+  local -r dist=$1 ; shift
+
+  if [ -f "$dist" ]; then
+    local -r sha256=$(awk "\$1 ~ /^$dist\$/ { print \$2 }" MANIFEST)
+    local -r sha256_now=$(sha256 -q $dist)
+    [ $sha256 = $sha256_now ] && return 0
+  fi
+
+  return 1
+}
+
+function install_dist {
+  local -r dist=$1 ; shift
+
+  tar -xpf $dist -C $MOUNTPOINT
+}
+
+function fetch_dist {
+  local -r dist=$1 ; shift
+
+  checksum_dist $dist && return 1
+  fetch $MIRROR/$REMOTE_PATH/$dist || exit 3
+  checksum_dist $dist || exit 3
+
+  return 0
+}
+
+cd $TMPDIR || exit 3
+
+fetch $MIRROR/$REMOTE_PATH/MANIFEST
+<% @dists.each do |dist| %>
+fetch_dist <%= dist %> && install_dist <%= dist %><% end %>
+
+
