@@ -45,6 +45,7 @@ define jail::freebsd::create (
       command => "${bootstrapdir}/bootstrap.sh",
       timeout => 1800,
 
+      require => File["${bootstrapdir}/bootstrap.sh"],
       unless  => "/bin/test -f ${bootstrapdir}/bootstrap.done",
     }
   }
