@@ -1,8 +1,8 @@
 define jail::freebsd::create (
   $ensure,
   $mountpoint,
+  $bootstrapdir = "${mountpoint}/.jailbootstrap",
   $jail_config = {},
-  $tmpdir = "/tmp/jailbootstrap/${name}",
 ) {
   case $ensure {
     present: { $ensure_mount = mounted }
@@ -28,49 +28,29 @@ define jail::freebsd::create (
     $mirror = $config['_mirror']
     $remote_path = $config['_remote_path']
 
-    file { $tmpdir:
+    file { $bootstrapdir:
       ensure => directory,
     }
 
-    file { "${tmpdir}/bootstrap.sh":
+    file { "${bootstrapdir}/bootstrap.sh":
       ensure  => present,
       mode    => '0755',
       content => template('jail/bootstrap.freebsd.sh.erb'),
 
-      require => File[$tmpdir],
+      require => File[$bootstrapdir],
     }
 
-    #   exec { "${name}_debootstrap":
-    #     path    => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin',
-    #     command => "debootstrap ${debootstrap_args} ${dist} ${mountpoint} ${mirror}",
-    #     timeout => 3600,
-    #
-    #     unless  => "/bin/test -f ${mountpoint}/etc/debian_version",
-    #   }
+    exec { "${name}_bootstrap":
+      path    => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin',
+      command => "${bootstrapdir}/bootstrap.sh",
+      timeout => 1800,
 
-    # file { "${mountpoint}/etc/hostname":
-    #   ensure  => present,
-    #   content => "${name}\n",
-
-    #   require => Exec["${name}_debootstrap"],
-    # }
-
-    # file { "${mountpoint}/dev":
-    #   ensure  => directory,
-
-    #   require => Exec["${name}_debootstrap"],
-    # }
-
-    } else {
-      file { $tmpdir:
-        ensure => absent,
-        purge  => true,
-        force  => true,
-      }
+      unless  => "/bin/test -f ${bootstrapdir}/bootstrap.done",
     }
+  }
 
-    file { "/etc/fstab.jail.${name}":
-      ensure  => $ensure,
-      content => template('jail/fstab.freebsd.erb'),
-    }
+  file { "/etc/fstab.jail.${name}":
+    ensure  => $ensure,
+    content => template('jail/fstab.freebsd.erb'),
+  }
 }

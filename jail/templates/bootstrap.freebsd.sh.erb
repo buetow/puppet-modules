@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Created by Puppet
 
-declare -r TMPDIR=<%= @tmpdir %>
 declare -r MIRROR=<%= @mirror %>
 declare -r REMOTE_PATH=<%= @remote_path %>
 declare -r MOUNTPOINT=<%= @mountpoint %>
+declare -r BOOTSTRAPDIR=<%= @bootstrapdir %>
 
 function checksum_dist {
   local -r dist=$1 ; shift
@@ -20,20 +20,34 @@ function checksum_dist {
 
 function install_dist {
   local -r dist=$1 ; shift
-  local -r okfile=$MOUNTPOINT/var/jailbootstrap.$dist.ok
+  local -r donefile=$BOOTSTRAPDIR/$dist.done
 
-  if [ ! -f $okfile ]; then
-    tar -xpf $dist -C $MOUNTPOINT && touch $okfile
+  if [ ! -f $donefile ]; then
+    tar -xpf $dist -C $MOUNTPOINT && touch $donefile
+  fi
+
+  if [ -f $donefile ]; then
+    [ -f $dist ] && rm $dist
   fi
 }
 
 function fetch_dist {
   local -r dist=$1 ; shift
-  local -r okfile=$MOUNTPOINT/var/jailbootstrap.$dist.ok
+  local -r donefile=$BOOTSTRAPDIR/$dist.done
 
-  if [ ! -f $okfile ]; then
-    checksum_dist $dist || fetch $MIRROR/$REMOTE_PATH/$dist
+  if [ ! -f $donefile ]; then
+    checksum_dist $dist || \
+      fetch $MIRROR/$REMOTE_PATH/$dist
   fi
+}
+
+function pre_processing {
+  if [ -f $BOOTSTRAPDIR/bootstrap.done ]; then
+    # Jail is already completely bootstrapped
+    find $BOOTSTRAPDIR -name \*.txz -delete
+    exit 0
+  fi
+  fetch $MIRROR/$REMOTE_PATH/MANIFEST
 }
 
 function post_processing {
@@ -41,14 +55,14 @@ function post_processing {
     [ ! -f $MOUNTPOINT/etc/resolv.conf ] && \
       cp /etc/resolv.conf $MOUNTPOINT/etc/resolv.conf
   fi
+  rm MANIFEST
+  touch $BOOTSTRAPDIR/bootstrap.done
 }
 
-cd $TMPDIR || exit 3
-
-fetch $MIRROR/$REMOTE_PATH/MANIFEST
+cd $BOOTSTRAPDIR || exit 1
+pre_processing
 <% @dists.each do |dist| %>
 fetch_dist <%= dist %>
-checksum_dist <%= dist %> && install_dist <%= dist %> || exit 3
+checksum_dist <%= dist %> && install_dist <%= dist %> || exit 1
 <% end %>
-
 post_processing
