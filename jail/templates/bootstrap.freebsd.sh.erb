@@ -20,24 +20,35 @@ function checksum_dist {
 
 function install_dist {
   local -r dist=$1 ; shift
+  local -r okfile=$MOUNTPOINT/var/jailbootstrap.$dist.ok
 
-  tar -xpf $dist -C $MOUNTPOINT
+  if [ ! -f $okfile ]; then
+    tar -xpf $dist -C $MOUNTPOINT && touch $okfile
+  fi
 }
 
 function fetch_dist {
   local -r dist=$1 ; shift
+  local -r okfile=$MOUNTPOINT/var/jailbootstrap.$dist.ok
 
-  checksum_dist $dist && return 1
-  fetch $MIRROR/$REMOTE_PATH/$dist || exit 3
-  checksum_dist $dist || exit 3
+  if [ ! -f $okfile ]; then
+    checksum_dist $dist || fetch $MIRROR/$REMOTE_PATH/$dist
+  fi
+}
 
-  return 0
+function post_processing {
+  if [ -d $MOUNTPOINT/etc ]; then
+    [ ! -f $MOUNTPOINT/etc/resolv.conf ] && \
+      cp /etc/resolv.conf $MOUNTPOINT/etc/resolv.conf
+  fi
 }
 
 cd $TMPDIR || exit 3
 
 fetch $MIRROR/$REMOTE_PATH/MANIFEST
 <% @dists.each do |dist| %>
-fetch_dist <%= dist %> && install_dist <%= dist %><% end %>
+fetch_dist <%= dist %>
+checksum_dist <%= dist %> && install_dist <%= dist %> || exit 3
+<% end %>
 
-
+post_processing

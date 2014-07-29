@@ -18,7 +18,6 @@ define jail::freebsd::create (
       'base.txz',
       'doc.txz',
       'games.txz',
-      'kernel.txz',
     ],
   }
 
