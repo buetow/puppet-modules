@@ -19,6 +19,7 @@ Usage
 Example:
 
     include jail::debian_kfreebsd
+    include jail::freebsd
 
     class { 'jail':
       ensure              => present,
