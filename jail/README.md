@@ -26,25 +26,23 @@ Example:
       use_zfs             => true,
       zfs_tank            => zroot,
       mountpoint          => '/jail',
-      jails_config        => {
-        kfreebsd          => {
-          '_ensure'       => present,
-          '_type'         => 'debian_kfreebsd',
-          'host.hostname' => "'kfreebsd.fritz.box'",
-          'exec.start'    => "'${jail::debian_kfreebsd::exec_start}'",
-          'exec.stop'     => "'${jail::debian_kfreebsd::exec_stop}'",
-          'ip4.addr'      => '192.168.178.200',
+      jails_config              => {
+        kfreebsd                => {
+          '_ensure'             => present,
+          '_type'               => 'debian_kfreebsd',
+          # Ensure these additional directories exists inside the jail
+          '_ensure_directories' => [ '/opt', '/opt/bin' ], 
+          'host.hostname'       => "'kfreebsd.fritz.box'",
+          'exec.start'          => "'${jail::debian_kfreebsd::exec_start}'",
+          'exec.stop'           => "'${jail::debian_kfreebsd::exec_stop}'",
+          'ip4.addr'            => '192.168.178.200',
         },
         makemake          => {
           '_ensure'       => present,
           '_type'         => 'freebsd',
           '_mirror'       => 'ftp://ftp.de.freebsd.org',
           '_remote_path'  => 'FreeBSD/releases/amd64/10.0-RELEASE',
-          '_dists'        => [
-            'base.txz',
-            'doc.txz',
-            'games.txz',
-          ],
+          '_dists'        => [ 'base.txz', 'doc.txz', 'games.txz', ],
           'exec.start'    => "'${jail::freebsd::exec_start}'",
           'exec.stop'     => "'${jail::freebsd::exec_stop}'",
           'host.hostname' => "'makemake.buetow.org'",

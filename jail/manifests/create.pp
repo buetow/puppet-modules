@@ -49,6 +49,20 @@ define jail::create (
     require => File[$mountpoint],
   }
 
+  # Ensure directories inside of the Jail (e.g. for custom /opt structure)
+  if $ensure == present {
+    if has_key($jail_config, '_ensure_directories') {
+      $directories = prefix($jail_config['_ensure_directories'], $mountpoint)
+      file { $directories:
+        ensure  => $ensure_directory,
+        replace => false,
+        mode    => '0755',
+        owner   => root,
+        group   => $root_group,
+      }
+    }
+  }
+
   case $type {
     noop: {
       file { "/etc/fstab.jail.${name}":
