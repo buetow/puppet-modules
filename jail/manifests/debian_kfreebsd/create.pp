@@ -1,6 +1,7 @@
 define jail::debian_kfreebsd::create (
   $ensure,
   $mountpoint,
+  $bootstrapdir = "${mountpoint}/.jailbootstrap",
   $jail_config = {}
 ) {
   case $ensure {
@@ -23,12 +24,25 @@ define jail::debian_kfreebsd::create (
     $dist = $config['_dist']
     $mirror = $config['_mirror']
 
+    file { $bootstrapdir:
+      ensure => directory,
+    }
+
     exec { "${name}_debootstrap":
       path    => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin',
       command => "debootstrap ${debootstrap_args} ${dist} ${mountpoint} ${mirror}",
       timeout => 3600,
 
-      unless  => "/bin/test -f ${mountpoint}/etc/debian_version",
+      # unless  => "/bin/test -f ${mountpoint}/etc/debian_version",
+      unless  => "/bin/test -f ${bootstrapdir}/bootstrap.done",
+    }
+
+    file { "${bootstrapdir}/bootstrap.done":
+      ensure  => present,
+      mode    => '0655',
+      content => '',
+
+      require => [Exec["${name}_debootstrap"],File[$bootstrapdir]],
     }
 
     file { "${mountpoint}/etc/hostname":
