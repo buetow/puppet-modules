@@ -1,0 +1,10 @@
+# Configured via Puppet
+# Please note that this file is only used if the current user
+# owns his own ~/Maildir
+SHELL=/bin/sh
+PATH=/usr/bin:/usr/local/bin
+MAILDIR=<%= @procmail_maildir %>
+DEFAULT=$MAILDIR/new
+<% @procmail_rules.each do |rule| %>
+<% rule.each do |line| %>
+<%= line %><% end %><% end %>
