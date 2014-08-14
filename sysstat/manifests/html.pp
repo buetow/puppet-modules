@@ -5,7 +5,7 @@ class sysstat::html (
 ) {
 
   if $ensure == present {
-    conf_user::create { 'sysstathtml_create':
+    s_user::create { 'sysstathtml_create':
       user_name => $user_name,
       shell     => '/bin/bash',
     }

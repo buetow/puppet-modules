@@ -4,7 +4,7 @@ class xbmc (
 
   include xbmc::packages
 
-  conf_user::create { 'xbmc_user':
+  s_user::create { 'xbmc_user':
     user_name      => $user_name,
     is_desktop     => true,
     user_fullname  => 'XBMC user',

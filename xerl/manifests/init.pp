@@ -3,14 +3,14 @@ class xerl (
   $user = 'xerl',
 ) {
 
-  conf_user::create { "${user}_name":
+  s_user::create { "${user}_name":
     user_name       => $user,
     has_public_html => true,
     password        => $user_password,
   }
 
   class { 'xerl::directories':
-    require => Conf_user::Create["${user}_name"]
+    require => S_user::Create["${user}_name"]
   }
 
   class { 'xerl::application':

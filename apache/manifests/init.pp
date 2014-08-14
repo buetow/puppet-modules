@@ -75,7 +75,7 @@ define apache (
   }
 
   if $createtestuser == 'yes' {
-    conf_user::create { "${name}_user":
+    s_user::create { "${name}_user":
       user_name               => $testuser,
       has_public_html         => true,
       has_public_html_testing => true,

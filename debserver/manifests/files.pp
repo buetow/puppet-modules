@@ -34,7 +34,7 @@ class debserver::files (
 
   file { "${aptroot}/pubkey.gpg":
     ensure => present,
-    source => 'puppet:///modules/conf_user/deb/pubkey.gpg',
+    source => 'puppet:///modules/s_user/deb/pubkey.gpg',
 
     require => File[$aptroot],
   }
