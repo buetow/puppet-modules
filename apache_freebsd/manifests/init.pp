@@ -4,6 +4,9 @@ class apache_freebsd (
   $config_template = 'apache_freebsd/httpd.conf.erb',
   $ensure = running,
   $manage_package = true,
+  $httpd_conf = {
+    server_admin => 'web@mx.buetow.org'
+  },
 ) {
   File {
     owner => root,
