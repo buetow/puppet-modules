@@ -6,7 +6,8 @@ class xerl_freebsd (
 ) {
   $xerl_root = "${document_root}/xerl"
   $cache_root = '/var/cache/xerl'
-  $hosts_root = '/var/run/xerl/hosts'
+  $hosts_base = '/var/run/xerl'
+  $hosts_root = "${hosts_base}/hosts"
 
   case $ensure {
     present: { 
@@ -26,7 +27,7 @@ class xerl_freebsd (
     }
   }
 
-  file { [$cache_root, $hosts_root]:
+  file { [$cache_root, $hosts_base]:
     ensure => $ensure_directory,
     purge  => true,
     owner  => $user,
@@ -40,7 +41,7 @@ class xerl_freebsd (
       hosts_root => $hosts_root,
       giturl     => $giturl,
 
-      require => File['/var/run/xerl'],
+      require => File[$cache_root],
     }
 
     file { "${xerl_root}/xerl-${::fqdn}.conf":
@@ -59,7 +60,7 @@ class xerl_freebsd (
     hour    => '*',
     minute  => '23',
     user    => $user,
-    command => "/bin/test -d ${xerl_root} && cd ${xerl_root} && /usr/local/bin/git pull >/dev/null 2>/dev/null"
+    command => "/bin/test -d ${xerl_hosts} && cd ${xerl_hosts} && /usr/local/bin/git pull >/dev/null 2>/dev/null"
   }
 
   cron { 'xerl_clean_cache':
@@ -67,7 +68,7 @@ class xerl_freebsd (
     hour    => '*',
     minute  => '24',
     user    => $user,
-    command => "/bin/test -d /var/cache/xerl && /bin/rm -Rf /var/cache/xerl/*"
+    command => "/bin/test -d ${cache_root} && /bin/rm -Rf ${cache_root}/* >/dev/null 2>/dev/null",
   }
 }
 
