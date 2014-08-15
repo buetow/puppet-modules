@@ -6,7 +6,7 @@ class xerl_freebsd (
 ) {
   $xerl_root = "${document_root}/xerl"
   $cache_root = '/var/cache/xerl'
-  $hosts_root = '/var/run/xerl'
+  $hosts_root = '/var/run/xerl/hosts'
 
   case $ensure {
     present: { 
@@ -45,7 +45,7 @@ class xerl_freebsd (
 
     file { "${xerl_root}/xerl-${::fqdn}.conf":
       ensure  => file,
-      content => template('xerl/xerl.conf.erb'),
+      content => template('xerl_freebsd/xerl.conf.erb'),
       owner   => $user,
       group   => $user,
       mode    => '0400',
