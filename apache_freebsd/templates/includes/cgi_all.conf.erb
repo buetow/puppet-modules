@@ -1,0 +1,15 @@
+LoadModule cgi_module libexec/apache24/mod_cgi.so
+AddHandler cgi-script <%= @include_properties['cgi_handlers'] %>
+<Directory <%= @document_root %>>
+  AllowOverride FileInfo AuthConfig Limit indexes
+  Options MultiViews Indexes SymLinksifOwnerMatch IncludesNoExec ExecCGI
+  <Limit GET POST OPTIONS>
+    Order allow,deny
+    Allow from all
+  </Limit>
+  <LimitExcept GET POST OPTIONS>
+    Order deny,allow
+    Deny from all
+  </Limitexcept>
+</Directory>
+

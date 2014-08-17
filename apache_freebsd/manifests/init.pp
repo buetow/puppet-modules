@@ -7,6 +7,13 @@ class apache_freebsd (
   $httpd_conf = {
     server_admin => 'web@mx.buetow.org'
   },
+  $includes = [ 'cgi_all' ],
+  $includes_properties = {
+   cgi_all        => {
+     ensure       => present,
+     cgi_handlers => '.pl',
+   },
+  },
 ) {
   File {
     owner => root,
@@ -15,9 +22,11 @@ class apache_freebsd (
   }
 
   $service = $package
+  $document_root = "/usr/local/www/${service}/data"
   $config_dir = "/usr/local/etc/${service}"
+  $includes_dir = "/usr/local/etc/${service}/Includes"
   $httpd_conf_file = "${config_dir}/httpd.conf"
-  $apache_log_dir = "/var/log/${package}"
+  $apache_log_dir = "/var/log/${service}"
   $vhosts_dir = "${config_dir}/vhosts.d"
 
   case $ensure {
@@ -97,15 +106,25 @@ class apache_freebsd (
     purge  => true,
   }
 
+  apache_freebsd::includes { $includes:
+    document_root       => $document_root,
+    includes_dir        => $includes_dir,
+    includes_properties => $includes_properties,
+  }
+
   service { $service:
     enable  => $service_enable,
     ensure  => $ensure_service,
 
-    subscribe => File[$httpd_conf_file],
+    subscribe => [
+      File[$httpd_conf_file],
+      Apache_freebsd::Includes[$includes],
+    ],
     require   => [
       File[$httpd_conf_file],
       File[$apache_log_dir],
       File[$vhosts_dir],
+      Apache_freebsd::Includes[$includes],
     ],
   }
 }
