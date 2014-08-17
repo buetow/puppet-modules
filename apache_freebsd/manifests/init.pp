@@ -17,6 +17,7 @@ class apache_freebsd (
   $service = $package
   $config_dir = "/usr/local/etc/${service}"
   $config = "${config_dir}/httpd.conf"
+  $apache_log_dir = "/var/log/${package}"
 
   case $ensure {
     'running': {
@@ -68,12 +69,19 @@ class apache_freebsd (
     }
   }
 
+  file { $apache_log_dir:
+    ensure => $ensure_directory,
+    owner  => www,
+    mode   => '0755',
+    purge  => true,
+  }
+
   service { $service:
     enable  => $service_enable,
     ensure  => $ensure_service,
 
     subscribe => File[$config],
-    require   => File[$config],
+    require   => [File[$config],File[$apache_log_dir]],
   }
 }
 
