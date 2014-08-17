@@ -41,6 +41,13 @@ class xerl_freebsd (
 
       require => Class['xerl_freebsd::checkout']
     }
+
+    package { [
+      'p5-XML-SAX',
+      'p5-IO-All-LWP',
+    ]:
+      ensure => present
+    }
   }
 
   cron { 'xerl_hosts_pull':
