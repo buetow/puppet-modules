@@ -7,7 +7,9 @@ class apache_freebsd (
   $httpd_conf = {
     server_admin => 'web@mx.buetow.org'
   },
-  $includes = [ 'cgi_all' ],
+  $includes = [ 
+    'cgi_all',
+  ],
   $includes_properties = {
    cgi_all        => {
      ensure       => present,
