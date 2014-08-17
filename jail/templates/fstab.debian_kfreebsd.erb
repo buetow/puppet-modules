@@ -2,3 +2,6 @@
 linsys	<%= @mountpoint %>/sys	linsysfs	rw,noauto	0	0
 linproc	<%= @mountpoint %>/proc	linprocfs	rw,noauto	0	0
 tmpfs	<%= @mountpoint %>/run	tmpfs	rw,noauto	0	0
+<% @fstab_lines.each  do |fstab_line| -%>
+<%= fstab_line %>
+<% end -%>

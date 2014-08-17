@@ -14,7 +14,8 @@ define jail::debian_kfreebsd::create (
   $jail_config_default = {
     '_mirror'           => 'http://http.debian.net/debian',
     '_debootstrap_args' => '--exclude=devd,dmidecode,isc-dhcp-client,isc-dhcp-common,kldutils,pf,vidcontrol',
-    '_dist'             => 'wheezy',
+    '_fstab_lines'      => [],
+    '_dist'             => 'jessie',
   }
 
   $config = merge($jail_config_default, $jail_config)
@@ -75,6 +76,7 @@ define jail::debian_kfreebsd::create (
     }
   }
 
+  $fstab_lines = $config['_fstab_lines']
   file { "/etc/fstab.jail.${name}":
     ensure  => $ensure,
     content => template('jail/fstab.debian_kfreebsd.erb'),

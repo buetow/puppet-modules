@@ -14,6 +14,7 @@ define jail::freebsd::create (
   $jail_config_default = {
     '_mirror'      => 'ftp://ftp.de.freebsd.org',
     '_remote_path' => 'FreeBSD/releases/amd64/10.0-RELEASE',
+    '_fstab_lines' => [],
     '_dists'       => [
       'base.txz',
       'doc.txz',
@@ -50,6 +51,7 @@ define jail::freebsd::create (
     }
   }
 
+  $fstab_lines = $config['_fstab_lines']
   file { "/etc/fstab.jail.${name}":
     ensure  => $ensure,
     content => template('jail/fstab.freebsd.erb'),
