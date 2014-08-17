@@ -6,7 +6,7 @@ class xerl_freebsd (
   $user = 'www'
   $apache_config_dir = '/usr/local/etc/apache'
   $cache_root = '/var/cache/xerl'
-  $hosts_root = '/var/run/xerl'
+  $hosts_root = '/var/xerl'
   $xerl_root = "${apache_document_root}/xerl"
 
   case $ensure {
