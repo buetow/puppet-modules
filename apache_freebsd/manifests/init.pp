@@ -13,7 +13,7 @@ class apache_freebsd (
   $includes_properties = {
    cgi_all        => {
      ensure       => present,
-     cgi_handlers => '.pl',
+     cgi_handlers => '.pl .cgi',
    },
   },
 ) {

@@ -1,0 +1,7 @@
+ScriptAlias /cgit/ "/usr/local/www/cgit/cgit.cgi/"
+Alias /cgit-css "/usr/local/www/cgit/"
+<Directory "/usr/local/www/cgit/">
+  AllowOverride None
+  Options ExecCGI FollowSymlinks
+  Require all granted
+</Directory>
