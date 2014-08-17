@@ -60,7 +60,7 @@ class xerl_freebsd (
     hour    => '*',
     minute  => '23',
     user    => $user,
-    command => "/bin/test -d ${xerl_hosts} && cd ${xerl_hosts} && /usr/local/bin/git pull >/tmp/pull.out 2>/tmp/pull.err"
+    command => "/bin/test -d ${hosts_root} && cd ${hosts_root} && /usr/local/bin/git pull >/dev/null 2>/dev/null",
   }
 
   cron { 'xerl_clean_cache':
