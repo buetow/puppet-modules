@@ -1,0 +1,14 @@
+AddHandler cgi-script .pl
+<Directory <%= @document_root %>>
+  AllowOverride FileInfo AuthConfig Limit indexes
+  Options MultiViews Indexes SymLinksifOwnerMatch IncludesNoExec ExecCGI
+  <Limit GET POST OPTIONS>
+    Order allow,deny
+    Allow from all
+  </Limit>
+  <LimitExcept GET POST OPTIONS>
+    Order deny,allow
+    Deny from all
+  </Limitexcept>
+</Directory>
+

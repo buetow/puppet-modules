@@ -9,11 +9,11 @@ class xerl_freebsd::checkout (
     path   => [ '/bin', '/usr/bin', '/usr/local/bin' ],
   }
 
-  exec { "sudo -u ${user} sh -c 'git clone ${giturl} -b hosts ${hosts_root}'":
-    unless => "test -d ${hosts_root}"
+  exec { "sudo -u ${user} sh -c 'git clone ${giturl} -b hosts ${hosts_root}/hosts'":
+    unless => "test -d ${hosts_root}/hosts"
   }
 
-  exec { "sudo -u ${user} sh -c 'git clone ${giturl} ${xerl_root}'":
-    unless => "test -d ${xerl_root}",
+  exec { "sudo -u ${user} sh -c 'git clone ${giturl} ${xerl_root}/master'":
+    unless => "test -d ${xerl_root}/master",
   }
 }

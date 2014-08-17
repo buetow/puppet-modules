@@ -16,14 +16,16 @@ class apache_freebsd (
 
   $service = $package
   $config_dir = "/usr/local/etc/${service}"
-  $config = "${config_dir}/httpd.conf"
+  $httpd_conf_file = "${config_dir}/httpd.conf"
   $apache_log_dir = "/var/log/${package}"
+  $vhosts_dir = "${config_dir}/vhosts.d"
 
   case $ensure {
     'running': {
       $ensure_package = present
       $ensure_file = present
       $ensure_directory = directory
+      $ensure_link = link
       $ensure_service = running
       $ensure_enabled = enabled
       $service_enable = true
@@ -32,6 +34,7 @@ class apache_freebsd (
       $ensure_package = present
       $ensure_file = present
       $ensure_directory = directory
+      $ensure_link = link
       $ensure_service = stopped
       $service_enable = false
     }
@@ -39,6 +42,7 @@ class apache_freebsd (
       $ensure_package = present
       $ensure_file = present
       $ensure_directory = directory
+      $ensure_link = link
       $ensure_service = stopped
       $service_enable = false
     }
@@ -46,6 +50,7 @@ class apache_freebsd (
       $ensure_package = absent
       $ensure_file = absent
       $ensure_directory = absent
+      $ensure_link = absent
       $ensure_service = stopped
       $service_enable = false
     }
@@ -56,14 +61,14 @@ class apache_freebsd (
       ensure => $ensure_package
     }
 
-    file { $config:
+    file { $httpd_conf_file:
       ensure  => $ensure_file,
       content => template($config_template),
 
       require => Package[$package],
     }
   } else {
-    file { $config:
+    file { $httpd_conf_file:
       ensure  => $ensure_file,
       content => template($config_template),
     }
@@ -76,12 +81,32 @@ class apache_freebsd (
     purge  => true,
   }
 
+  file { '/usr/local/etc/apache':
+    ensure => $ensure_link,
+    target => $config_dir,
+  }
+
+  file { '/var/log/apache':
+    ensure => $ensure_link,
+    target => $apache_log_dir,
+  }
+
+  file { $vhosts_dir:
+    ensure => $ensure_directory,
+    mode   => '0755',
+    purge  => true,
+  }
+
   service { $service:
     enable  => $service_enable,
     ensure  => $ensure_service,
 
-    subscribe => File[$config],
-    require   => [File[$config],File[$apache_log_dir]],
+    subscribe => File[$httpd_conf_file],
+    require   => [
+      File[$httpd_conf_file],
+      File[$apache_log_dir],
+      File[$vhosts_dir],
+    ],
   }
 }
 

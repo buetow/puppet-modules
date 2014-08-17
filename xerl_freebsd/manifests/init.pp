@@ -1,33 +1,21 @@
 class xerl_freebsd (
   $ensure = present,
-  $user = 'www',
-  $document_root = '/usr/local/www/apache24/data',
   $giturl = 'git://git.buetow.org/xerl',
+  $apache_document_root,
 ) {
-  $xerl_root = "${document_root}/xerl"
+  $user = 'www'
+  $apache_config_dir = '/usr/local/etc/apache'
   $cache_root = '/var/cache/xerl'
-  $hosts_base = '/var/run/xerl'
-  $hosts_root = "${hosts_base}/hosts"
+  $hosts_root = '/var/run/xerl'
+  $xerl_root = "${apache_document_root}/xerl"
 
   case $ensure {
-    present: { 
-      $ensure_directory = directory
-      file { $document_root:
-        ensure  => directory,
-        owner   => $user,
-        group   => $user,
-      }
-    }
-    absent: { 
-      $ensure_directory = absent
-      file { $xerl_root:
-        ensure  => absent,
-        purge   => true,
-      }
-    }
+    present: { $ensure_directory = directory }
+    absent: { $ensure_directory = absent }
+    default: { fail("No such ensure: ${ensure}") }
   }
 
-  file { [$cache_root, $hosts_base]:
+  file { [$cache_root, $hosts_root, $xerl_root]:
     ensure => $ensure_directory,
     purge  => true,
     owner  => $user,
@@ -44,7 +32,7 @@ class xerl_freebsd (
       require => File[$cache_root],
     }
 
-    file { "${xerl_root}/xerl-${::fqdn}.conf":
+    file { "${xerl_root}/master/xerl-${::fqdn}.conf":
       ensure  => file,
       content => template('xerl_freebsd/xerl.conf.erb'),
       owner   => $user,
@@ -60,13 +48,21 @@ class xerl_freebsd (
     hour    => '*',
     minute  => '23',
     user    => $user,
-    command => "/bin/test -d ${hosts_root} && cd ${hosts_root} && /usr/local/bin/git pull >/dev/null 2>/dev/null",
+    command => "/bin/test -d ${hosts_root}/hosts && cd ${hosts_root}/hosts && /usr/local/bin/git pull >/dev/null 2>/dev/null",
+  }
+
+  cron { 'xerl_master_pull':
+    ensure  => $ensure,
+    hour    => '*',
+    minute  => '24',
+    user    => $user,
+    command => "/bin/test -d ${xerl_root}/master && cd ${xerl_root}/master && /usr/local/bin/git pull >/dev/null 2>/dev/null",
   }
 
   cron { 'xerl_clean_cache':
     ensure  => $ensure,
     hour    => '*',
-    minute  => '24',
+    minute  => '25',
     user    => $user,
     command => "/bin/test -d ${cache_root} && /bin/rm -Rf ${cache_root}/* >/dev/null 2>/dev/null",
   }

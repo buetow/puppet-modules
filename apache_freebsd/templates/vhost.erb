@@ -1,0 +1,63 @@
+<% if @ext == "ssl"  -%>
+<VirtualHost <%= @ip4address %>:443>
+<% else -%>
+<VirtualHost <%= @ip4address %>:80>
+<% end -%>
+DocumentRoot <%= @document_root %>
+<% if @vhost != "" && @vhost != "_default_" -%>ServerName <%= @vhost %><% end %>
+<% @includes.each do |val| -%>include /usr/local/etc/apache/extra/<%= val %><% end -%>
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedvhost
+<% if @ext == "ssl" -%>
+SSLEngine On
+SSLCipherSuite HIGH:MEDIUM
+SSLCertificateFile    /etc/apache2/certs/<%= @vhost %>.crt
+SSLCertificateKeyFile /etc/apache2/certs/<%= @vhost %>.key
+# This refers to https://www.startssl.com/?app=21 (Apache with StartSSL)
+SSLCertificateChainFile /etc/apache2/certs/sub.class1.server.ca.pem
+SSLCACertificateFile /etc/apache2/certs/ca.pem
+CustomLog <%= @apache_log_dir %>/access_ssl.log-<%= @vhost %> combinedvhost
+ErrorLog <%= @apache_log_dir %>/error_ssl.log-<%= @vhost %>
+<% else -%>
+CustomLog <%= @apache_log_dir %>/access.log-<%= @vhost %> combinedvhost
+ErrorLog <%= @apache_log_dir %>/error.log-<%= @vhost %>
+<% end -%>
+<% if @use_rewrite || @redirect_plain || @ext == "ssl" -%>RewriteEngine On<% end -%>
+<% if @redirect_plain -%>
+RewriteCond %{SERVER_PORT} !443
+RewriteRule (.*) https://<%= @vhost %>/$1 [L,R=301]
+<% end -%>
+<% if @use_rewrite -%>
+<% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end -%>
+</VirtualHost>
+
+<% if @ext == "ssl"  -%>
+<VirtualHost [<%= @ip6address %>]:443>
+<% else -%>
+<VirtualHost [<%= @ip6address %>]:80>
+<% end -%>
+DocumentRoot <%= @document_root %>
+<% if @vhost != "" && @vhost != "_default_" -%>ServerName <%= @vhost %><% end %>
+<% @includes.each do |val| -%>include /usr/local/etc/apache/extra/<%= val %><% end -%>
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedvhost
+<% if @ext == "ssl" -%>
+SSLEngine On
+SSLCipherSuite HIGH:MEDIUM
+SSLCertificateFile    /etc/apache2/certs/<%= @vhost %>.crt
+SSLCertificateKeyFile /etc/apache2/certs/<%= @vhost %>.key
+# This refers to https://www.startssl.com/?app=21 (Apache with StartSSL)
+SSLCertificateChainFile /etc/apache2/certs/sub.class1.server.ca.pem
+SSLCACertificateFile /etc/apache2/certs/ca.pem
+CustomLog <%= @apache_log_dir %>/access_ssl.log-<%= @vhost %> combinedvhost
+ErrorLog <%= @apache_log_dir %>/error_ssl.log-<%= @vhost %>
+<% else -%>
+CustomLog <%= @apache_log_dir %>/access.log-<%= @vhost %> combinedvhost
+ErrorLog <%= @apache_log_dir %>/error.log-<%= @vhost %>
+<% end -%>
+<% if @use_rewrite || @redirect_plain || @ext == "ssl" -%>RewriteEngine On<% end -%>
+<% if @redirect_plain -%>
+RewriteCond %{SERVER_PORT} !443
+RewriteRule (.*) https://<%= @vhost %>/$1 [L,R=301]
+<% end -%>
+<% if @use_rewrite -%>
+<% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end -%>
+</VirtualHost>
