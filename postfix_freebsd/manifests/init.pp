@@ -4,6 +4,14 @@ class postfix_freebsd (
   $package = 'postfix',
   $ensure = present,
   $config_dir = '/usr/local/etc/postfix',
+  $mailer_config_template = 'postfix_freebsd/mailer.conf.erb',
+  $mailer_config_manage = true,
+  $mailer_config = {
+    sendmail   => '/usr/local/sbin/sendmail',
+    send-mail  => '/usr/local/sbin/sendmail',
+    mailq      => '/usr/local/sbin/sendmail',
+    newaliases => '/usr/local/sbin/sendmail',
+  ],
   $postfix_config_template = 'postfix_freebsd/main.cf.erb',
   $postfix_config_manage = false,
   $postfix_config = { },
@@ -55,13 +63,15 @@ class postfix_freebsd (
     }
   }
 
-  file { '/etc/mail/mailer.conf':
-    ensure => $ensure_file,
-    source => 'puppet:///postfix_freebsd/mailer.conf',
-  }
-
   package { $package:
     ensure => $ensure_package
+  }
+
+  if $mailer_config_manage {
+    file { '/etc/mail/mailer.conf':
+      ensure => $ensure_file,
+      content => template($mailer_config_template),
+    }
   }
 
   if $postfix_config_manage {
@@ -135,5 +145,9 @@ class postfix_freebsd (
       File['/etc/mail/mailer.conf'],
     ],
   }
-}
+
+  #  freebsd::rc_enable { 'postfix':
+  #  ensure => $ensure,
+  #}
+  }
 
