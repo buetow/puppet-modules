@@ -1,0 +1,50 @@
+queue_directory = /var/spool/postfix
+command_directory = /usr/local/sbin
+daemon_directory = /usr/local/libexec/postfix
+data_directory = /var/db/postfix
+mail_owner = postfix
+myhostname = <%= @postfix_config['myhostname'] %>
+mydomain = <%= @postfix_config['mydomain'] %>
+
+# RECEIVING MAIL
+
+home_mailbox = Maildir/
+inet_interfaces = all
+inet_protocols = all
+mydestination = localhost
+
+alias_maps = hash:/usr/local/etc/postfix/aliases
+alias_database = hash:/usr/local//etc/postfix/aliases
+
+<% if @virtual_config_manage -%>
+virtual_alias_domains = <%= @postfix_config['virtual_alias_domains'] %>
+virtual_alias_maps = hash:/usr/local/etc/postfix/virtual
+<% end -%>
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain =
+broken_sasl_auth_clients = yes
+smtpd_recipient_restrictions = 
+  permit_mynetworks,
+  permit_sasl_authenticated,
+  reject_unauth_destination,
+  reject_non_fqdn_sender,
+# reject_unknown_sender_domain,
+# reject_rbl_client zen.spamhaus.org,
+# reject_rbl_client pbl.spamhaus.org,
+# reject_rbl_client sbl.spamhaus.org,
+# reject_rbl_client sbl-xbl.spamhaus.org,
+# reject_rbl_client bl.spamcop.net,
+
+relay_domains = <%= @postfix_config['relay_domains'] %>
+
+<% if @virtual_config_manage -%>
+transport_maps = hash:/usr/local/etc/postfix/transport
+<% end -%>
+<% if @header_checks_manage -%>
+header_checks = regexp:/usr/local/etc/postfix/header_checks
+<% end -%>
+
+mailman_destination_recipient_limit = 1
+
