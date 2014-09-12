@@ -11,7 +11,7 @@ mydomain = <%= @postfix_config['mydomain'] %>
 home_mailbox = Maildir/
 inet_interfaces = all
 inet_protocols = all
-mydestination = localhost
+mydestination = <%= @postfix_config['mydestination'] %>
 
 alias_maps = hash:/usr/local/etc/postfix/aliases
 alias_database = hash:/usr/local//etc/postfix/aliases

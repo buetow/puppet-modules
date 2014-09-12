@@ -11,7 +11,7 @@ class postfix_freebsd (
     send-mail  => '/usr/local/sbin/sendmail',
     mailq      => '/usr/local/sbin/sendmail',
     newaliases => '/usr/local/sbin/sendmail',
-  ],
+  },
   $postfix_config_template = 'postfix_freebsd/main.cf.erb',
   $postfix_config_manage = false,
   $postfix_config = { },
