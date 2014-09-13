@@ -1,7 +1,7 @@
 # This module has been tested on FreeBSD 10 only
 class postfix_freebsd (
   $service = 'postfix',
-  $package = 'postfix',
+  $package = 'postfix-tls',
   $ensure = present,
   $config_dir = '/usr/local/etc/postfix',
   $mailer_config_template = 'postfix_freebsd/mailer.conf.erb',
@@ -27,6 +27,8 @@ class postfix_freebsd (
   $header_checks_manage = false,
   $header_checks_source = 'puppet:///files/postfix/header_checks',
   $goodies_manage = false,
+  $sasl_manage = true,
+  $sasl_type = 'dovecot',
 ) {
   File {
     owner => root,
