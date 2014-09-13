@@ -20,10 +20,13 @@ class postfix_freebsd (
   $master_config = { },
   $virtual_config_manage = false,
   $virtual_config = [ ],
+  $aliases_config_manage = false,
+  $aliases_config = [ ],
   $transport_config_manage = false,
   $transport_config = [ ],
   $header_checks_manage = false,
   $header_checks_source = 'puppet:///files/postfix/header_checks',
+  $goodies_manage = false,
 ) {
   File {
     owner => root,
@@ -67,6 +70,16 @@ class postfix_freebsd (
     ensure => $ensure_package
   }
 
+  if $goodies_manage {
+    package { [
+      'procmail',
+      'mutt',
+      'gnupg',
+    ]:
+      ensure => $ensure_package
+    }
+  }
+
   if $mailer_config_manage {
     file { '/etc/mail/mailer.conf':
       ensure => $ensure_file,
@@ -107,6 +120,22 @@ class postfix_freebsd (
 
       require   => File["${config_dir}/virtual"],
       subscribe => File["${config_dir}/virtual"],
+    }
+  }
+
+  if $aliases_config_manage {
+    file { "${config_dir}/aliases":
+      ensure  => $ensure_file,
+      content => template('postfix_freebsd/aliases.erb'),
+
+      require => Package[$package],
+    }
+
+    exec { "/usr/local/bin/newaliases":
+      refreshonly => true,
+
+      require   => File["${config_dir}/aliases"],
+      subscribe => File["${config_dir}/aliases"],
     }
   }
 

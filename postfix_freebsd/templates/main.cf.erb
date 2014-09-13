@@ -13,8 +13,6 @@ inet_interfaces = all
 inet_protocols = all
 mydestination = <%= @postfix_config['mydestination'] %>
 
-alias_maps = hash:/usr/local/etc/postfix/aliases
-alias_database = hash:/usr/local//etc/postfix/aliases
 
 <% if @virtual_config_manage -%>
 virtual_alias_domains = <%= @postfix_config['virtual_alias_domains'] %>
@@ -41,6 +39,10 @@ relay_domains = <%= @postfix_config['relay_domains'] %>
 
 <% if @virtual_config_manage -%>
 transport_maps = hash:/usr/local/etc/postfix/transport
+<% end -%>
+<% if @aliases_config_manage -%>
+alias_maps = hash:/usr/local/etc/postfix/aliases
+alias_database = hash:/usr/local//etc/postfix/aliases
 <% end -%>
 <% if @header_checks_manage -%>
 header_checks = regexp:/usr/local/etc/postfix/header_checks
