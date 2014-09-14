@@ -62,9 +62,10 @@ class ports (
   }
 
   notify { 'portsnap_fetch':
-    message => 'portsnap cron DOES NOT RANDOMLY SLEEP UP TO 3600s! BE PATIENT!',
+    message => 'portsnap cron DOES NOW RANDOMLY SLEEP UP TO 3600s! BE PATIENT!',
 
     require =>  Exec['clean_portsnap_db'],
+    unless  => "test -f ${bootstrapdone}",
   }
 
   exec { 'portsnap_fetch':
@@ -74,10 +75,17 @@ class ports (
     unless  => "test -f ${bootstrapdone}",
   }
 
+  notify { 'portsnap_extract':
+    message => "EXTRACTING PORTS TO ${mountpoint} NOW! BE PATIENT!",
+
+    require =>  Exec['portsnap_fetch'],
+    unless  => "test -f ${bootstrapdone}",
+  }
+
   exec { 'portsnap_extract':
     command => 'portsnap extract',
 
-    require => Exec['portsnap_fetch'],
+    require => Notify['portstap_extract'],
     unless  => "test -f ${bootstrapdone}",
   }
 
@@ -86,5 +94,16 @@ class ports (
 
     require => Exec['portsnap_extract'],
   }
-}
 
+  if $::ports_bootstrapdone {
+    $cron_ensure = present
+  } else {
+    $cron_ensure = absent
+  }
+
+  cron { 'portsnap_cron_update':
+    ensure  => $cron_ensure,
+    command => '/usr/sbin/portsnap cron && /usr/sbin/portsnap update',
+    hour    => '0',
+  }
+}
