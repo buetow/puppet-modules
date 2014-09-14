@@ -54,51 +54,48 @@ class ports (
     require => Zfs::Create["${zfs_tank}${mountpoint}"],
   }
 
-  exec { 'clean_portsnap_db':
-    command => 'sh -c "rm -Rf /var/db/portsnap/*; exit 0"',
-
-    require => File[$portsbootstrap],
-    unless  => "test -f ${bootstrapdone}"
-  }
-
-  notify { 'portsnap_fetch':
-    message => 'portsnap cron DOES NOW RANDOMLY SLEEP UP TO 3600s! BE PATIENT!',
-
-    refreshonly => true,
-    require =>  Exec['clean_portsnap_db'],
-  }
-
-  exec { 'portsnap_fetch':
-    command => 'portsnap cron',
-
-    require => Notify['portsnap_fetch'],
-    unless  => "test -f ${bootstrapdone}",
-  }
-
-  notify { 'portsnap_extract':
-    message => "EXTRACTING PORTS TO ${mountpoint} NOW! BE PATIENT!",
-
-    refreshonly => true,
-    require     => Exec['portsnap_fetch'],
-  }
-
-  exec { 'portsnap_extract':
-    command => 'portsnap extract',
-
-    require => Notify['portstap_extract'],
-    unless  => "test -f ${bootstrapdone}",
-  }
-
-  file { $bootstrapdone:
-    ensure  => $ensure_file,
-
-    require => Exec['portsnap_extract'],
-  }
-
   if $::ports_bootstrapdone {
     $cron_ensure = present
+
   } else {
     $cron_ensure = absent
+
+    exec { 'clean_portsnap_db':
+      command => 'sh -c "rm -Rf /var/db/portsnap/*; exit 0"',
+
+      require => File[$portsbootstrap],
+    }
+
+    notify { 'portsnap_fetch':
+      message     => 'portsnap cron DOES NOW RANDOMLY SLEEP UP TO 3600s! BE PATIENT!',
+
+      refreshonly => true,
+      require     => Exec['clean_portsnap_db'],
+    }
+
+    exec { 'portsnap_fetch':
+      command => 'portsnap cron',
+
+      require => Notify['portsnap_fetch'],
+    }
+
+    notify { 'portsnap_extract':
+      message => "EXTRACTING PORTS TO ${mountpoint} NOW! BE PATIENT!",
+
+      require => Exec['portsnap_fetch'],
+    }
+
+    exec { 'portsnap_extract':
+      command => 'portsnap extract',
+
+      require => Notify['portsnap_extract'],
+    }
+
+    file { $bootstrapdone:
+      ensure  => $ensure_file,
+
+      require => Exec['portsnap_extract'],
+    }
   }
 
   cron { 'portsnap_cron_update':
