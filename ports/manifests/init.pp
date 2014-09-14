@@ -55,7 +55,7 @@ class ports (
   }
 
 
-  if $::ports_bootstrapdone {
+  if $::ports_bootstrapdone == 'true' {
     $cron_ensure = present
     notify { "Ports are already bootstrapped": }
 
