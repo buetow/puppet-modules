@@ -1,17 +1,33 @@
 class ports (
   $ensure = present,
+  $mountpoint = '/ports',
+  $symlink = '/usr/ports',
   $use_zfs = true,
-  $mountpoint = '/usr/ports',
   $zfs_tank = 'zroot',
 ) {
   case $ensure {
-    present: { $ensure_directory = directory }
-    absent: { $ensure_directory = absent }
-    default: { fail("No such ensure: ${ensure}") }
+    present: {
+      $ensure_directory = directory
+      $ensure_link = link
+    }
+    absent: {
+      $ensure_directory = absent
+      $ensure_link = absent
+    }
+    default: {
+      fail("No such ensure: ${ensure}")
+    }
   }
 
   file { $mountpoint:
     ensure => $ensure_directory,
+  }
+
+  if $symlink != '' {
+    file { $symlink:
+      ensure => $ensure_link,
+      target => $mountpoint,
+    }
   }
 
   zfs::create { "${zfs_tank}${mountpoint}":
