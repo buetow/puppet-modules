@@ -54,13 +54,15 @@ class ports (
     require => Zfs::Create["${zfs_tank}${mountpoint}"],
   }
 
-  notify { "Ports bootstrap done: ${::ports_bootstrapdone}": }
 
   if $::ports_bootstrapdone {
     $cron_ensure = present
+    notify { "Ports are already bootstrapped": }
 
   } else {
     $cron_ensure = absent
+
+    notify { "Ports are not yet bootstrapped": }
 
     exec { 'clean_portsnap_db':
       command => 'sh -c "rm -Rf /var/db/portsnap/*; exit 0"',
