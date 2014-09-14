@@ -23,7 +23,7 @@ class ports (
   }
 
   Exec {
-    path    => '/bin:/sbin:/usr/bin:/usr/sbin/',
+    path    => '/bin:/sbin:/usr/bin:/usr/sbin/:/usr/local/bin:/usr/local/sbin',
     timeout => $exec_timeout,
   }
 
