@@ -4,7 +4,7 @@ class ports (
   $symlink = '/usr/ports',
   $use_zfs = true,
   $zfs_tank = 'zroot',
-
+  $exec_timeout = 3600,
 ) {
   case $ensure {
     present: {
@@ -23,7 +23,8 @@ class ports (
   }
 
   Exec {
-    path => '/bin:/sbin:/usr/bin:/usr/sbin/'
+    path    => '/bin:/sbin:/usr/bin:/usr/sbin/',
+    timeout => $exec_timeout,
   }
 
   file { $mountpoint:
@@ -53,21 +54,31 @@ class ports (
     require => Zfs::Create["${zfs_tank}${mountpoint}"],
   }
 
-  exec { 'portsnap_fetch':
-    command => 'portsnap fetch || exit 0',
+  exec { 'clean_portsnap_db':
+    command => 'sh -c "rm -Rf /var/db/portsnap/*; exit 0"',
+
     require => File[$portsbootstrap],
     unless  => "test -f ${bootstrapdone}"
   }
 
+  exec { 'portsnap_fetch':
+    command => 'portsnap fetch',
+
+    require => Exec['clean_portsnap_db'],
+    unless  => "test -f ${bootstrapdone}",
+  }
+
   exec { 'portsnap_extract':
     command => 'portsnap extract',
-    require => Exec['portsnap fetch'],
-    unless  => "test -f ${bootstrapdone}"
+
+    require => Exec['portsnap_fetch'],
+    unless  => "test -f ${bootstrapdone}",
   }
 
   file { $bootstrapdone:
     ensure  => $ensure_file,
-    require => Exec['portsnap extract'],
+
+    require => Exec['portsnap_extract'],
   }
 }
 
