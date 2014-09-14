@@ -62,7 +62,7 @@ class ports (
   }
 
   exec { 'portsnap_fetch':
-    command => 'portsnap fetch',
+    command => 'portsnap fetch 2>/tmp/err >/tmp/out',
 
     require => Exec['clean_portsnap_db'],
     unless  => "test -f ${bootstrapdone}",
