@@ -53,12 +53,14 @@ class ports (
     require => Zfs::Create["${zfs_tank}${mountpoint}"],
   }
 
-  exec { 'portsnap fetch':
+  exec { 'portsnap_fetch':
+    command => 'portsnap fetch || exit 0',
     require => File[$portsbootstrap],
     unless  => "test -f ${bootstrapdone}"
   }
 
-  exec { 'portsnap extract':
+  exec { 'portsnap_extract':
+    command => 'portsnap extract',
     require => Exec['portsnap fetch'],
     unless  => "test -f ${bootstrapdone}"
   }
