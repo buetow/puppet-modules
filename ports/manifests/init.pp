@@ -73,7 +73,6 @@ class ports (
     notify { 'portsnap_fetch':
       message     => 'portsnap cron DOES NOW RANDOMLY SLEEP UP TO 3600s! BE PATIENT!',
 
-      refreshonly => true,
       require     => Exec['clean_portsnap_db'],
     }
 
