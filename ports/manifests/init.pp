@@ -54,7 +54,6 @@ class ports (
     require => Zfs::Create["${zfs_tank}${mountpoint}"],
   }
 
-
   if $::ports_bootstrapdone == 'true' {
     $cron_ensure = present
     notify { "Ports are already bootstrapped": }
