@@ -61,10 +61,16 @@ class ports (
     unless  => "test -f ${bootstrapdone}"
   }
 
+  notify { 'portsnap_fetch':
+    message => 'portsnap cron DOES NOT RANDOMLY SLEEP UP TO 3600s! BE PATIENT!',
+
+    require =>  Exec['clean_portsnap_db'],
+  }
+
   exec { 'portsnap_fetch':
     command => 'portsnap cron',
 
-    require => Exec['clean_portsnap_db'],
+    require => Notify['portsnap_fetch'],
     unless  => "test -f ${bootstrapdone}",
   }
 
