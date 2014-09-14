@@ -45,7 +45,7 @@ class ports (
     require    => File[$mountpoint],
   }
 
-  $portsbootstrap = "${zfs_tank}${mountpoint}/.portsbootstrap"
+  $portsbootstrap = "${mountpoint}/.portsbootstrap"
   $bootstrapdone = "${portsbootstrap}/bootstrap.done"
 
   file { $portsbootstrap:
