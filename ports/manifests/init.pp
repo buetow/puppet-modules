@@ -4,7 +4,7 @@ class ports (
   $symlink = '/usr/ports',
   $use_zfs = true,
   $zfs_tank = 'zroot',
-  $exec_timeout = 3600,
+  $exec_timeout = 5400, # Initial portsnap cron got a random sleep of 3600
 ) {
   case $ensure {
     present: {
@@ -62,7 +62,7 @@ class ports (
   }
 
   exec { 'portsnap_fetch':
-    command => 'portsnap fetch 2>/tmp/err >/tmp/out',
+    command => 'portsnap cron',
 
     require => Exec['clean_portsnap_db'],
     unless  => "test -f ${bootstrapdone}",
