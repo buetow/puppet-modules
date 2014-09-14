@@ -64,8 +64,8 @@ class ports (
   notify { 'portsnap_fetch':
     message => 'portsnap cron DOES NOW RANDOMLY SLEEP UP TO 3600s! BE PATIENT!',
 
+    refreshonly => true,
     require =>  Exec['clean_portsnap_db'],
-    unless  => "test -f ${bootstrapdone}",
   }
 
   exec { 'portsnap_fetch':
@@ -78,8 +78,8 @@ class ports (
   notify { 'portsnap_extract':
     message => "EXTRACTING PORTS TO ${mountpoint} NOW! BE PATIENT!",
 
-    require =>  Exec['portsnap_fetch'],
-    unless  => "test -f ${bootstrapdone}",
+    refreshonly => true,
+    require     => Exec['portsnap_fetch'],
   }
 
   exec { 'portsnap_extract':
