@@ -29,6 +29,11 @@ class postfix_freebsd (
   $goodies_manage = false,
   $sasl_manage = true,
   $sasl_type = 'dovecot',
+  $tls_manage = false,
+  $tls_config = {
+    smtpd_tls_cert_file => '/usr/local/etc/mail-ssl-certs/ssl.crt',
+    smtpd_tls_key_file => '/usr/local/etc/mail-ssl-certs/ssl.key',
+  },
 ) {
   File {
     owner => root,

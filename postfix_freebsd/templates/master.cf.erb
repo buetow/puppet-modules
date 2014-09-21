@@ -25,7 +25,9 @@ smtp      inet  n       -       n       -       -       smtpd
 #  -o smtpd_recipient_restrictions=
 #  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
 #  -o milter_macro_daemon_name=ORIGINATING
-#smtps     inet  n       -       n       -       -       smtpd
+<% if @tls_manage -%>
+smtps     inet  n       -       n       -       -       smtpd
+<% end -%>
 #  -o syslog_name=postfix/smtps
 #  -o smtpd_tls_wrappermode=yes
 #  -o smtpd_sasl_auth_enable=yes

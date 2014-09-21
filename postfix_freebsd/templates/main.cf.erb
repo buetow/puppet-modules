@@ -44,4 +44,9 @@ alias_database = hash:/usr/local//etc/postfix/aliases
 <% if @header_checks_manage -%>
 header_checks = regexp:/usr/local/etc/postfix/header_checks
 <% end -%>
+<% if @tls_manage -%>
+smtpd_use_tls = yes
+smtpd_tls_cert_file = <%= @tls_config['smtpd_tls_cert_file'] %>
+smtpd_tls_key_file = <%= @tls_config['smtpd_tls_key_file'] %>
+<% end -%>
 mailman_destination_recipient_limit = 1
