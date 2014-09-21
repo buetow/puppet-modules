@@ -1,7 +1,7 @@
 # This module has been tested on FreeBSD 10 only
 class postfix_freebsd (
   $service = 'postfix',
-  $package = 'postfix-tls',
+  $package = 'postfix', # Maybe you should build postfix from ports with all options you want first
   $ensure = present,
   $config_dir = '/usr/local/etc/postfix',
   $mailer_config_template = 'postfix_freebsd/mailer.conf.erb',
