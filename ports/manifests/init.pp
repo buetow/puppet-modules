@@ -32,9 +32,16 @@ class ports (
   }
 
   if $symlink != '' {
+    exec { "${symlink}_rm_dir":
+      command => "/bin/rm -rf ${symlink}",
+      onlyif  => "/bin/test -d ${symlink}",
+    }
+
     file { $symlink:
       ensure => $ensure_link,
       target => $mountpoint,
+
+      require => Exec["${symlink}_rm_dir"],
     }
   }
 
