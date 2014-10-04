@@ -15,6 +15,8 @@ class apache_freebsd (
      ensure       => present,
      cgi_handlers => '.pl .cgi',
    },
+   mailman => {
+   },
   },
 ) {
   File {
