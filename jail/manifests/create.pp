@@ -63,6 +63,16 @@ define jail::create (
         require => Zfs::Create["${zfs_tank}${mountpoint}"],
       }
     }
+    if has_key($jail_config, '_ensure_zfs') {
+      $ensure_zfs = $jail_config['_ensure_zfs']
+      jail::ensure_zfs { $ensure_zfs:
+        ensure     => $ensure,
+        zfs_tank   => $zfs_tank,
+        mountpoint => $mountpoint,
+
+        require => File[$mountpoint],
+      }
+    }
   }
 
   case $type {

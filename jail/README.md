@@ -32,6 +32,8 @@ Example:
           '_type'               => 'debian_kfreebsd',
           # Ensure these additional directories exists inside the jail
           '_ensure_directories' => [ '/opt', '/opt/bin' ], 
+          # Ensure these additional zfs mountpoints exist
+          '_ensure_zfs'         => [ '/space' ], 
           'host.hostname'       => "'kfreebsd.fritz.box'",
           'exec.start'          => "'${jail::debian_kfreebsd::exec_start}'",
           'exec.stop'           => "'${jail::debian_kfreebsd::exec_stop}'",
