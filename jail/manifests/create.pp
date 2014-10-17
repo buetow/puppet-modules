@@ -56,8 +56,6 @@ define jail::create (
       file { $directories:
         ensure  => $ensure_directory,
         replace => false,
-        mode    => '0755',
-        owner   => root,
         group   => $root_group,
 
         require => Zfs::Create["${zfs_tank}${mountpoint}"],
