@@ -63,7 +63,7 @@ class ports (
 
   if $::ports_bootstrapdone == 'true' {
     $cron_ensure = present
-    file { '/usr/posts/distfiles':
+    file { "${mountpoint}/distfiles":
       ensure => directory,
     }
 
