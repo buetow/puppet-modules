@@ -63,6 +63,9 @@ class ports (
 
   if $::ports_bootstrapdone == 'true' {
     $cron_ensure = present
+    file { '/usr/posts/distfiles':
+      ensure => directory,
+    }
 
   } else {
     $cron_ensure = absent
