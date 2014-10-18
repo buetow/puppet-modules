@@ -1,9 +1,9 @@
 define jail::ensure_zfs (
   $ensure,
   $mountpoint,
-  $zfs_tank,
+  $zpool,
 ) {
-  zfs::create { "${zfs_tank}${mountpoint}${name}":
+  zfs::create { "${zpool}${mountpoint}${name}":
     ensure     => $ensure,
     filesystem => "${mountpoint}${name}",
 

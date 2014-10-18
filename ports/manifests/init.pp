@@ -3,7 +3,7 @@ class ports (
   $mountpoint = '/ports',
   $symlink = '/usr/ports',
   $use_zfs = true,
-  $zfs_tank = 'zroot',
+  $zpool = 'zroot',
   $exec_timeout = 5400, # Initial portsnap cron got a random sleep of 3600
 ) {
   case $ensure {
@@ -45,7 +45,7 @@ class ports (
     }
   }
 
-  zfs::create { "${zfs_tank}${mountpoint}":
+  zfs::create { "${zpool}${mountpoint}":
     ensure     => $ensure,
     filesystem => $mountpoint,
     noop       => !$use_zfs,
@@ -58,7 +58,7 @@ class ports (
 
   file { $portsbootstrap:
     ensure  => $ensure_directory,
-    require => Zfs::Create["${zfs_tank}${mountpoint}"],
+    require => Zfs::Create["${zpool}${mountpoint}"],
   }
 
   if $::ports_bootstrapdone == 'true' {

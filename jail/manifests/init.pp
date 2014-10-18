@@ -2,7 +2,7 @@ class jail (
   $ensure = present,
   $use_zfs = true,
   $mountpoint = '/jail',
-  $zfs_tank = 'zroot',
+  $zpool = 'zroot',
   $jails_base_config = {},
   $jails_config = {},
 ) {
@@ -30,7 +30,7 @@ class jail (
     ensure => $ensure_directory,
   }
 
-  zfs::create { "${zfs_tank}${mountpoint}":
+  zfs::create { "${zpool}${mountpoint}":
     ensure     => $ensure,
     filesystem => $mountpoint,
     noop       => !$use_zfs,
@@ -51,7 +51,7 @@ class jail (
   jail::create { $jail_names:
     use_zfs         => $use_zfs,
     base_mountpoint => $mountpoint,
-    zfs_tank        => $zfs_tank,
+    zpool           => $zpool,
     jails_config    => $jails_config,
   }
 }

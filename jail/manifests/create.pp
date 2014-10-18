@@ -1,6 +1,6 @@
 define jail::create (
   $use_zfs,
-  $zfs_tank,
+  $zpool,
   $base_mountpoint,
   $jails_config,
 ) {
@@ -41,7 +41,7 @@ define jail::create (
     ensure => $ensure_directory,
   }
 
-  zfs::create { "${zfs_tank}${mountpoint}":
+  zfs::create { "${zpool}${mountpoint}":
     ensure     => $ensure,
     filesystem => $mountpoint,
     noop       => !$use_zfs,
@@ -58,14 +58,14 @@ define jail::create (
         replace => false,
         group   => $root_group,
 
-        require => Zfs::Create["${zfs_tank}${mountpoint}"],
+        require => Zfs::Create["${zpool}${mountpoint}"],
       }
     }
     if has_key($jail_config, '_ensure_zfs') {
       $ensure_zfs = $jail_config['_ensure_zfs']
       jail::ensure_zfs { $ensure_zfs:
         ensure     => $ensure,
-        zfs_tank   => $zfs_tank,
+        zpool      => $zpool,
         mountpoint => $mountpoint,
 
         require => File[$mountpoint],
@@ -87,7 +87,7 @@ define jail::create (
         mountpoint  => $mountpoint,
         jail_config => $jail_config,
 
-        require => Zfs::Create["${zfs_tank}${mountpoint}"],
+        require => Zfs::Create["${zpool}${mountpoint}"],
       }
     }
     debian_kfreebsd: {
@@ -96,7 +96,7 @@ define jail::create (
         mountpoint  => $mountpoint,
         jail_config => $jail_config,
 
-        require => Zfs::Create["${zfs_tank}${mountpoint}"],
+        require => Zfs::Create["${zpool}${mountpoint}"],
       }
     }
     default: {

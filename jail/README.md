@@ -24,7 +24,7 @@ Example:
     class { 'jail':
       ensure              => present,
       use_zfs             => true,
-      zfs_tank            => zroot,
+      zpool               => zroot,
       mountpoint          => '/jail',
       jails_config              => {
         kfreebsd                => {

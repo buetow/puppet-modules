@@ -17,7 +17,7 @@ Example:
       mountpoint => '/ports',
       symlink    => '/usr/ports',
       use_zfs    => true,
-      zfs_tank   => zroot,
+      zpool      => zroot,
     }
 
 This ensures that a ZFS mountpoint /ports exists in tank zroot. And that there is a symlink from /usr/ports pointing to it.
