@@ -2,6 +2,7 @@ class sshserver (
   $ssh_port = '22',
   $ensure = present,
   $allow_users = 'admin',
+  $permit_root_login = 'no',
 ) {
 
   if $operatingsystem == 'Fedora' {
