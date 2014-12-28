@@ -2,6 +2,7 @@ class poudriere (
   $ensure = present,
   $zpool = 'zroot',
   $distfiles_cache = '/usr/ports/distfiles',
+  $manage_myconf = true,
 ) {
   case $ensure {
     present: {
@@ -25,6 +26,27 @@ class poudriere (
   if $ensure == present {
     package { 'dialog4ports':
       ensure => $ensure_package
+    }
+    # To put my own pkg lists files
+    if $manage_myconf {
+      file { '/usr/local/etc/poudriere.d/myconf':
+        ensure  => directory,
+      }
+      file { '/root/poudriere':
+        ensure => link,
+        target => '/usr/local/etc/poudriere.d/myconf',
+      }
+    }
+  } else {
+    if $manage_myconf {
+      file { '/usr/local/etc/poudriere.d/myconf':
+        ensure  => absent,
+        purge   => true,
+        recurse => true,
+      }
+      file { '/root/poudriere':
+        ensure => absent,
+      }
     }
   }
 
