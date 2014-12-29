@@ -6,6 +6,9 @@ mail_owner = postfix
 myhostname = <%= @postfix_config['myhostname'] %>
 mydomain = <%= @postfix_config['mydomain'] %>
 home_mailbox = Maildir/
+<% if @mailbox_command_use -%>
+mailbox_command = <%= @mailbox_command %>
+<% end -%>
 inet_interfaces = all
 inet_protocols = all
 mydestination = <%= @postfix_config['mydestination'] %>

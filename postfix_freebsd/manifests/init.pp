@@ -34,6 +34,8 @@ class postfix_freebsd (
     smtpd_tls_cert_file => '/usr/local/etc/mail-ssl-certs/ssl.crt',
     smtpd_tls_key_file => '/usr/local/etc/mail-ssl-certs/ssl.key',
   },
+  $mailbox_command_use = true,
+  $mailbox_command = 'mailbox_command = /usr/local/bin/procmail -a "$EXTENSION"',
 ) {
   File {
     owner => root,
