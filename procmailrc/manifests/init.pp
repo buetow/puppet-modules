@@ -4,8 +4,8 @@ define procmailrc (
   $group = '',
   $ensure = present,
   $user_name = $name,
+  $procmail_maildir = "/mail/pb/Maildir",
 ) {
-  $procmail_maildir = "${homedir}/Maildir"
 
   if $home == '' {
     $homedir = "/home/${user_name}/"
