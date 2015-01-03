@@ -1,4 +1,5 @@
 define apache_freebsd::vhost (
+  $ensure = present,
   $document_root,
   $ensur = present,
   $ip4address = '',
