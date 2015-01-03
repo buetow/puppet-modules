@@ -8,6 +8,12 @@ define apache_freebsd::vhost (
   $includes = [],
   $redirect = '',
   $redirect_plain = false,
+  $ssl_files = {
+    'ssl_certificate_file'       => '/usr/local/etc/ssl-certs/ssl.crt',
+    'ssl_key_file'                 => '/usr/local/etc/ssl-certs/ssl.key',
+    #'ssl_certificate_chain_file' => '/usr/local/etc/ssl-certs/chain.pem',
+    'ssl_ca_certificate_file'    => '/usr/local/etc/ssl-certs/ca.pem',
+  },
   $destination = '/usr/local/etc/apache/vhosts.d',
   $apache_log_dir = '/var/log/apache/',
 ) {
@@ -40,6 +46,7 @@ define apache_freebsd::vhost (
     apache_freebsd::vhost_sslorplain { "${name}_ssl":
       ensure         => $ensure,
       ext            => 'ssl',
+      ssl_opts       => $ssl_opts,
       vhost          => $vhost,
       document_root  => $document_root,
       includes       => $includes,
@@ -51,7 +58,7 @@ define apache_freebsd::vhost (
       apache_log_dir => $apache_log_dir,
     }
 
-    apache::ssl_cert { $vhost:
-    }
+    #apache::ssl_cert { $vhost:
+    #}
   }
 }

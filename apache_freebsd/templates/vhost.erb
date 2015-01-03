@@ -10,11 +10,11 @@ LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" comb
 <% if @ext == "ssl" -%>
 SSLEngine On
 SSLCipherSuite HIGH:MEDIUM
-SSLCertificateFile    /etc/apache2/certs/<%= @vhost %>.crt
-SSLCertificateKeyFile /etc/apache2/certs/<%= @vhost %>.key
+SSLCertificateFile    <%= @ssl_opts['ssl_certificate_file'] %>
+SSLCertificateKeyFile <%= @ssl_opts['ssl_key_file'] %>
 # This refers to https://www.startssl.com/?app=21 (Apache with StartSSL)
-SSLCertificateChainFile /etc/apache2/certs/sub.class1.server.ca.pem
-SSLCACertificateFile /etc/apache2/certs/ca.pem
+#SSLCertificateChainFile <%= @ssl_opts['ssl_certificate_chain_file'] %>
+SSLCACertificateFile <%= @ssl_opts['ssl_ca_certificate_file'] %>
 CustomLog <%= @apache_log_dir %>/access_ssl.log-<%= @vhost %> combinedvhost
 ErrorLog <%= @apache_log_dir %>/error_ssl.log-<%= @vhost %>
 <% else -%>
@@ -42,11 +42,11 @@ LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" comb
 <% if @ext == "ssl" -%>
 SSLEngine On
 SSLCipherSuite HIGH:MEDIUM
-SSLCertificateFile    /etc/apache2/certs/<%= @vhost %>.crt
-SSLCertificateKeyFile /etc/apache2/certs/<%= @vhost %>.key
+SSLCertificateFile    <%= @ssl_opts['ssl_certificate_file'] %>
+SSLCertificateKeyFile <%= @ssl_opts['ssl_key_file'] %>
 # This refers to https://www.startssl.com/?app=21 (Apache with StartSSL)
-SSLCertificateChainFile /etc/apache2/certs/sub.class1.server.ca.pem
-SSLCACertificateFile /etc/apache2/certs/ca.pem
+#SSLCertificateChainFile <%= @ssl_opts['ssl_certificate_chain_file'] %>
+SSLCACertificateFile <%= @ssl_opts['ssl_ca_certificate_file'] %>
 CustomLog <%= @apache_log_dir %>/access_ssl.log-<%= @vhost %> combinedvhost
 ErrorLog <%= @apache_log_dir %>/error_ssl.log-<%= @vhost %>
 <% else -%>
