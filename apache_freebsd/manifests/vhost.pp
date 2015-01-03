@@ -1,6 +1,6 @@
 define apache_freebsd::vhost (
   $document_root,
-  $ensure = present,
+  $ensur = present,
   $ip4address = '',
   $ip6address = '',
   $use_plain = true,
@@ -8,11 +8,12 @@ define apache_freebsd::vhost (
   $includes = [],
   $redirect = '',
   $redirect_plain = false,
-  $ssl_files = {
-    'ssl_certificate_file'       => '/usr/local/etc/ssl-certs/ssl.crt',
-    'ssl_key_file'                 => '/usr/local/etc/ssl-certs/ssl.key',
+  $ssl_opts = {
+    'ssl_cipher_suite'            => 'HIGH:MEDIUM',
+    'ssl_certificate_file'        => '/usr/local/etc/ssl-certs/ssl.crt',
+    'ssl_key_file'                => '/usr/local/etc/ssl-certs/ssl.key',
+    'ssl_ca_certificate_file'     => '/usr/local/etc/ssl-certs/ca.pem',
     #'ssl_certificate_chain_file' => '/usr/local/etc/ssl-certs/chain.pem',
-    'ssl_ca_certificate_file'    => '/usr/local/etc/ssl-certs/ca.pem',
   },
   $destination = '/usr/local/etc/apache/vhosts.d',
   $apache_log_dir = '/var/log/apache/',
