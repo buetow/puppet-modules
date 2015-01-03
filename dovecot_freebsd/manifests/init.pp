@@ -7,10 +7,6 @@ class dovecot_freebsd (
   $dovecot_config_manage = false,
   # Put your own version of the dovecot config here
   $dovecot_config_source = 'puppet:///files/dovecot/config',
-  $ssl_manage = true,
-  $ssl_cert_source = 'puppet:///files/doveot/ssl.crt',
-  $ssl_key_source = 'puppet:///files/doveot/ssl.key',
-  $cert_dir = '/usr/local/etc/mail-ssl-certs',
 ) {
   File {
     owner => root,
@@ -64,36 +60,6 @@ class dovecot_freebsd (
       force   => true,
 
       require => Package[$package],
-      notify  => Service[$service],
-    }
-  }
-  if $ssl_manage {
-    file { $cert_dir:
-      ensure => $ensure_directory,
-    }
-
-    file { "${cert_dir}/ssl.crt":
-      source => $ssl_cert_source,
-      ensure => $ensure_file,
-      owner  => root,
-      mode   => '0600',
-
-      require => [
-        Package[$package],
-        File[$cert_dir],
-      ],
-      notify  => Service[$service],
-    }
-    file { "${cert_dir}/ssl.key":
-      source => $ssl_key_source,
-      ensure => $ensure_file,
-      owner  => root,
-      mode   => '0600',
-
-      require => [
-        Package[$package],
-        File[$cert_dir],
-      ],
       notify  => Service[$service],
     }
   }
