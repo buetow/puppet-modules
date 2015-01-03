@@ -51,5 +51,9 @@ header_checks = regexp:/usr/local/etc/postfix/header_checks
 smtpd_use_tls = yes
 smtpd_tls_cert_file = <%= @tls_config['smtpd_tls_cert_file'] %>
 smtpd_tls_key_file = <%= @tls_config['smtpd_tls_key_file'] %>
+<% if @tls_has_ca -%>
+smtpd_tls_CAfile = <%= @tls_config['smtpd_tls_CAfile'] %>
+smtp_tls_CAfile = $smtpd_tls_CAfile
+<% end -%>
 <% end -%>
 mailman_destination_recipient_limit = 1

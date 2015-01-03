@@ -30,9 +30,11 @@ class postfix_freebsd (
   $sasl_manage = true,
   $sasl_type = 'dovecot',
   $tls_manage = false,
+  $tls_has_ca = false,
   $tls_config = {
     smtpd_tls_cert_file => '/usr/local/etc/mail-ssl-certs/ssl.crt',
     smtpd_tls_key_file => '/usr/local/etc/mail-ssl-certs/ssl.key',
+    smtpd_tls_CAfile => '/usr/local/etc/mail-ssl-certs/ca.pem',
   },
   $mailbox_command_use = true,
   $mailbox_command = '/usr/local/bin/procmail -a "$EXTENSION"',
