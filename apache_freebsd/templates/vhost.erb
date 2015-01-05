@@ -9,6 +9,8 @@ DocumentRoot <%= @document_root %>
 LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedvhost
 <% if @ext == "ssl" -%>
 SSLEngine On
+SSLProtocol all -SSLv2 -SSLv3
+SSLHonorCipherOrder on
 SSLCipherSuite <%= @ssl_opts['ssl_cipher_suite'] %>
 SSLCertificateFile <%= @ssl_opts['ssl_certificate_file'] %>
 SSLCertificateKeyFile <%= @ssl_opts['ssl_key_file'] %>
@@ -40,6 +42,8 @@ DocumentRoot <%= @document_root %>
 LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedvhost
 <% if @ext == "ssl" -%>
 SSLEngine On
+SSLProtocol all -SSLv2 -SSLv3
+SSLHonorCipherOrder on
 SSLCipherSuite <%= @ssl_opts['ssl_cipher_suite'] %>
 SSLCertificateFile <%= @ssl_opts['ssl_certificate_file'] %>
 SSLCertificateKeyFile <%= @ssl_opts['ssl_key_file'] %>

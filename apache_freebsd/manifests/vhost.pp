@@ -10,7 +10,7 @@ define apache_freebsd::vhost (
   $redirect = '',
   $redirect_plain = false,
   $ssl_opts = {
-    'ssl_cipher_suite'            => 'HIGH:MEDIUM',
+    'ssl_cipher_suite'            => 'DHE:ECDHE:HIGH:!EXP:!LOW:!MD5:!RC4:!aNULL:!eNULL',
     'ssl_certificate_file'        => '/usr/local/etc/ssl-certs/ssl.crt',
     'ssl_key_file'                => '/usr/local/etc/ssl-certs/ssl.key',
     'ssl_ca_certificate_file'     => '/usr/local/etc/ssl-certs/ca.pem',
