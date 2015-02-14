@@ -23,17 +23,17 @@ class iodine (
       require => File['/etc/default/iodine'],
     }
   } else {
-    file { '/opt/local/bin/iodine':
+    file { '/opt/snonux/bin/iodine':
       ensure => directory,
       mode   => '0755',
     }
 
-    file { '/opt/local/bin/iodine/iodine.start':
+    file { '/opt/snonux/bin/iodine/iodine.start':
       ensure => present,
       mode   => '0555',
       source => 'puppet:///modules/iodine/client/iodine.start',
 
-      require => File['/opt/local/bin/iodine'],
+      require => File['/opt/snonux/bin/iodine'],
     }
   }
 }
