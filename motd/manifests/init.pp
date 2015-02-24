@@ -1,6 +1,6 @@
 class motd (
   $ensure = present,
-  $template = '',
+  $template = ''
 ){
   if $template == '' {
     case $::operatingsystem {
