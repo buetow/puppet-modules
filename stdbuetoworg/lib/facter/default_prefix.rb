@@ -3,6 +3,8 @@ Facter.add(:default_prefix) do
     os = Facter.value('operatingsystem') 
     if os == 'FreeBSD'
       '/usr/local'
+    elsif os == 'Darwin'
+      '/opt/local'
     else
       ''
     end
