@@ -27,7 +27,7 @@ define jail::create (
   if has_key($jail_config, '_type') {
     $type = $jail_config['_type']
   } else {
-    $type = noop
+    $type = nooper
     notify { "${name}: Using default type=${type}": }
   }
 
@@ -44,7 +44,7 @@ define jail::create (
   zfs::create { "${zpool}${mountpoint}":
     ensure     => $ensure,
     filesystem => $mountpoint,
-    noop       => !$use_zfs,
+    nooper     => !$use_zfs,
 
     require => File[$mountpoint],
   }
@@ -74,12 +74,12 @@ define jail::create (
   }
 
   case $type {
-    noop: {
+    nooper: {
       file { "/etc/fstab.jail.${name}":
         ensure  => $ensure,
         content => "\n",
       }
-      notify { "${name}: type=noop, so don't do any further jail post processing/installing": }
+      notify { "${name}: type=nooper, so don't do any further jail post processing/installing": }
     }
     freebsd: {
       jail::freebsd::create { $name:

@@ -1,13 +1,13 @@
 define zfs::create (
   $ensure = present,
   $filesystem = '',
-  $noop = false,
+  $nooper = false,
 ){
   Exec {
     path => '/sbin:/usr/sbin:/usr/local/sbin:/bin:/usr/bin:/usr/local/bin'
   }
 
-  if !$noop {
+  if !$nooper {
     case $ensure {
       present: {
         exec { "${name}_create":

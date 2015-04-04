@@ -33,7 +33,7 @@ class jail (
   zfs::create { "${zpool}${mountpoint}":
     ensure     => $ensure,
     filesystem => $mountpoint,
-    noop       => !$use_zfs,
+    nooper     => !$use_zfs,
 
     require    => File[$mountpoint],
   }

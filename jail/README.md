@@ -9,7 +9,7 @@ This module may depends on other puppet modules of this git repository (such as 
 
 Depending on the jail's type there is additional stuff done with a newly created jail, such as bootstrapping etc.  Everything is done via the 'new style' jail configuration file jail.conf.
 
-Currently there are only the jail types 'debian_kfreebsd' and 'freebsd' implemented. Other types might be implemented after I (or you) need them. But it's possible just to prepare jails (creating the configs and the correct mountpoints) by specifying no type (internal type noop).
+Currently there are only the jail types 'debian_kfreebsd' and 'freebsd' implemented. Other types might be implemented after I (or you) need them. But it's possible just to prepare jails (creating the configs and the correct mountpoints) by specifying no type (internal type nooper).
 
 =======
 
@@ -53,7 +53,7 @@ Example:
         },
         foo          => {
           '_ensure'       => absent,
-          '_type'         => 'noop',
+          '_type'         => 'nooper',
           'host.hostname' => "'foo.fritz.box'",
           'ip4.addr'      => '192.168.178.201',
         },
