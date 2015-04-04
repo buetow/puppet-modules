@@ -55,7 +55,7 @@ define jail::create (
       $directories = prefix($jail_config['_ensure_directories'], $mountpoint)
       file { $directories:
         ensure  => $ensure_directory,
-        eplace => false,
+        replace => false,
         #group   => $root_group,
 
         require => Zfs::Create["${zpool}${mountpoint}"],
