@@ -1,5 +1,7 @@
 define apache_freebsd::vhost_sslorplain (
   $ensure,
+  $ip4_enable,
+  $ip6_enable,
   $ip4address,
   $ip6address,
   $ext,

@@ -1,3 +1,4 @@
+<% if @ip4_enable %>
 <% if @ext == "ssl"  -%>
 <VirtualHost <%= @ip4address %>:443>
 <% else -%>
@@ -30,7 +31,9 @@ RewriteRule (.*) https://<%= @vhost %>/$1 [L,R=301]
 <% if @use_rewrite -%>
 <% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end %>
 </VirtualHost>
+<% end -%>
 
+<% if @ip6_enable %>
 <% if @ext == "ssl"  -%>
 <VirtualHost [<%= @ip6address %>]:443>
 <% else -%>
@@ -63,3 +66,4 @@ RewriteRule (.*) https://<%= @vhost %>/$1 [L,R=301]
 <% if @use_rewrite -%>
 <% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end %>
 </VirtualHost>
+<% end -%>
