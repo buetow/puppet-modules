@@ -60,7 +60,7 @@ class mailman_freebsd (
   }
 
   file { '/usr/local/mailman/postfix-to-mailman.py':
-    source => 'puppet:///freebsd_mailman/postfix-to-mailman.py',
+    source => 'puppet:///modules/mailman_freebsd/postfix-to-mailman.py',
     ensure => $ensure_file,
     owner  => 'root',
     group  => 'mailman',
