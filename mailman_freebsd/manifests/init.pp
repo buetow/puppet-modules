@@ -46,12 +46,19 @@ class mailman_freebsd (
     ensure => $ensure_package
   }
 
+  file { '/usr/local/mailman/archives':
+    mode => '0770',
+
+    require => Package[$package],
+  }
+
   service { $service:
     enable  => $service_enable,
     ensure  => $ensure_service,
-  
+
     require => [
       Package[$package],
+      File['/usr/local/mailman/archives'],
     ],
   }
 
