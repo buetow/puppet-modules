@@ -25,7 +25,7 @@ ErrorLog <%= @apache_log_dir %>/error.log-<%= @vhost %>
 <% if @use_rewrite || @redirect_plain || @ext == "ssl" -%>RewriteEngine On<% end %>
 <% if @redirect_plain -%>
 RewriteCond %{SERVER_PORT} !443
-RewriteRule (.*) https://<%= @vhost %>/$1 [L,R=301]
+RewriteRule (.*) https://<%= @vhost %>$1 [L,R=301]
 <% end -%>
 <% if @use_rewrite -%>
 <% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end %>
@@ -58,7 +58,7 @@ ErrorLog <%= @apache_log_dir %>/error.log-<%= @vhost %>
 <% if @use_rewrite || @redirect_plain || @ext == "ssl" -%>RewriteEngine On<% end %>
 <% if @redirect_plain -%>
 RewriteCond %{SERVER_PORT} !443
-RewriteRule (.*) https://<%= @vhost %>/$1 [L,R=301]
+RewriteRule (.*) https://<%= @vhost %>$1 [L,R=301]
 <% end -%>
 <% if @use_rewrite -%>
 <% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end %>
