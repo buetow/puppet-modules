@@ -58,4 +58,12 @@ class mailman_freebsd (
   freebsd::rc_enable { $service:
     ensure => $ensure_file,
   }
+
+  file { '/usr/local/mailman/postfix-to-mailman.py':
+    source => 'puppet:///freebsd_mailman/postfix-to-mailman.py',
+    ensure => $ensure_file,
+    owner  => 'root',
+    group  => 'mailman',
+    mode   => '0755',
+  }
 }
