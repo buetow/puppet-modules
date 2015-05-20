@@ -128,5 +128,5 @@ scache    unix  -       -       n       -       1       scache
 #  ${nexthop} ${user} ${extension}
 #
 mailman   unix  -       n       n       -       -       pipe
-  flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
+  flags=FR user=mailman:mailman argv=/usr/local/mailman/postfix-to-mailman.py
   ${nexthop} ${user}
