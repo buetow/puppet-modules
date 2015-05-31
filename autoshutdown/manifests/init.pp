@@ -2,6 +2,7 @@ class autoshutdown (
     $ensure = present,
     $up_hours = 6,
     $halt_command = '/sbin/halt -p',
+    $test_path = '/bin/test',
 ) {
   case $ensure {
     present: {
@@ -9,6 +10,7 @@ class autoshutdown (
         exec { 'shutdown':
           command => $halt_command,
           user    => root,
+          unless  => "${test_path} -f /var/run/autoshutdown.disable",
         }
       }
     }
