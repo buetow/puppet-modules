@@ -7,15 +7,15 @@ declare -r DISABLEFILE=/var/run/autoshutdown.disable
 
 function check {
   if [ -f $DISABLEFILE ]; then
-    echo Autoshutdown is enabled
-  else
     echo Autoshutdown is disabled
+  else
+    echo Autoshutdown is enabled
   fi
 }
 
 function enable {
   if [ ! -f $DISABLEFILE ]; then
-    echo Enabling autoshutdown
+    echo Disabling autoshutdown
     sudo touch $DISABLEFILE
   else
     check
@@ -24,7 +24,7 @@ function enable {
 
 function disable {
   if [ -f $DISABLEFILE ]; then
-    echo Disabling autoshutdown
+    echo Enabling autoshutdown
     sudo rm $DISABLEFILE
   else
     check
