@@ -3,6 +3,8 @@ class autoshutdown (
     $up_hours = 6,
     $halt_command = '/sbin/halt -p',
     $test_path = '/bin/test',
+    $install_prefix = '/usr/local/bin',
+    $auto_clear = true,
 ) {
   case $ensure {
     present: {
@@ -16,6 +18,27 @@ class autoshutdown (
     }
     default: {
     }
+  }
+
+  file { "${install_prefix}/autoshutdown":
+    ensure => $ensure,
+    source => 'puppet:///modules/autoshutdown/autoshutdown',
+    owner  => root,
+    group  => $root_group,
+    mode   => '0755',
+  }
+
+  if $auto_clear {
+    $auto_clear_present = $present
+  } else {
+    $auto_clear_present = absent
+  }
+
+  cron { 'autoshutdown_clear':
+    ensure  => $auto_clear_present,
+    command => 'rm /var/run/autoshutdown.disable',
+    user    => root,
+    special => 'reboot',
   }
 }
 

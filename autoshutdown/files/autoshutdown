@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# 2015 (c) Paul Buetow
+
+declare -r ARG=$1 ; shift
+declare -r DISABLEFILE=/var/run/autoshutdown.disable
+
+function check {
+  if [ -f $DISABLEFILE ]; then
+    echo Autoshutdown is enabled
+  else
+    echo Autoshutdown is disabled
+  fi
+}
+
+function enable {
+  if [ ! -f $DISABLEFILE ]; then
+    echo Enabling autoshutdown
+    sudo touch $DISABLEFILE
+  else
+    check
+  fi
+}
+
+function disable {
+  if [ -f $DISABLEFILE ]; then
+    echo Disabling autoshutdown
+    sudo rm $DISABLEFILE
+  else
+    check
+  fi
+}
+
+case $ARG in
+  enable)
+    enable
+    ;;
+  on)
+    enable
+    ;;
+  disable)
+    disable
+    ;;
+  off)
+    disable
+    ;;
+  *)
+    check
+    ;;
+esac
+
