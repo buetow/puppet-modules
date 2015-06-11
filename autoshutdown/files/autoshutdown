@@ -3,29 +3,29 @@
 # 2015 (c) Paul Buetow
 
 declare -r ARG=$1 ; shift
-declare -r DISABLEFILE=/var/run/autoshutdown.disable
+declare -r DISABLED_FILE=/var/run/autoshutdown.disable
 
 function check {
-  if [ -f $DISABLEFILE ]; then
+  if [ -f $DISABLED_FILE ]; then
     echo Autoshutdown is disabled
   else
     echo Autoshutdown is enabled
   fi
 }
 
-function enable {
-  if [ ! -f $DISABLEFILE ]; then
+function disable {
+  if [ ! -f $DISABLED_FILE ]; then
     echo Disabling autoshutdown
-    sudo touch $DISABLEFILE
+    sudo touch $DISABLED_FILE
   else
     check
   fi
 }
 
-function disable {
-  if [ -f $DISABLEFILE ]; then
+function enable {
+  if [ -f $DISABLED_FILE ]; then
     echo Enabling autoshutdown
-    sudo rm $DISABLEFILE
+    sudo rm $DISABLED_FILE
   else
     check
   fi
