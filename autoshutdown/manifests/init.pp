@@ -11,11 +11,11 @@ class autoshutdown (
 ) {
   case $ensure {
     present: {
-      if $cron_use {
-        $cron_ensure = $ensure
-      } else {
-        $cron_ensure = absent
-        if $uptime_hours >= $up_hours {
+      if $uptime_hours >= $up_hours {
+        if $cron_use {
+          $cron_ensure = present
+        } else {
+          $cron_ensure = absent
           exec { 'shutdown':
             command => $halt_command,
             user    => root,
