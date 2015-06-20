@@ -8,7 +8,7 @@ class autoshutdown (
     $halt_command = '/sbin/halt -p',
     $test_path = '/bin/test',
     $install_prefix = '/usr/local/bin',
-    $disable_file => '/var/run/autoshutdown.disable',
+    $disable_file = '/var/run/autoshutdown.disable',
 ) {
   case $ensure {
     present: {
