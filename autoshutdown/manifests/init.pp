@@ -22,6 +22,8 @@ class autoshutdown (
             unless  => "${test_path} -f /var/run/autoshutdown.disable",
           }
         }
+      } else {
+        $cron_ensure = absent
       }
     }
     default: {
