@@ -1,13 +1,14 @@
 class autoshutdown (
     $ensure = present,
     $up_hours = 6,
+    $autoclear_use = true,
     $cron_use = true,
-    $cron_hour = '2',
+    $cron_hour = '1',
     $cron_minute = '0',
     $halt_command = '/sbin/halt -p',
     $test_path = '/bin/test',
     $install_prefix = '/usr/local/bin',
-    $auto_clear = true,
+    $disable_file => '/var/run/autoshutdown.disable',
 ) {
   case $ensure {
     present: {
@@ -19,7 +20,7 @@ class autoshutdown (
           exec { 'shutdown':
             command => $halt_command,
             user    => root,
-            unless  => "${test_path} -f /var/run/autoshutdown.disable",
+            unless  => "${test_path} -f ${disable_file}"
           }
         }
       } else {
@@ -31,14 +32,6 @@ class autoshutdown (
     }
   }
 
-  cron { 'autoshutdown':
-    ensure  => $cron_ensure,
-    user    => root,
-    command => "/bin/test -f /var/run/autoshutdown.disable || ${halt_command}",
-    hour    => $cron_hour,
-    minute  => $cron_minute,
-  }
-
   file { "${install_prefix}/autoshutdown":
     ensure => $ensure,
     source => 'puppet:///modules/autoshutdown/autoshutdown',
@@ -47,17 +40,25 @@ class autoshutdown (
     mode   => '0755',
   }
 
-  if $auto_clear {
-    $auto_clear_present = $present
+  if $autoclear_use {
+    $autoclear_ensure = $present
   } else {
-    $auto_clear_present = absent
+    $autoclear_ensure = absent
   }
 
   cron { 'autoshutdown_clear':
-    ensure  => $auto_clear_present,
-    command => 'rm /var/run/autoshutdown.disable',
+    ensure  => $autoclear_ensure,
+    command => "/bin/rm ${disable_file}",
     user    => root,
     special => 'reboot',
+  }
+
+  cron { 'autoshutdown':
+    ensure  => $cron_ensure,
+    user    => root,
+    command => "/bin/test -f ${disable_file} || ${halt_command}",
+    hour    => $cron_hour,
+    minute  => $cron_minute,
   }
 }
 
