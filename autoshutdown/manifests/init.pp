@@ -2,7 +2,7 @@ class autoshutdown (
     $ensure = present,
     $up_hours = 6,
     $cron_use = true,
-    $cron_hour = '0',
+    $cron_hour = '2',
     $cron_minute = '0',
     $halt_command = '/sbin/halt -p',
     $test_path = '/bin/test',
