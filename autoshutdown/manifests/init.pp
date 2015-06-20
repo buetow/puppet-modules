@@ -2,7 +2,7 @@ class autoshutdown (
     $ensure = present,
     $up_hours = 6,
     $cron_use = true,
-    $cron_hour = '0',
+    $cron_hour = '2',
     $cron_minute = '0',
     $halt_command = '/sbin/halt -p',
     $test_path = '/bin/test',
@@ -11,11 +11,11 @@ class autoshutdown (
 ) {
   case $ensure {
     present: {
-      if $cron_use {
-        $cron_ensure = $ensure
-      } else {
-        $cron_ensure = absent
-        if $uptime_hours >= $up_hours {
+      if $uptime_hours >= $up_hours {
+        if $cron_use {
+          $cron_ensure = present
+        } else {
+          $cron_ensure = absent
           exec { 'shutdown':
             command => $halt_command,
             user    => root,
