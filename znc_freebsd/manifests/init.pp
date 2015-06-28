@@ -3,9 +3,9 @@ class znc_freebsd (
   $config_dir = '/usr/local/etc/znc',
   $user = 'znc',
   $user_create = true,
-  $znc_conf = 'puppet:///files/znc/znc.conf',
+  $znc_conf = 'puppet:///restricted/znc/znc.conf',
   $pem_manage = true,
-  $znc_pem = 'puppet:///files/znc/znc.pem',
+  $znc_pem = 'puppet:///restricted/znc/znc.pem',
 ) {
 
   File {
