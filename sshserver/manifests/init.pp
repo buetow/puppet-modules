@@ -6,7 +6,7 @@ class sshserver (
 ) {
 
   if $operatingsystem == 'Fedora' {
-    notify { 'Fedota is not yet supported': 
+    notify { 'Fedora is not yet supported': 
     }
   } else {
     if $operatingsystem == 'FreeBSD' {
