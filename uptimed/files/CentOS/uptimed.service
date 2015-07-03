@@ -1,0 +1,11 @@
+[Unit]
+Description = System uptime record daemon
+
+[Service]
+Type=forking
+PIDFile=/var/run/uptimed
+ExecStartPre=/usr/local/sbin/uptimed -b
+ExecStart=/usr/local/sbin/uptimed
+
+[Install]
+WantedBy=multi-user.target
