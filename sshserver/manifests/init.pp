@@ -9,7 +9,7 @@ class sshserver (
     notify { 'Fedora is not yet supported': 
     }
   } else {
-    if $operatingsystem == 'FreeBSD' {
+    if $operatingsystem == 'FreeBSD' or $operatingsystem == 'CentOS' {
       $initname = 'sshd'
     } else {
       $initname = 'ssh'
