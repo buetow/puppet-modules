@@ -34,7 +34,6 @@ class uptimed (
     }
   }
 
-
   class { 'uptimed::packages':
     ensure => $ensure_package,
   }

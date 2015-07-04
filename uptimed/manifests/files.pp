@@ -7,7 +7,18 @@ class uptimed::files (
     mode => '0644',
   }
 
-  file { "${default_prefix}/etc/uptimed.conf":
+  if $operatingsystem == 'CentOS' {
+    file { '/usr/lib/systemd/system/uptimed.service':
+      source => "puppet:///modules/uptimed/${operatingsystem}/uptimed.service",
+      ensure => present,
+    }
+    $prefix = '/usr/local'
+
+  } else {
+    $prefix = $default_prefix
+  }
+
+  file { "${prefix}/etc/uptimed.conf":
     ensure  => $ensure,
     content => template('uptimed/uptimed.conf.erb'),
   }
