@@ -1,0 +1,5 @@
+Howto reconfigure a list? It's easy, do it this way:
+
+./bin/config_list -o - LISTNAME > /tmp/config
+vim /tmp/config
+./bin/config_list -i /tmp/config LISTNAME
