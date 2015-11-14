@@ -2,6 +2,7 @@
 class icinga2_freebsd (
   $package = 'icinga2',
   $ensure = running,
+  $conf_d_source = '',
 ) {
 
   File {
@@ -50,6 +51,18 @@ class icinga2_freebsd (
 
   package { $package:
     ensure => $ensure_package
+  }
+
+  if $conf_d_source != '' {
+    file { '/usr/local/etc/icinga2/conf.d':
+      ensure    => $ensure_directory,
+      purge     => true,
+      recurse   => true,
+      force     => true,
+      source    => $conf_d_source,
+      require   => Package[$package],
+      notify    => Service[$service],
+    }
   }
 
   service { $service:
