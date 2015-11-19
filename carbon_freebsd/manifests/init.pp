@@ -3,7 +3,7 @@ class carbon_freebsd (
   $package = 'py27-carbon',
   $service = 'carbon',
   $ensure = running,
-  $local_data_dir = '/carbon/whisper',
+  $local_data_dir = '/graphite/whisper',
   $carbon_user = nobody,
 ) {
   $etc_dir = '/usr/local/etc/carbon/'
