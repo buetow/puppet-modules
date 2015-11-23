@@ -47,7 +47,7 @@ Example:
           '_dists'        => [ 'base.txz', 'doc.txz', 'games.txz', ],
           'exec.start'    => "'${jail::freebsd::exec_start}'",
           'exec.stop'     => "'${jail::freebsd::exec_stop}'",
-          'host.hostname' => "'makemake.buetow.org'",
+          'host.hostname' => "'makemake.ian.buetow.org'",
           'ip4.addr'      => '192.168.0.4',
           'ip6.addr'      => '2a01:4f8:a0:234e:f::4',
         },

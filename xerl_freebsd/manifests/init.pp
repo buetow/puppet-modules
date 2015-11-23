@@ -1,6 +1,6 @@
 class xerl_freebsd (
   $ensure = present,
-  $giturl = 'git://git.buetow.org/xerl',
+  $giturl = 'git://git.ian.buetow.org/xerl',
   $apache_document_root,
 ) {
   $user = 'www'
