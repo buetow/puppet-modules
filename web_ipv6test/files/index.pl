@@ -12,7 +12,7 @@ Content-type: text/html
 </head>
 <body>
 
-Congratulations, you have connected to a server that will display your method of connection, either IPv6 (preferred) or IPv4 (old and crusty). Well IPv6 is already ~15 years old either but not as old as IPv4 ;)
+Congratulations, you have connected to a server that will display your method of connection, either IPv6 (preferred) or IPv4 (old and crusty). Well IPv6 is already older than 20 years but not as old as IPv4 ;)
 <br /><br />
 Nevertheless, please choose your destiny:
 <ul>
