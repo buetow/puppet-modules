@@ -17,9 +17,11 @@ class jail (
   # Keys with leading _ are not added to jail.conf
   # (..). is for line order in resulting jail.conf
   $jails_base_config_default = {
-    'exec.start'      => "'/etc/rc'",
-    'exec.stop'       => "'/etc/rc.shutdown'",
-    'mount.devfs; //' => '',
+    'exec.start'      => "'/bin/sh /etc/rc'",
+    'exec.stop'       => "'/bin/sh /etc/rc.shutdown'",
+    'allow.chflags'   => 'true',
+    'mount.devfs'     => 'true',
+    #'mount.devfs; //' => '',
     'mount.fstab'     => "\"/etc/fstab.jail.\$name\"",
     'path'            => "\"${jail_default_path}\"",
   }
