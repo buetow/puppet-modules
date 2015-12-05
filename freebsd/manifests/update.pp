@@ -75,7 +75,7 @@ class freebsd::update (
   }
 
 
-  if $manage_conf {
+  if $conf_manage {
     file { '/etc/freebsd-update.conf':
       ensure  => file,
       content => template('freebsd/freebsd-update.conf.erb'),
