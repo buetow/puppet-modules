@@ -12,6 +12,8 @@ class freebsd::update (
   $cron_pkg_audit_hour = '2',
   $cron_pkg_audit_minute = '7',
   $cron_pkg_audit_reboot_ensure = present,
+  $conf_manage = true,
+  $conf_components = 'world kernel',
 ){
   $environment = "MAILTO=${mailto}"
 
@@ -72,20 +74,11 @@ class freebsd::update (
     special => 'reboot',
   }
 
-  # Obsolete
-  cron { 'freebsd_update_fetch':
-    ensure  => absent,
-    command => '/usr/sbin/freebsd-update cron',
-    hour    => $cron_fetch_hour,
-    minute  => $cron_fetch_minute,
-    user    => root,
-  }
 
-  # Obsolete
-  cron { 'freebsd_update_fetch_reboot':
-    ensure  => absent,
-    command => '/usr/sbin/freebsd-update cron',
-    user    => root,
-    special => 'reboot',
+  if $manage_conf {
+    file { '/etc/freebsd-update.conf':
+      ensure  => file,
+      content => template('freebsd/freebsd-update.conf.erb'),
+    }
   }
 }
