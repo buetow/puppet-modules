@@ -7,6 +7,11 @@ class mailman::files (
     source => 'puppet:///modules/mailman/mm_cfg.py',
   }
 
+  file { '/usr/local/mailman/bin/list_requests':
+    source => 'puppet:///modules/mailman/list_requests',
+    mode   => '0755',
+  }
+
   file { '/etc/apache2/conf.d/my-mailman':
     source => 'puppet:///modules/mailman/my-mailman',
   }
