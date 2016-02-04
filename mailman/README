@@ -1,0 +1,13 @@
+To approve requests:
+
+./list_requests --verbose --list=friends
+
+=> Note request number (e.g. 45)
+
+./withlist -l friends
+Loading list friends (locked)
+>>> m.HandleRequest(45,APPROVE)
+>>> m.Save()
+>>>
+Unlocking (but not saving) list: friends Finalizing
+
