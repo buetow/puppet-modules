@@ -6,7 +6,7 @@ To approve requests:
 
 ./withlist -l friends
 Loading list friends (locked)
->>> m.HandleRequest(45,APPROVE)
+>>> m.HandleRequest(45,1)
 >>> m.Save()
 >>>
 Unlocking (but not saving) list: friends Finalizing
