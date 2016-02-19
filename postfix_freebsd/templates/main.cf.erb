@@ -29,12 +29,12 @@ smtpd_recipient_restrictions =
   permit_sasl_authenticated,
   reject_unauth_destination,
   reject_non_fqdn_sender,
-  reject_unknown_sender_domain,
   reject_rbl_client zen.spamhaus.org,
   reject_rbl_client pbl.spamhaus.org,
   reject_rbl_client sbl.spamhaus.org,
   reject_rbl_client sbl-xbl.spamhaus.org,
   reject_rbl_client bl.spamcop.net,
+  #reject_unknown_sender_domain,
 <% end -%>
 relay_domains = <%= @postfix_config['relay_domains'] %>
 <% if @virtual_config_manage -%>
