@@ -24,17 +24,17 @@ smtpd_sasl_authenticated_header = yes
 smtpd_sasl_security_options = noanonymous
 smtpd_sasl_path = /var/spool/postfix/private/auth
 #smtpd_sasl_local_domain =
-#smtpd_recipient_restrictions = 
-#  permit_mynetworks,
-#  permit_sasl_authenticated,
-#  reject_unauth_destination,
-#  reject_non_fqdn_sender,
-#  reject_unknown_sender_domain,
-#  reject_rbl_client zen.spamhaus.org,
-#  reject_rbl_client pbl.spamhaus.org,
-#  reject_rbl_client sbl.spamhaus.org,
-#  reject_rbl_client sbl-xbl.spamhaus.org,
-#  reject_rbl_client bl.spamcop.net,
+smtpd_recipient_restrictions = 
+  permit_mynetworks,
+  permit_sasl_authenticated,
+  reject_unauth_destination,
+  reject_non_fqdn_sender,
+  reject_unknown_sender_domain,
+  reject_rbl_client zen.spamhaus.org,
+  reject_rbl_client pbl.spamhaus.org,
+  reject_rbl_client sbl.spamhaus.org,
+  reject_rbl_client sbl-xbl.spamhaus.org,
+  reject_rbl_client bl.spamcop.net,
 <% end -%>
 relay_domains = <%= @postfix_config['relay_domains'] %>
 <% if @virtual_config_manage -%>
