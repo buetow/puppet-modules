@@ -1,6 +1,6 @@
 class autoshutdown (
     $ensure = present,
-    $up_hours = 24,
+    $up_hours = 48,
     $autoclear_use = true,
     $cron_use = true,
     $cron_hour = '1',
