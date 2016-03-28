@@ -1,6 +1,7 @@
 # This module has been tested on FreeBSD 10 only
 class bind_freebsd (
   $package = 'bind910',
+  $service = 'named',
   $ensure = running,
   $conf_d_source = '',
 ) {
@@ -10,8 +11,6 @@ class bind_freebsd (
     group => $root_group,
     mode  => '0644',
   }
-
-  $service = $package
 
   case $ensure {
     'running': {
@@ -54,7 +53,7 @@ class bind_freebsd (
   }
 
   if $conf_d_source != '' {
-    file { '/usr/local/etc/bind/conf.d':
+    file { '/usr/local/etc/namedb/conf.d':
       ensure    => $ensure_directory,
       purge     => true,
       recurse   => true,
