@@ -1,4 +1,4 @@
-define zfs::zpool_scrub (
+class zfs::zpool_scrub (
   $ensure = present,
   $threshold = 7
 ){
