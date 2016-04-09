@@ -1,6 +1,6 @@
 class zfs::zpool_scrub (
   $ensure = present,
-  $threshold = 7
+  $threshold = 30
 ){
   Exec {
     path => '/sbin:/usr/sbin:/usr/local/sbin:/bin:/usr/bin:/usr/local/bin'
