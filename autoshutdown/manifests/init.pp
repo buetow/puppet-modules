@@ -3,7 +3,7 @@ class autoshutdown (
     $up_hours = 48,
     $autoclear_use = true,
     $cron_use = true,
-    $cron_hour = '1',
+    $cron_hour = '10',
     $cron_minute = '0',
     $halt_command = '/sbin/halt -p',
     $test_path = '/bin/test',
