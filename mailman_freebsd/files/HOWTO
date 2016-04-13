@@ -13,4 +13,6 @@ How to approve a request?
 ./bin/withlist -l friends
 from Mailman.mm_cfg import APPROVE
 m.HandleRequest(49,APPROVE)
-m.Safe()
+m.Save()
+
+Ctrl+D
