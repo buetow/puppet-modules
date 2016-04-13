@@ -3,3 +3,14 @@ Howto reconfigure a list? It's easy, do it this way:
 ./bin/config_list -o - LISTNAME > /tmp/config
 vim /tmp/config
 ./bin/config_list -i /tmp/config LISTNAME
+
+
+How to approve a request?
+
+./bin/list_requests --verbose --list=friends
+         49
+
+./bin/withlist -l friends
+from Mailman.mm_cfg import APPROVE
+m.HandleRequest(49,APPROVE)
+m.Safe()
