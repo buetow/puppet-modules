@@ -3,7 +3,7 @@ class bind_freebsd (
   $package = 'bind910',
   $service = 'named',
   $ensure = running,
-  $conf_d_source = '',
+  $config = '',
 ) {
 
   File {
@@ -52,13 +52,13 @@ class bind_freebsd (
     ensure => $ensure_package
   }
 
-  if $conf_d_source != '' {
-    file { '/usr/local/etc/namedb/conf.d':
-      ensure    => $ensure_directory,
+  if $config != '' {
+    file { '/usr/local/etc/namedb/named.conf':
+      ensure    => $ensure_file,
       purge     => true,
       recurse   => true,
       force     => true,
-      source    => $conf_d_source,
+      source    => $config,
       require   => Package[$package],
       notify    => Service[$service],
     }
