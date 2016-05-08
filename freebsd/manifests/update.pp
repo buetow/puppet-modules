@@ -56,13 +56,14 @@ class freebsd::update (
   }
 
   ## pkg audit
+  $audit_cmd = '/usr/bin/yes | /usr/sbin/pkg audit &> /root/.pkgaudit || /bin/cat /root/.pkgaudit'
   cron { 'freebsd_pkg_audit':
-    ensure  => $cron_pkg_audit_ensure,
+    ensure      => $cron_pkg_audit_ensure,
     environment => $environment,
-    command => '/usr/bin/yes | /usr/sbin/pkg audit',
-    hour    => $cron_pkg_audit_hour,
-    minute  => $cron_pkg_audit_minute,
-    user    => root,
+    command     => "/usr/local/bin/bash -c '${audit_cmd}'",
+    hour        => $cron_pkg_audit_hour,
+    minute      => $cron_pkg_audit_minute,
+    user        => root,
   }
 
   ## pkg audit at boot
