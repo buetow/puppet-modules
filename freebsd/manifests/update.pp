@@ -68,11 +68,11 @@ class freebsd::update (
 
   ## pkg audit at boot
   cron { 'freebsd_pkg_audit_reboot':
-    ensure  => $cron_pkg_audit_reboot_ensure,
+    ensure      => $cron_pkg_audit_reboot_ensure,
     environment => $environment,
-    command => '/usr/bin/yes | /usr/sbin/pkg audit',
-    user    => root,
-    special => 'reboot',
+    command     => "/usr/local/bin/bash -c '${audit_cmd}'",
+    user        => root,
+    special     => 'reboot',
   }
 
 
