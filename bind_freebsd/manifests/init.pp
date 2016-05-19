@@ -66,7 +66,7 @@ class bind_freebsd (
   }
 
   if $dynamic_config != '' {
-    file { '/usr/local/etc/named/dynamic':
+    file { '/usr/local/etc/namedb/dynamic':
       ensure    => $ensure_file,
       purge     => true,
       recurse   => true,
