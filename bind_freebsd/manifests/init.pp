@@ -1,9 +1,10 @@
 # This module has been tested on FreeBSD 10 only
 class bind_freebsd (
-  $package = 'bind910',
-  $service = 'named',
-  $ensure = running,
-  $config = '',
+  String $package = 'bind910',
+  String $service = 'named',
+  String $ensure = running,
+  String $config = '',
+  String $dynamic_config = '',
 ) {
 
   File {
@@ -59,6 +60,18 @@ class bind_freebsd (
       recurse   => true,
       force     => true,
       source    => $config,
+      require   => Package[$package],
+      notify    => Service[$service],
+    }
+  }
+
+  if $dynamic_config != '' {
+    file { '/usr/local/etc/named/dynamic':
+      ensure    => $ensure_file,
+      purge     => true,
+      recurse   => true,
+      force     => true,
+      source    => $dynamic_config,
       require   => Package[$package],
       notify    => Service[$service],
     }
