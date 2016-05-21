@@ -44,17 +44,17 @@ my ($what, $server_addr, $dns_server) = do {
 
 print "<pre>You are using <b>$what</b>\n";
 
-chomp (my $remote = `host $ENV{REMOTE_ADDR} $dns_server`);
-chomp (my $server = `host $server_addr $dns_server`);
-chomp (my $server0 = `host $ENV{SERVER_NAME} $dns_server`);
-chomp (my $digremote = `dig -x $ENV{REMOTE_ADDR} @192.168.0.15`);
-chomp (my $digserver = `dig -x $server_addr @192.168.0.15`);
-chomp (my $digserver0 = `dig -t any $ENV{SERVER_NAME} @192.168.0.15`);
+chomp (my $remote = `/usr/bin/host $ENV{REMOTE_ADDR} $dns_server`);
+chomp (my $server = `/usr/bin/host $server_addr $dns_server`);
+chomp (my $server0 = `/usr/bin/host $ENV{SERVER_NAME} $dns_server`);
+chomp (my $digremote = `/usr/local/bin/dig -x $ENV{REMOTE_ADDR} @192.168.0.15`);
+chomp (my $digserver = `/usr/local/bin/dig -x $server_addr @192.168.0.15`);
+chomp (my $digserver0 = `/usr/local/bin/dig -t any $ENV{SERVER_NAME} @192.168.0.15`);
 
 print <<END;
 Client address: $ENV{REMOTE_ADDR}
 Server address: $server_addr
-DNS server address: $dns_server
+DNS server address: $dns_server (internal)
 
 <b>Client address reverse DNS lookup:</b>
 $remote
