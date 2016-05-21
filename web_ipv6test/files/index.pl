@@ -34,26 +34,27 @@ if ($ENV{SERVER_NAME} eq 'ipv6.buetow.org') {
 }
 
 # Do this to hide NAT, otherwise use $ENV{SERVER_ADDR};
-my ($what, $server_addr) = do {
+my ($what, $server_addr, $dns_server) = do {
   if ($ENV{REMOTE_ADDR} =~ /(?:\d+\.){3}\d/) {
-    ('IPv4','78.46.80.70')
+    ('IPv4','78.46.80.70', '192.168.0.15')
     } else {
-    ('IPv6','2a01:4f8:120:30e8::11')
+    ('IPv6','2a01:4f8:120:30e8::11', '192.168.0.15')
   }
 };
 
 print "<pre>You are using <b>$what</b>\n";
 
-chomp (my $remote = `host $ENV{REMOTE_ADDR}`);
-chomp (my $server = `host $server_addr`);
-chomp (my $server0 = `host $ENV{SERVER_NAME}`);
-chomp (my $digremote = `dig -x $ENV{REMOTE_ADDR}`);
-chomp (my $digserver = `dig -x $server_addr`);
-chomp (my $digserver0 = `dig -t any $ENV{SERVER_NAME}`);
+chomp (my $remote = `host $ENV{REMOTE_ADDR} $dns_server`);
+chomp (my $server = `host $server_addr $dns_server`);
+chomp (my $server0 = `host $ENV{SERVER_NAME} $dns_server`);
+chomp (my $digremote = `dig -x $ENV{REMOTE_ADDR} @192.168.0.15`);
+chomp (my $digserver = `dig -x $server_addr @192.168.0.15`);
+chomp (my $digserver0 = `dig -t any $ENV{SERVER_NAME} @192.168.0.15`);
 
 print <<END;
 Client address: $ENV{REMOTE_ADDR}
 Server address: $server_addr
+DNS server address: $dns_server
 
 <b>Client address reverse DNS lookup:</b>
 $remote
