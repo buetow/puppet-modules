@@ -47,9 +47,9 @@ print "<pre>You are using <b>$what</b>\n";
 chomp (my $remote = `/usr/bin/host $ENV{REMOTE_ADDR} $dns_server`);
 chomp (my $server = `/usr/bin/host $server_addr $dns_server`);
 chomp (my $server0 = `/usr/bin/host $ENV{SERVER_NAME} $dns_server`);
-chomp (my $digremote = `/usr/local/bin/dig -x $ENV{REMOTE_ADDR} @192.168.0.15`);
-chomp (my $digserver = `/usr/local/bin/dig -x $server_addr @192.168.0.15`);
-chomp (my $digserver0 = `/usr/local/bin/dig -t any $ENV{SERVER_NAME} @192.168.0.15`);
+chomp (my $digremote = `/usr/local/bin/dig -x $ENV{REMOTE_ADDR} \@$dns_server`);
+chomp (my $digserver = `/usr/local/bin/dig -x $server_addr \@$dns_server`);
+chomp (my $digserver0 = `/usr/local/bin/dig -t any $ENV{SERVER_NAME} \@$dns_server`);
 
 print <<END;
 Client address: $ENV{REMOTE_ADDR}
