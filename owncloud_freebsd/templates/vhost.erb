@@ -1,0 +1,65 @@
+<% if @ext == "ssl"  -%>
+<VirtualHost <%= @ip4address %>:443>
+<% else -%>
+<VirtualHost <%= @ip4address %>:80>
+<% end -%>
+DocumentRoot <%= @document_root %>
+<% if @vhost != "" && @vhost != "_default_" -%>ServerName <%= @vhost %><% end %>
+<% @includes.each do |val| -%>include /usr/local/etc/apache/extra/<%= val %><% end %>
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedvhost
+<% if @ext == "ssl" -%>
+SSLEngine On
+SSLProtocol all -SSLv2 -SSLv3
+SSLHonorCipherOrder on
+SSLCipherSuite <%= @ssl_opts['ssl_cipher_suite'] %>
+SSLCertificateFile <%= @ssl_opts['ssl_certificate_file'] %>
+SSLCertificateKeyFile <%= @ssl_opts['ssl_key_file'] %>
+#SSLCertificateChainFile <%= @ssl_opts['ssl_certificate_chain_file'] %>
+SSLCACertificateFile <%= @ssl_opts['ssl_ca_certificate_file'] %>
+CustomLog <%= @apache_log_dir %>/access_ssl.log-<%= @vhost %> combinedvhost
+ErrorLog <%= @apache_log_dir %>/error_ssl.log-<%= @vhost %>
+<% else -%>
+CustomLog <%= @apache_log_dir %>/access.log-<%= @vhost %> combinedvhost
+ErrorLog <%= @apache_log_dir %>/error.log-<%= @vhost %>
+<% end -%>
+<% if @use_rewrite || @redirect_plain || @ext == "ssl" -%>RewriteEngine On<% end %>
+<% if @redirect_plain -%>
+RewriteCond %{SERVER_PORT} !443
+RewriteRule (.*) https://<%= @vhost %>$1 [L,R=301]
+<% end -%>
+<% if @use_rewrite -%>
+<% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end %>
+</VirtualHost>
+
+<% if @ext == "ssl"  -%>
+<VirtualHost [<%= @ip6address %>]:443>
+<% else -%>
+<VirtualHost [<%= @ip6address %>]:80>
+<% end -%>
+DocumentRoot <%= @document_root %>
+<% if @vhost != "" && @vhost != "_default_" -%>ServerName <%= @vhost %><% end %>
+<% @includes.each do |val| -%>include /usr/local/etc/apache/extra/<%= val %><% end %>
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %v" combinedvhost
+<% if @ext == "ssl" -%>
+SSLEngine On
+SSLProtocol all -SSLv2 -SSLv3
+SSLHonorCipherOrder on
+SSLCipherSuite <%= @ssl_opts['ssl_cipher_suite'] %>
+SSLCertificateFile <%= @ssl_opts['ssl_certificate_file'] %>
+SSLCertificateKeyFile <%= @ssl_opts['ssl_key_file'] %>
+#SSLCertificateChainFile <%= @ssl_opts['ssl_certificate_chain_file'] %>
+SSLCACertificateFile <%= @ssl_opts['ssl_ca_certificate_file'] %>
+CustomLog <%= @apache_log_dir %>/access_ssl.log-<%= @vhost %> combinedvhost
+ErrorLog <%= @apache_log_dir %>/error_ssl.log-<%= @vhost %>
+<% else -%>
+CustomLog <%= @apache_log_dir %>/access.log-<%= @vhost %> combinedvhost
+ErrorLog <%= @apache_log_dir %>/error.log-<%= @vhost %>
+<% end -%>
+<% if @use_rewrite || @redirect_plain || @ext == "ssl" -%>RewriteEngine On<% end %>
+<% if @redirect_plain -%>
+RewriteCond %{SERVER_PORT} !443
+RewriteRule (.*) https://<%= @vhost %>$1 [L,R=301]
+<% end -%>
+<% if @use_rewrite -%>
+<% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end %>
+</VirtualHost>

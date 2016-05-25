@@ -1,0 +1,7 @@
+ScriptAlias /mailman "/usr/local/www/mailman/cgi-bin/"
+Alias /pipermail "/usr/local/www/mailman/archives/public"
+<Directory "/usr/local/www/mailman/cgi-bin">
+  AllowOverride None
+  Options ExecCGI FollowSymlinks Indexes
+  Require all granted
+</Directory>

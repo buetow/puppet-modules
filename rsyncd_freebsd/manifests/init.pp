@@ -2,8 +2,7 @@
 class rsyncd_freebsd (
   String $service = 'rsyncd',
   String $package = 'rsync',
-  String $config_dir = '/usr/local/etc/rsync',
-  String $config = '/usr/local/etc/rsync/rsyncd.conf',
+  String $config = '/usr/local/etc/rsyncd.conf',
   String $config_template = 'rsyncd_freebsd/rsyncd.conf.erb',
   String $ensure = present,
   Hash $volumes = {},
@@ -52,17 +51,12 @@ class rsyncd_freebsd (
       ensure => $ensure_package
     }
 
-    file { $config_dir:
-      ensure  => $ensure_directory,
-    }
-
     file { $config:
       ensure  => $ensure_file,
       content => template($config_template),
 
       require => [
         Package[$package],
-        File[$config_dir],
       ]
     }
   } else {
