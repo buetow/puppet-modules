@@ -40,6 +40,7 @@ class owncloud_freebsd (
   }
 
   package { [
+    'mysql56-server',
     'php56',
     'owncloud',
     'apache24',
@@ -54,6 +55,10 @@ class owncloud_freebsd (
   }
 
   service { 'apache24':
+    enable => $service_enable,
+    ensure => $ensure_service,
+  }
+  service { 'mysql-server':
     enable => $service_enable,
     ensure => $ensure_service,
   }
