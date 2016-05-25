@@ -1,12 +1,13 @@
 # This module has been tested on FreeBSD 10 only
 class rsyncd_freebsd (
-  $service = 'rsyncd',
-  $package = 'rsync',
-  $config = '/usr/local/etc/rsync/rsyncd.conf',
-  $config_template = 'rsyncd_freebsd/rsyncd.conf.erb',
-  $ensure = present,
-  $volumes = {},
-  $manage_package = false,
+  String $service = 'rsyncd',
+  String $package = 'rsync',
+  String $config_dir = '/usr/local/etc/rsync',
+  String $config = '/usr/local/etc/rsync/rsyncd.conf',
+  String $config_template = 'rsyncd_freebsd/rsyncd.conf.erb',
+  String $ensure = present,
+  Hash $volumes = {},
+  Boolean $manage_package = false,
 ) {
   File {
     owner => root,
@@ -51,11 +52,18 @@ class rsyncd_freebsd (
       ensure => $ensure_package
     }
 
+    file { $config_dir:
+      ensure  => $ensure_directory,
+    }
+
     file { $config:
       ensure  => $ensure_file,
       content => template($config_template),
 
-      require => Package[$package],
+      require => [
+        Package[$package],
+        File[$config_dir],
+      ]
     }
   } else {
     file { $config:
