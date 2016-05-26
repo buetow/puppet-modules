@@ -58,16 +58,23 @@ class owncloud_freebsd (
     enable => $service_enable,
     ensure => $ensure_service,
   }
+
   service { 'mysql-server':
     enable => $service_enable,
     ensure => $ensure_service,
   }
-  # Add to apache
-  # Alias /owncloud /usr/local/www/owncloud
-  # AcceptPathInfo On
-  # <Directory /usr/local/www/owncloud>
-  #   AllowOverride All
-  #   Require all granted
-  # </Directory>
-  # service apache24 onestart
+
+  $includes_dir = '/usr/local/etc/apache24/Includes'
+
+  file { "${includes_dir}/owncloud.conf":
+    ensure  => $ensure_file,
+    content => template('owncloud_freebsd/owncloud.conf.erb'),
+    notify  => Service['apache24'],
   }
+
+  file { "${includes_dir}/php.conf":
+    ensure  => $ensure_file,
+    content => template('owncloud_freebsd/php.conf.erb'),
+    notify  => Service['apache24'],
+  }
+}
