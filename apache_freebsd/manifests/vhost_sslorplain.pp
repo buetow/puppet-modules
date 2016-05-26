@@ -11,6 +11,7 @@ define apache_freebsd::vhost_sslorplain (
   $destination,
   $apache_log_dir,
   $ssl_opts = {},
+  $extra_opts = {},
 ) {
 
   if $redirect == '' {

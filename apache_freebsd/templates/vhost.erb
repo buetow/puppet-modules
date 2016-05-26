@@ -14,7 +14,6 @@ SSLHonorCipherOrder on
 SSLCipherSuite <%= @ssl_opts['ssl_cipher_suite'] %>
 SSLCertificateFile <%= @ssl_opts['ssl_certificate_file'] %>
 SSLCertificateKeyFile <%= @ssl_opts['ssl_key_file'] %>
-#SSLCertificateChainFile <%= @ssl_opts['ssl_certificate_chain_file'] %>
 SSLCACertificateFile <%= @ssl_opts['ssl_ca_certificate_file'] %>
 CustomLog <%= @apache_log_dir %>/access_ssl.log-<%= @vhost %> combinedvhost
 ErrorLog <%= @apache_log_dir %>/error_ssl.log-<%= @vhost %>
@@ -29,6 +28,9 @@ RewriteRule (.*) https://<%= @vhost %>$1 [L,R=301]
 <% end -%>
 <% if @use_rewrite -%>
 <% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end %>
+<%- @extra_opts.each do |key,val| -%>
+<%= key %> <%= val %>
+<%- end -%>
 </VirtualHost>
 
 <% if @ext == "ssl"  -%>
@@ -47,7 +49,6 @@ SSLHonorCipherOrder on
 SSLCipherSuite <%= @ssl_opts['ssl_cipher_suite'] %>
 SSLCertificateFile <%= @ssl_opts['ssl_certificate_file'] %>
 SSLCertificateKeyFile <%= @ssl_opts['ssl_key_file'] %>
-#SSLCertificateChainFile <%= @ssl_opts['ssl_certificate_chain_file'] %>
 SSLCACertificateFile <%= @ssl_opts['ssl_ca_certificate_file'] %>
 CustomLog <%= @apache_log_dir %>/access_ssl.log-<%= @vhost %> combinedvhost
 ErrorLog <%= @apache_log_dir %>/error_ssl.log-<%= @vhost %>
@@ -62,4 +63,7 @@ RewriteRule (.*) https://<%= @vhost %>$1 [L,R=301]
 <% end -%>
 <% if @use_rewrite -%>
 <% @rewrites.each do |val| -%>RewriteRule <%= val %><% end %><% end %>
+<%- @extra_opts.each do |key,val| -%>
+<%= key %> <%= val %>
+<%- end -%>
 </VirtualHost>
