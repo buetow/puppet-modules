@@ -1,9 +1,9 @@
 class autoshutdown (
     $ensure = present,
-    $up_hours = 48,
+    $up_hours = 24,
     $autoclear_use = true,
     $cron_use = true,
-    $cron_hour = '10',
+    $cron_hour = '16',
     $cron_minute = '0',
     $halt_command = '/sbin/halt -p',
     $test_path = '/bin/test',
