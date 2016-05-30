@@ -1,6 +1,7 @@
 # This module has been tested on FreeBSD 10 only
 class owncloud_freebsd (
-  String $ensure = running
+  String $ensure = running,
+  Integer $cron_hour = 5,
 ) {
 
   case $ensure {
@@ -77,4 +78,13 @@ class owncloud_freebsd (
     content => template('owncloud_freebsd/php.conf.erb'),
     notify  => Service['apache24'],
   }
+
+  cron { 'cron_scan':
+    ensure  => $ensure_file,
+    minute  => 0,
+    hour    => $cron_hour,
+    user    => www,
+    command => '/usr/local/bin/php /usr/local/www/owncloud/console.php files:scan --all',
+  }
+
 }
