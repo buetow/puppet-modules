@@ -3,7 +3,7 @@ class collectd_freebsd (
   $package = 'collectd5',
   $service = 'collectd',
   $ensure = running,
-  $graphite_host = 'graphite.ian.buetow.org',
+  $graphite_host = 'graphite.buetow.org',
 ) {
   $conf = '/usr/local/etc/collectd.conf'
 
