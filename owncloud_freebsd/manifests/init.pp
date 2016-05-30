@@ -1,6 +1,7 @@
 # This module has been tested on FreeBSD 10 only
 class owncloud_freebsd (
   String $ensure = running,
+  String $cron_ensure = absent,
   Integer $cron_hour = 5,
 ) {
 
@@ -80,11 +81,11 @@ class owncloud_freebsd (
   }
 
   cron { 'cron_scan':
-    ensure  => $ensure_file,
+    ensure  => $cron_ensure,
     minute  => 0,
     hour    => $cron_hour,
     user    => www,
-    command => '/usr/local/bin/php /usr/local/www/owncloud/console.php files:scan --all',
+    command => '/usr/local/www/owncloud/occ files:scan --all',
   }
 
 }
