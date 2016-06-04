@@ -69,6 +69,14 @@ class mailman_freebsd (
     mode   => '0755',
   }
 
+  file { '/usr/local/mailman/approve.sh':
+    source => 'puppet:///modules/mailman_freebsd/approve.sh',
+    ensure => $ensure_file,
+    owner  => 'root',
+    group  => 'mailman',
+    mode   => '0755',
+  }
+
   file { '/usr/local/mailman/HOWTO':
     source => 'puppet:///modules/mailman_freebsd/HOWTO',
     ensure => $ensure_file,
