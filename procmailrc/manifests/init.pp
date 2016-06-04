@@ -4,7 +4,8 @@ define procmailrc (
   $group = '',
   $ensure = present,
   $user_name = $name,
-  $procmail_maildir = "/mail/paul/Maildir"
+  $procmail_maildir = "/mail/paul/Maildir",
+  $procmail_umask = '007',
 ) {
 
   if $home == '' {
