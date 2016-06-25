@@ -4,12 +4,12 @@ class motd (
 ){
   if $template == '' {
     case $::operatingsystem {
-      FreeBSD: { $template_file = 'motd.rantanplanbsd.erb' }
-      NetBSD: { $template_file = 'motd.rantanplanbsd.erb' }
-      OpenBSD: { $template_file = 'motd.rantanplanbsd.erb' }
-      DragonFly: { $template_file = 'motd.rantanplanbsd.erb' }
-      Debian: { $template_file = 'motd.rantanplanian.erb' }
-      Ubuntu: { $template_file = 'motd.rantanplanian.erb' }
+      'FreeBSD': { $template_file = 'motd.rantanplanbsd.erb' }
+      'NetBSD': { $template_file = 'motd.rantanplanbsd.erb' }
+      'OpenBSD': { $template_file = 'motd.rantanplanbsd.erb' }
+      'DragonFly': { $template_file = 'motd.rantanplanbsd.erb' }
+      'Debian': { $template_file = 'motd.rantanplanian.erb' }
+      'Ubuntu': { $template_file = 'motd.rantanplanian.erb' }
       default: { $template_file = 'motd.erb' }
     }
   } else {
