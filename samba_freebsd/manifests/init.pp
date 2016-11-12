@@ -1,7 +1,7 @@
 # This module has been tested on FreeBSD 10 only
 class samba_freebsd (
   $service = 'samba_server',
-  $package = 'samba41',
+  $package = 'samba44',
   $config = '/usr/local/etc/smb4.conf',
   $config_template = 'samba_freebsd/smb4.conf.erb',
   $ensure = present,
