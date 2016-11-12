@@ -1,6 +1,6 @@
 class cgit_freebsd (
   $ensure = present,
-  $root_title = 'git.buetow.org',
+  $root_title = 'cgit.buetow.org',
   $root_desc = 'The buetowdotorg git repos',
   $virtual_root = '/cgit/',
   $snapshots = '.tar.gz',
