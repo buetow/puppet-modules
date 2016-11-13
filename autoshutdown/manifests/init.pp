@@ -41,7 +41,7 @@ class autoshutdown (
   }
 
   if $autoclear_use {
-    $autoclear_ensure = $present
+    $autoclear_ensure = present
   } else {
     $autoclear_ensure = absent
   }

@@ -8,29 +8,28 @@ class uptimed (
       $ensure_file = present
       $ensure_directory = directory
       $ensure_service = running
-      $ensure_enabled = enabled
-      $service_enable = true
+      $enable_service = true
     }
     'stopped': {
       $ensure_package = present
       $ensure_file = present
       $ensure_directory = directory
       $ensure_service = stopped
-      $service_enable = false
+      $enable_service = false
     }
     'present': {
       $ensure_package = present
       $ensure_file = present
       $ensure_directory = directory
       $ensure_service = stopped
-      $service_enable = false
+      $enable_service = false
     }
     'absent': {
       $ensure_package = absent
       $ensure_file = absent
       $ensure_directory = absent
       $ensure_service = stopped
-      $service_enable = false
+      $enable_service = false
     }
   }
 
@@ -46,7 +45,7 @@ class uptimed (
 
   service { 'uptimed':
     ensure => $ensure_service,
-    enable => $ensure_enable,
+    enable => $enable_service,
 
     require => Class['uptimed::files'],
   }
