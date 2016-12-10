@@ -22,6 +22,8 @@ LoginGraceTime 120
 PermitRootLogin <%= @permit_root_login %>
 StrictModes yes
 
+UseDNS no
+GSSAPIAuthentication no
 RSAAuthentication yes
 PubkeyAuthentication yes
 AuthorizedKeysFile	%h/.ssh/authorized_keys
