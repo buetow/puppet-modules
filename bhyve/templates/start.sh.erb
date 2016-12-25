@@ -1,5 +1,5 @@
 #!/bin/sh
-grub-bhyve -m grub.map -r hd0,msdos1 -M <%= @ram %> <%= @name %>
+grub-bhyve -m grub.map -r hd0,msdos1 -M <%= @grub_ram %> <%= @name %>
 bhyve -w -AI -H -P -s 0:0,hostbridge  \
   -s 1:0,lpc -s 2:0,virtio-net,<%= @net_dev %> \
   -s 3:0,virtio-blk,./<%= @name %>.img \
