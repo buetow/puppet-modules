@@ -32,5 +32,13 @@ class bhyve (
 
     require    => File[$mountpoint],
   }
+
+  $bhyve_names = keys($bhyves_config)
+  bhyve::create { $bhyve_names:
+    use_zfs         => $use_zfs,
+    base_mountpoint => $mountpoint,
+    zpool           => $zpool,
+    bhyves_config   => $bhyves_config,
+  }
 }
 
