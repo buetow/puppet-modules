@@ -5,7 +5,7 @@ define bhyve::generic::create (
 ) {
   # Keys with preceeding _ are not added to bhyve.conf
   $bhyve_config_default = {
-    '_iso_base_path' => '/bhyve'
+    '_iso_base_path' => '/bhyve',
     '_install_iso' => 'ubuntu-16.04.1-server-amd64.iso',
     '_grub_ram' => '1024M',
     '_ram' => '2048M',
