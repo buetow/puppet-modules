@@ -76,6 +76,8 @@ define bhyve::create (
   case $type {
     nooper: {
     }
+    generic: {
+    }
     default: {
       fail("Type ${type} not yet implemented")
     }
