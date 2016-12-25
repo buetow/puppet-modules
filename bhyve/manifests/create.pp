@@ -76,10 +76,6 @@ define bhyve::create (
   case $type {
     nooper: {
     }
-    freebsd: {
-    }
-    ubuntu: {
-    }
     default: {
       fail("Type ${type} not yet implemented")
     }
