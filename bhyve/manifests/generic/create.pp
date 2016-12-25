@@ -5,14 +5,23 @@ define bhyve::generic::create (
 ) {
   # Keys with preceeding _ are not added to bhyve.conf
   $bhyve_config_default = {
-    '_install_iso' => 'ubuntu-16.04.1-server-amd64.iso'
+    '_iso_base_path' => '/bhyve'
+    '_install_iso' => 'ubuntu-16.04.1-server-amd64.iso',
+    '_grub_ram' => '1024M',
+    '_ram' => '2048M',
+    '_net_dev' => 'tap0',
   }
 
   $config = merge($bhyve_config_default, $bhyve_config)
 
   if $ensure == present {
+    $ram = $config['_ram']
+    $grub_ram = $config['_grub_ram']
+    $net_dev = $config['_net_dev']
+
     $install_iso = $config['_install_iso']
-    $iso = "/bhyve/${install_iso}"
+    $iso_base_path = $config['_iso_base_path']
+    $iso = "${iso_base_path}/${install_iso}"
 
     file { "${mountpoint}/grub.map":
       ensure  => present,
