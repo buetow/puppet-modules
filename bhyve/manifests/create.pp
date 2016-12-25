@@ -77,6 +77,13 @@ define bhyve::create (
     nooper: {
     }
     generic: {
+      bhyve::generic::create { $name:
+        ensure       => $ensure,
+        mountpoint   => $mountpoint,
+        bhyve_config => $bhyve_config,
+
+        require      => Zfs::Create["${zpool}${mountpoint}"],
+      }
     }
     default: {
       fail("Type ${type} not yet implemented")
