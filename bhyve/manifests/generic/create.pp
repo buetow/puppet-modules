@@ -7,7 +7,6 @@ define bhyve::generic::create (
   $bhyve_config_default = {
     '_iso_base_path' => '/bhyve',
     '_install_iso' => 'ubuntu-16.04.1-server-amd64.iso',
-    '_grub_ram' => '1024M',
     '_ram' => '2048M',
     '_net_dev' => 'tap0',
   }
@@ -16,7 +15,6 @@ define bhyve::generic::create (
 
   if $ensure == present {
     $ram = $config['_ram']
-    $grub_ram = $config['_grub_ram']
     $net_dev = $config['_net_dev']
 
     $install_iso = $config['_install_iso']

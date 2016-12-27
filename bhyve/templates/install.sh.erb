@@ -1,6 +1,6 @@
 #!/bin/sh
 
-grub-bhyve -m grub.map -r cd0 -M <%= @grub_ram %> <%= @name %>
+grub-bhyve -m grub.map -r cd0 -M <%= @ram %> <%= @name %>
 bhyve -c 2 -m <%= @ram %> -H -P -A -l com1,stdio \
   -s 0:0,hostbridge -s 1:0,lpc \
   -s 2:0,virtio-net,<%= @net_dev %> \
