@@ -12,6 +12,7 @@ define apache_freebsd::vhost_sslorplain (
   $apache_log_dir,
   $ssl_opts = {},
   $extra_opts = {},
+  $domain_aliases = [],
 ) {
 
   if $redirect == '' {
@@ -29,5 +30,3 @@ define apache_freebsd::vhost_sslorplain (
     group   => $root_group,
   }
 }
-
-
