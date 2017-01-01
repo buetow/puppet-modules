@@ -12,7 +12,8 @@ define apache_freebsd::vhost_sslorplain (
   $apache_log_dir,
   $ssl_opts = {},
   $extra_opts = {},
-  $domain_aliases = [],
+  $alias_from = '',
+  $alias_to = [],
 ) {
 
   if $redirect == '' {

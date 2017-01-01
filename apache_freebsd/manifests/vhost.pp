@@ -19,7 +19,8 @@ define apache_freebsd::vhost (
   $extra_opts = {},
   $destination = '/usr/local/etc/apache/vhosts.d',
   $apache_log_dir = '/var/log/apache/',
-  $domain_aliases = [],
+  $alias_from = '',
+  $alias_to = [],
 ) {
 
   $vhost = $name
@@ -44,7 +45,8 @@ define apache_freebsd::vhost (
       ip6address     => $ip6address,
       destination    => $destination,
       apache_log_dir => $apache_log_dir,
-      domain_aliases => $domain_aliases,
+      alias_from     => $alias_from,
+      alias_to       => $alias_to,
     }
   }
 
@@ -63,7 +65,8 @@ define apache_freebsd::vhost (
       ip6address     => $ip6address,
       destination    => $destination,
       apache_log_dir => $apache_log_dir,
-      domain_aliases => $domain_aliases,
+      alias_from     => $alias_from,
+      alias_to       => $alias_to,
     }
   }
 }
