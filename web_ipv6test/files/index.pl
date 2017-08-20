@@ -16,9 +16,9 @@ Congratulations, you have connected to a server that will display your method of
 <br /><br />
 Nevertheless, please choose your destiny:
 <ul>
-  <li><a href="https://ipv6.buetow.org">ipv6.buetow.org</a> for IPv6 & IPv4 Test</li>
-  <li><a href="https://test4-ipv6.buetow.org">test4-ipv6.buetow.org</a> for IPv4 Only Test</li>
-  <li><a href="https://test6-ipv6.buetow.org">test6-ipv6.buetow.org</a> for IPv6 Only Test</li>
+  <li><a href="http://ipv6.buetow.org">ipv6.buetow.org</a> for IPv6 & IPv4 Test</li>
+  <li><a href="http://test4-ipv6.buetow.org">test4-ipv6.buetow.org</a> for IPv4 Only Test</li>
+  <li><a href="http://test6-ipv6.buetow.org">test6-ipv6.buetow.org</a> for IPv6 Only Test</li>
 </ul>
 If your browser times-out when trying to connect to this server then you do not have an IPv6 or IPv4 path (depends on which test you are running) to the server. If your browser returns an error that the host cannot be found then the DNS servers you are using are unable to resolve the AAAA or A DNS record (depends on which test you are running again) for the server. If your browser is able to connect to the "IPv6 Only Test", yet using the "IPv6 & IPv4 Test" returns a page stating you are using IPv4, then your browser and/or IP stack in your machine are preferring IPv4 over IPv6. It also might be that your operating system supports IPv6 but your web-browser doesn't.
 END
